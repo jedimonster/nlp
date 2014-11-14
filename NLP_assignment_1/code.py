@@ -34,20 +34,17 @@ def get_data_from_web(search_query, best_tagger):
     clean_text_file = codecs.open("clean/clean_text.txt", 'w', encoding="utf-8").write(clean_text)
     tagged_tokens = best_tagger.tag(tokens)
 
-    tagged_text = "".join([word+"/"+str(tag)+" " for word, tag in tagged_tokens])
+    tagged_text = "".join([word + "/" + str(tag) + " " for word, tag in tagged_tokens])
     tagged_text = tagged_text.replace("./.", "./.\n")
-    #print tagged_text
+    # print tagged_text
     tagged_text_file = codecs.open("tagged/tagged_text.txt", 'w', encoding="utf-8").write(tagged_text)
 
 
 if __name__ == "__main__":
-
-
-
     brown_news_tagged = brown.tagged_sents(categories='news', tagset='universal')
-    brown_train = brown_news_tagged[10:]
-    brown_test = brown_news_tagged[:10]
-    #query = google.google("NLTK")
+    brown_train = brown_news_tagged[100:]
+    brown_test = brown_news_tagged[:100]
+    # query = google.google("NLTK")
     #google.AnalyzeResults(query)
     default_tagger = DefaultTagger('NOUN')
     ugram_tagger = UnigramTagger(brown_train, backoff=None)
@@ -56,8 +53,10 @@ if __name__ == "__main__":
     affix_tagger = nltk.AffixTagger(brown_train, backoff=None)
     one_gram_tagger = NgramTagger(1, train=brown_train, backoff=affix_tagger)
     two_gram_tagger = NgramTagger(2, train=brown_train, backoff=one_gram_tagger)
-    get_data_from_web("How to eat an apple", two_gram_tagger)
-    from nltk.corpus import brown
-    print brown.tagged_sents(categories='homework')
+
+    # get_data_from_web("How to eat an apple", two_gram_tagger)
+
+    # from nltk.corpus import brown
+    # print brown.tagged_sents(categories='homework')
 
     print two_gram_tagger.evaluate(brown_test)
