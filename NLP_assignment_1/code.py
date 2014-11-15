@@ -11,6 +11,51 @@ from nltk.corpus.reader import tagged
 from nltk.tokenize import sent_tokenize
 import codecs
 import sys
+from nltk.tag import untag
+
+
+def MostAmbiguousWords(corpus, n):
+    """
+    function that finds words with more than N observed tags
+    """
+
+    cfd = nltk.ConditionalFreqDist(corpus.tagged_words(tagset='universal'))
+    for item in cfd.keys():
+        if len(cfd[item]) <= n:
+            del cfd[item]
+    return cfd
+
+def TestMostAmbiguousWords(cfd, n):
+    res = []
+    for item in cfd:
+        if len(cfd[item]) > n:
+            res.append(item)
+            print item
+    return res
+
+def ShowExamples(word, cfd, corpus):
+    """
+    show examples of word with different tag
+    """
+    print "Exemples for word: ", word
+    flag = 0
+    tagged_sentences = corpus.tagged_sents(tagset='universal')
+    words_tags = cfd[word]
+    examples = []
+    for tag in words_tags:
+        for sent in tagged_sentences:
+            for word_tag in sent:
+                if word_tag[0] == word and word_tag[1] == tag:
+                    print tag, " ---> ", untag(sent)
+                    examples.append(sent)
+                    flag = 1
+                    break
+            if flag == 1:
+                break
+        flag = 0
+
+
+
 
 # todo rename this
 def plot_nice_data():
@@ -55,8 +100,14 @@ def get_data_from_web(search_query, best_tagger):
 
 
 if __name__ == "__main__":
+    #plot_nice_data()
+    corpus = brown
+    full_cfd = nltk.ConditionalFreqDist(brown.tagged_words(tagset='universal'))
+    cfd = MostAmbiguousWords(brown, 4)
+    print len(cfd)
 
-    plot_nice_data()
+    TestMostAmbiguousWords(cfd, 4)
+    ShowExamples('open', full_cfd, brown)
     # hw_tagged = brown.tagged_sents(categories='homework')
     # brown_news_tagged = brown.tagged_sents(categories='news', tagset='universal')
     # brown_train = brown_news_tagged[0:]
