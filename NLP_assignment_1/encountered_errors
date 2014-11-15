@@ -2,7 +2,48 @@
 When searching for bear text in cz07 (new category "homeowrk") threw an encoding error:
 UnicodeEncodeError: 'ascii' codec can't encode character u'\u2014' in position 0: ordinal not in range(128)
 
-
 useful for tagging: http://www.really-learn-english.com/english-parts-of-speech.html
 
-.tolower on everything.
+we should've used .tolower on everything, since without it the tagger misses stuff simply due to different case.
+
+
+disagreements:
+ tagger1 says: 're/PRON tagger2 says: 're/VERB
+ tagger1 says: speaks/VERB tagger2 says: speaks/NOUN
+ tagger1 says: chomp/VERB tagger2 says: chomp/ADJ
+ tagger1 says: n't/ADV tagger2 says: n't/DET
+ tagger1 says: n't/ADV tagger2 says: n't/DET
+ tagger1 says: n't/ADV tagger2 says: n't/DET
+ tagger1 says: shows/VERB tagger2 says: shows/NOUN
+ tagger1 says: n't/ADV tagger2 says: n't/DET
+ tagger1 says: pancake/NOUN tagger2 says: pancake/VERB
+ tagger1 says: seep/VERB tagger2 says: seep/NOUN
+ tagger1 says: stops/VERB tagger2 says: stops/NOUN
+ tagger1 says: fence/VERB tagger2 says: fence/NOUN
+ tagger1 says: jelly/NOUN tagger2 says: jelly/ADV
+ tagger1 says: taller/ADJ tagger2 says: taller/NOUN
+ tagger1 says: sides/NOUN tagger2 says: sides/VERB
+ tagger1 says: orange/NOUN tagger2 says: orange/ADJ
+ tagger1 says: slit/VERB tagger2 says: slit/NOUN
+ tagger1 says: orange/NOUN tagger2 says: orange/ADJ
+ tagger1 says: orange/NOUN tagger2 says: orange/ADJ
+ tagger1 says: unroll/VERB tagger2 says: unroll/NOUN
+ tagger1 says: unwanted/ADJ tagger2 says: unwanted/VERB
+ tagger1 says: sealed/ADJ tagger2 says: sealed/VERB
+ tagger1 says: cupcake/NOUN tagger2 says: cupcake/VERB
+ tagger1 says: pesky/ADJ tagger2 says: pesky/NOUN
+ tagger1 says: cupcake/NOUN tagger2 says: cupcake/VERB
+ tagger1 says: less/ADJ tagger2 says: less/ADV
+ tagger1 says: fall/VERB tagger2 says: fall/NOUN
+ tagger1 says: cheese/NOUN tagger2 says: cheese/DET
+ tagger1 says: wrapping/VERB tagger2 says: wrapping/NOUN
+ tagger1 says: fall/VERB tagger2 says: fall/NOUN
+ tagger1 says: refried/ADJ tagger2 says: refried/VERB
+ tagger1 says: peel/VERB tagger2 says: peel/NOUN
+ tagger1 says: open/VERB tagger2 says: open/ADJ
+ tagger1 says: YOU/PRON tagger2 says: YOU/NOUN
+ tagger1 says: cue/NOUN tagger2 says: cue/ADJ
+ tagger1 says: 's/ADP tagger2 says: 's/VERB
+
+
+when loading the hw, we mustn't use the tagset mapping, since it's already in the unviersal tagset..

@@ -1,6 +1,7 @@
 """
 assignment 1
 """
+from pyanaconda.ui.gui import categories
 import google
 import nltk
 from nltk import UnigramTagger
@@ -41,16 +42,17 @@ def get_data_from_web(search_query, best_tagger):
 
 
 if __name__ == "__main__":
+    hw_tagged = brown.tagged_sents(categories='homework')
     brown_news_tagged = brown.tagged_sents(categories='news', tagset='universal')
-    brown_train = brown_news_tagged[100:]
+    brown_train = brown_news_tagged[0:]
     brown_test = brown_news_tagged[:100]
     # query = google.google("NLTK")
     #google.AnalyzeResults(query)
     default_tagger = DefaultTagger('NOUN')
     ugram_tagger = UnigramTagger(brown_train, backoff=None)
-    text = ['Hello', "World", "sdklj", "sdfdsf", "frgfg", ".", "!"]
-    res = ugram_tagger.tag_sents([text])
-    affix_tagger = nltk.AffixTagger(brown_train, backoff=None)
+    # text = ['Hello', "World", "sdklj", "sdfdsf", "frgfg", ".", "!"]
+    # res = ugram_tagger.tag_sents([text])
+    affix_tagger = nltk.AffixTagger(brown_train, backoff=default_tagger)
     one_gram_tagger = NgramTagger(1, train=brown_train, backoff=affix_tagger)
     two_gram_tagger = NgramTagger(2, train=brown_train, backoff=one_gram_tagger)
 
@@ -59,4 +61,4 @@ if __name__ == "__main__":
     # from nltk.corpus import brown
     # print brown.tagged_sents(categories='homework')
 
-    print two_gram_tagger.evaluate(brown_test)
+    print two_gram_tagger.evaluate(hw_tagged)

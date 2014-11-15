@@ -51,7 +51,7 @@ def fetch(url, tokenizer=nltk.word_tokenize):
     raw = cleanHtml(html)
     lessraw = cleanSparse(raw, 50)
     rawTextTokens = tokenizer(lessraw)
-    rawTextTokens = [x for x in rawTextTokens if all(ord(c) < 128 for c in x)]
+    rawTextTokens = [x.lower() for x in rawTextTokens if all(ord(c) < 128 for c in x)]
     return html, (raw, lessraw, rawTextTokens)
 
 
