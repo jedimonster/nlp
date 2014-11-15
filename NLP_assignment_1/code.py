@@ -20,6 +20,9 @@ def plot_nice_data():
     tags_by_word = map(len, cfd.values())
     max_tags = max(tags_by_word)
     c = [tags_by_word.count(i) for i in range(max_tags)]
+    pylab.title('Number of words in brown corpus per number of tags')
+    pylab.ylabel('Number of Words')
+    pylab.xlabel('Number of tags')
     pylab.plot(range(max_tags), c, '-bo')
     pylab.show()
 
