@@ -1,3 +1,8 @@
 1. Encoding problem
 When searching for bear text in cz07 (new category "homeowrk") threw an encoding error:
 UnicodeEncodeError: 'ascii' codec can't encode character u'\u2014' in position 0: ordinal not in range(128)
+
+
+useful for tagging: http://www.really-learn-english.com/english-parts-of-speech.html
+
+.tolower on everything.
