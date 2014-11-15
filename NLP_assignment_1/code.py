@@ -1,7 +1,6 @@
 """
 assignment 1
 """
-from pyanaconda.ui.gui import categories
 import google
 import nltk
 from nltk import UnigramTagger
