@@ -95,11 +95,12 @@ def plot_nice_data():
     cfd = nltk.ConditionalFreqDist(brown.tagged_words(tagset='universal'))
     tags_by_word = map(len, cfd.values())
     max_tags = max(tags_by_word)
-    c = [tags_by_word.count(i) for i in range(max_tags)]
+    c = [tags_by_word.count(i) for i in range(1, max_tags)]
+    print(c)
     pylab.title('Number of words in brown corpus per number of tags')
     pylab.ylabel('Number of Words')
     pylab.xlabel('Number of tags')
-    pylab.plot(range(max_tags), c, '-bo')
+    pylab.plot(range(1, max_tags), c, '-bo')
     pylab.show()
 
 
@@ -145,22 +146,21 @@ def report_most_ambigous(cfd, corpus):
 if __name__ == "__main__":
 
     corpus = brown
+    print 'Running ConditionalFreqDist (will take some time..)'
     full_cfd = nltk.ConditionalFreqDist(brown.tagged_words(tagset='universal'))
-    cfd = MostAmbiguousWords(brown, 4)
-    print len(cfd)
+    print 'Done'
+    # cfd = MostAmbiguousWords(brown, 4)
+    # print len(cfd)
 
-    report_most_ambigous(cfd, corpus)
-    exit(1)
+    report_most_ambigous(full_cfd, corpus)
 
-    TestMostAmbiguousWords(cfd, 4)
-
-    start_time = datetime.datetime.now()
-    ShowExamples('open', full_cfd, brown)
-    print 'Total Time for V1: %s' % (datetime.datetime.now() - start_time)
-
-    start_time = datetime.datetime.now()
-    ShowExamples_v2('open', full_cfd, brown)
-    print 'Total Time for V2: %s' % (datetime.datetime.now() - start_time)
+    # start_time = datetime.datetime.now()
+    # ShowExamples('open', full_cfd, brown)
+    # print 'Total Time for V1: %s' % (datetime.datetime.now() - start_time)
+    # 
+    # start_time = datetime.datetime.now()
+    # ShowExamples_v2('open', full_cfd, brown)
+    # print 'Total Time for V2: %s' % (datetime.datetime.now() - start_time)
 
     # hw_tagged = brown.tagged_sents(categories='homework')
     # brown_news_tagged = brown.tagged_sents(categories='news', tagset='universal')
