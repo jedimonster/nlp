@@ -1,7 +1,6 @@
 """
 assignment 1
 """
-from collections import defaultdict
 import datetime
 import google
 import nltk
@@ -31,6 +30,8 @@ def MostAmbiguousWords(corpus, n):
 
 
 def TestMostAmbiguousWords(cfd, n):
+
+    print 'find most ambiguous (n=%d)' % (n,)
     res = []
     for item in cfd:
         if len(cfd[item]) > n:
@@ -49,12 +50,11 @@ def ShowExamples_v2(word, cfd, corpus):
     examples = {}
 
     for tag in words_tags:
-        sent = next((sent for sent in tagged_sentences if (word, tag) in sent))
-        print tag, " ---> ", untag(sent)
-        examples[tag] = sent
+            sent = next((sent for sent in tagged_sentences if (word, tag) in sent))
+            print tag, " ---> ", untag(sent)
+            examples[tag] = ' '.join(untag(sent))
 
     return examples
-
 
 def ShowExamples(word, cfd, corpus):
     """
@@ -76,7 +76,6 @@ def ShowExamples(word, cfd, corpus):
             if flag == 1:
                 break
         flag = 0
-
 
 # todo rename this
 def plot_nice_data():
@@ -121,19 +120,33 @@ def get_data_from_web(search_query, best_tagger):
     tagged_text_file = codecs.open("tagged/tagged_text.txt", 'w', encoding="utf-8").write(tagged_text)
 
 
+def report_most_ambigous(cfd, corpus):
+    words = TestMostAmbiguousWords(cfd, 4)
+    report = ""
+    for word in words:
+        report += '---------- %s ----------\r\n' % (word,)
+        examples = ShowExamples_v2(word, cfd, corpus)
+        for tag, sent in examples.iteritems():
+            report += '%s --> %s\r\n' % (tag, sent)
+        report += '\n'
+
+    open('MostAmbiguous.txt', 'w+').write(report)
+
 if __name__ == "__main__":
-    plot_nice_data()
-    # corpus = brown
-    # full_cfd = nltk.ConditionalFreqDist(brown.tagged_words(tagset='universal'))
+
+    corpus = brown
+    print 'Running ConditionalFreqDist (will take some time..)'
+    full_cfd = nltk.ConditionalFreqDist(brown.tagged_words(tagset='universal'))
+    print 'Done'
     # cfd = MostAmbiguousWords(brown, 4)
     # print len(cfd)
-    #
-    # TestMostAmbiguousWords(cfd, 4)
-    #
+
+    report_most_ambigous(full_cfd, corpus)
+
     # start_time = datetime.datetime.now()
     # ShowExamples('open', full_cfd, brown)
     # print 'Total Time for V1: %s' % (datetime.datetime.now() - start_time)
-    #
+    # 
     # start_time = datetime.datetime.now()
     # ShowExamples_v2('open', full_cfd, brown)
     # print 'Total Time for V2: %s' % (datetime.datetime.now() - start_time)
