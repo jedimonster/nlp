@@ -1,10 +1,11 @@
 """
 assignment 1
 """
+import datetime
 import google
 import nltk
 from nltk import UnigramTagger
-from tagger import DefaultTagger
+from tagger import DefaultTagger, TaggerI
 from nltk.corpus import brown
 from nltk import NgramTagger
 from nltk.corpus.reader import tagged
@@ -13,6 +14,18 @@ import codecs
 import sys
 from nltk.tag import untag
 
+
+class SimpleUnigramTagger(TaggerI):
+
+    def __init__(self, train=None, model=None,
+                 backoff=None, cutoff=0, verbose=False):
+
+        pass
+    #TODO: create dict from train and model
+
+    def tag(self, tokens):
+        pass
+    #TODO implement
 
 def MostAmbiguousWords(corpus, n):
     """
@@ -32,6 +45,22 @@ def TestMostAmbiguousWords(cfd, n):
             res.append(item)
             print item
     return res
+
+
+def ShowExamples_v2(word, cfd, corpus):
+    """
+    show examples of word with different tag
+    """
+    print "Exemples for word: ", word
+    flag = 0
+    tagged_sentences = corpus.tagged_sents(tagset='universal')
+    words_tags = cfd[word]
+    examples = []
+
+    for tag in words_tags:
+            sent = next((sent for sent in tagged_sentences if (word, tag) in sent))
+            print tag, " ---> ", untag(sent)
+            examples.append(sent)
 
 def ShowExamples(word, cfd, corpus):
     """
@@ -53,9 +82,6 @@ def ShowExamples(word, cfd, corpus):
             if flag == 1:
                 break
         flag = 0
-
-
-
 
 # todo rename this
 def plot_nice_data():
@@ -107,7 +133,15 @@ if __name__ == "__main__":
     print len(cfd)
 
     TestMostAmbiguousWords(cfd, 4)
+
+    start_time = datetime.datetime.now()
     ShowExamples('open', full_cfd, brown)
+    print 'Total Time for V1: %s' % (datetime.datetime.now() - start_time)
+
+    start_time = datetime.datetime.now()
+    ShowExamples_v2('open', full_cfd, brown)
+    print 'Total Time for V2: %s' % (datetime.datetime.now() - start_time)
+
     # hw_tagged = brown.tagged_sents(categories='homework')
     # brown_news_tagged = brown.tagged_sents(categories='news', tagset='universal')
     # brown_train = brown_news_tagged[0:]
