@@ -1,6 +1,7 @@
 """
 assignment 1
 """
+from collections import defaultdict
 import datetime
 import google
 import nltk
@@ -15,17 +16,6 @@ import sys
 from nltk.tag import untag
 
 
-class SimpleUnigramTagger(TaggerI):
-
-    def __init__(self, train=None, model=None,
-                 backoff=None, cutoff=0, verbose=False):
-
-        pass
-    #TODO: create dict from train and model
-
-    def tag(self, tokens):
-        pass
-    #TODO implement
 
 
 def MostAmbiguousWords(corpus, n):
@@ -59,11 +49,12 @@ def ShowExamples_v2(word, cfd, corpus):
     examples = {}
 
     for tag in words_tags:
-            sent = next((sent for sent in tagged_sentences if (word, tag) in sent))
-            print tag, " ---> ", untag(sent)
-            examples[tag] = sent
+        sent = next((sent for sent in tagged_sentences if (word, tag) in sent))
+        print tag, " ---> ", untag(sent)
+        examples[tag] = sent
 
     return examples
+
 
 def ShowExamples(word, cfd, corpus):
     """
@@ -85,6 +76,7 @@ def ShowExamples(word, cfd, corpus):
             if flag == 1:
                 break
         flag = 0
+
 
 # todo rename this
 def plot_nice_data():
