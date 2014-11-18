@@ -27,6 +27,7 @@ class SimpleUnigramTagger(TaggerI):
         pass
     #TODO implement
 
+
 def MostAmbiguousWords(corpus, n):
     """
     function that finds words with more than N observed tags
@@ -37,6 +38,7 @@ def MostAmbiguousWords(corpus, n):
         if len(cfd[item]) <= n:
             del cfd[item]
     return cfd
+
 
 def TestMostAmbiguousWords(cfd, n):
     res = []
@@ -52,15 +54,16 @@ def ShowExamples_v2(word, cfd, corpus):
     show examples of word with different tag
     """
     print "Exemples for word: ", word
-    flag = 0
     tagged_sentences = corpus.tagged_sents(tagset='universal')
     words_tags = cfd[word]
-    examples = []
+    examples = {}
 
     for tag in words_tags:
             sent = next((sent for sent in tagged_sentences if (word, tag) in sent))
             print tag, " ---> ", untag(sent)
-            examples.append(sent)
+            examples[tag] = sent
+
+    return examples
 
 def ShowExamples(word, cfd, corpus):
     """
