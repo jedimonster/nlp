@@ -34,14 +34,17 @@ class tagger_2(EntropyTaggerI):
 
 class EntropyVotingTagger(SequentialBackoffTagger):
 
-    def __init__(self, taggers=[]):
+    def __init__(self, taggers=[], max_entropy=0.6):
         self._taggers = taggers
+        self.max_entropy = max_entropy
 
     def choose_tag(self, tokens, index, history):
+        print '!!!!!!!'
         token = tokens[index]
 
         best_tagger = min(self._taggers, key=lambda tagger: tagger.entropy(token))
-        if best_tagger is None:
+        import pdb; pdb.set_trace()
+        if best_tagger is None or best_tagger.entropy() > self.max_entropy:
             return None
 
         return best_tagger.choose_tag(token, index, history)
@@ -50,7 +53,10 @@ if __name__ == '__main__':
     tagger1 = tagger_1()
     tagger2 = tagger_2()
 
-    voting_tagger = EntropyVotingTagger([tagger1, tagger2])
+    # voting_tagger = EntropyVotingTagger([tagger1, tagger2])
+    # result = voting_tagger.tag(('hello', 'world', 'this', 'is', 'test'))
+    # print result
 
+    voting_tagger = EntropyVotingTagger([tagger1, tagger2], max_entropy=0.1)
     result = voting_tagger.tag(('hello', 'world', 'this', 'is', 'test'))
     print result
