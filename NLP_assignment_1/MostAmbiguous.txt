@@ -1,0 +1,42 @@
+---------- down ----------
+PRT --> Daniel personally led the fight for the measure , which he had watered down considerably since its rejection by two previous Legislatures , in a public hearing before the House Committee on Revenue and Taxation .
+VERB --> The Department of Agriculture averaged out U.S. food consumption last year at 1,488 lbs. per person , which , allowing for the 17 million Americans that John Kennedy said go to bed hungry every night , means that certain gluttons on the upper end must somehow down 8 lbs. or more a day .
+ADJ --> Terms range from one to five years and the interest rates and down payments run about the same as for automobiles .
+ADP --> Assuming the weather is halfway decent that day , hundreds of thousands of persons will mass along this thoroughfare as President John F. Kennedy and retiring President Dwight D. Eisenhower leave Capitol Hill following the oath-taking ceremonies and ride down this historic ceremonial route .
+NOUN --> Still Andrena will do a reasonably good job , so that an animal with a full pollen load looks like a gay little piece of yellow down floating in the wind .
+
+---------- round ----------
+ADV --> The gardens themselves are open free of charge the year round , and the 192 permanent employes make sure that not a dead or wilted flower is ever seen indoors or out by any visitor .
+NOUN --> W. Averell Harriman of the United States , Malcolm MacDonald of Britain , Maurice Couve De Murville , France's Foreign Minister , and Howard C. Green , Canada's Minister of External Affairs , concluded , meanwhile , a round of consultations here on future tactics in the conference .
+VERB --> Bill Jr. , 20 , Kathy , 15 , and Patricia , 9 , round out the Shea family .
+ADJ --> `` It was a nice round figure , that 12 '' , he said as he headed for the clubhouse , not too much perturbed .
+ADP --> He is a parent with a child to nurture , here and now , and he is an educator who worries about the children half way round the world .
+
+---------- damn ----------
+ADV --> I was the first to get my squad on the ball , and anybody thinkin it was easy is pretty damn dumb .
+PRT --> I'm sending you a couple of customers -- yeah -- just get them out of my hair and keep them out -- I don't give a damn what you tell them -- only don't believe a word they say -- they're out to make trouble for me and it is up to you to stop them -- I don't care how -- and one more thing -- Cate's Cafe closed at eleven like always last night and Rose and Clarence Corsi left for Quebec yesterday -- some shrine or other -- I think it was called Saint Simon's -- yeah , yesterday .
+VERB --> A fellow came up to me , a Senator , I don't have to tell you his name , and he told me , ' I love the President like a brother , but God damn it , he's crucifying me .
+ADJ --> Why didn't the damn Reactionaries bump him off ? ?
+NOUN --> Not that he gave a damn what the grapevine sent out about Killpath's little speech on the comportment of platoon commanders .
+
+---------- to ----------
+ADV --> He suggested offering half to Sir Edward , fearing lest `` he shall thinke it to good for us and procure it for himselfe , as he served us the last time '' .
+PRT --> The September-October term jury had been charged by Fulton Superior Court Judge Durwood Pye to investigate reports of possible `` irregularities '' in the hard-fought primary which was won by Mayor-nominate Ivan Allen Jr. .
+NOUN --> Also noted are the marriages of Elizabeth Browning , daughter of the George L. Brownings , to Austin C. Smith Jr. ; ;
+ADP --> It recommended that Fulton legislators act `` to have these laws studied and revised to the end of modernizing and improving them '' .
+X --> As the field on which my tent was pitched was a favorite natural playground for the kids of the neighborhood , I had made many friends among them , taking part in their after-school games and trying desperately to translate Grimm's Fairy Tales into an understandable French as we gathered around the fire in front of the tent .
+
+---------- well ----------
+ADV --> The grand jury commented on a number of other topics , among them the Atlanta and Fulton County purchasing departments which it said `` are well operated and follow generally accepted practices which inure to the best interest of both governments '' .
+ADJ --> The Pirates jumped off to an 11-3 start by May 1 last year , when the Redbirds as well as the Dodgers held them even over the season .
+VERB --> Then I have seen the pride of country well in the eyes of these young people .
+NOUN --> He would rise in the well of the House , his chin upon his chest , his hands gripping the side of a desk , and the political and legislative chatter would subside into silence .
+PRT --> If most of them weren't exactly specific -- well , that's the way it is in life , I guess .
+
+---------- that ----------
+ADV --> While the city council suggested that the Legislative Council might perform the review , Mr. Notte said that instead he will take up the matter with Atty. Gen. J. Joseph Nugent to get `` the benefit of his views '' .
+PRON --> Regarding Atlanta's new multi-million-dollar airport , the jury recommended `` that when the new management takes charge Jan. 1 the airport be operated in a manner that will eliminate political influences '' .
+DET --> `` Actually , the abuse of the process may have constituted a contempt of the Criminal court of Cook county , altho vindication of the authority of that court is not the function of this court '' , said Karns , who is a City judge in East St. Louis sitting in Cook County court .
+ADP --> The Fulton County Grand Jury said Friday an investigation of Atlanta's recent primary election produced `` no evidence '' that any irregularities took place .
+X --> Thus , as a development program is being launched , commitments and obligations must be entered into in a given year which may exceed by twofold or threefold the expenditures to be made in that year .
+
