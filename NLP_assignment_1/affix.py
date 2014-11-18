@@ -15,6 +15,7 @@ class EntropyAffixTagger(AffixTagger):
             dist[item] = float(float(tag_count_dict[item])/overall)
         #print dist
         return dist
+
     def entropy(self, dist):
         #print "************"
         ent = 0
