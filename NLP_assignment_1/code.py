@@ -158,6 +158,7 @@ if __name__ == "__main__":
     # # query = google.google("NLTK")
     # # google.AnalyzeResults(query)
     # default_tagger = DefaultTagger('NOUN')
+    from nltk.tag import AffixTagger
     # ugram_tagger = UnigramTagger(brown_train, backoff=None)
     # # text = ['Hello', "World", "sdklj", "sdfdsf", "frgfg", ".", "!"]
     # # res = ugram_tagger.tag_sents([text])
