@@ -1,20 +1,14 @@
 """
 assignment 1
 """
-import datetime
-import google
-import nltk
-from nltk import UnigramTagger
-from tagger import DefaultTagger, TaggerI
-from nltk.corpus import brown
-from nltk import NgramTagger
-from nltk.corpus.reader import tagged
-from nltk.tokenize import sent_tokenize
 import codecs
-import sys
+
+import nltk
+from nltk.corpus import brown
+from nltk.tokenize import sent_tokenize
 from nltk.tag import untag
 
-
+import google
 
 
 def MostAmbiguousWords(corpus, n):
@@ -30,7 +24,6 @@ def MostAmbiguousWords(corpus, n):
 
 
 def TestMostAmbiguousWords(cfd, n):
-
     print 'find most ambiguous (n=%d)' % (n,)
     res = []
     for item in cfd:
@@ -50,11 +43,12 @@ def ShowExamples_v2(word, cfd, corpus):
     examples = {}
 
     for tag in words_tags:
-            sent = next((sent for sent in tagged_sentences if (word, tag) in sent))
-            print tag, " ---> ", untag(sent)
-            examples[tag] = ' '.join(untag(sent))
+        sent = next((sent for sent in tagged_sentences if (word, tag) in sent))
+        print tag, " ---> ", untag(sent)
+        examples[tag] = ' '.join(untag(sent))
 
     return examples
+
 
 def ShowExamples(word, cfd, corpus):
     """
@@ -76,6 +70,7 @@ def ShowExamples(word, cfd, corpus):
             if flag == 1:
                 break
         flag = 0
+
 
 # todo rename this
 def plot_nice_data():
@@ -132,8 +127,8 @@ def report_most_ambigous(cfd, corpus):
 
     open('MostAmbiguous.txt', 'w+').write(report)
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     corpus = brown
     print 'Running ConditionalFreqDist (will take some time..)'
     full_cfd = nltk.ConditionalFreqDist(brown.tagged_words(tagset='universal'))
@@ -158,7 +153,6 @@ if __name__ == "__main__":
     # # query = google.google("NLTK")
     # # google.AnalyzeResults(query)
     # default_tagger = DefaultTagger('NOUN')
-    from nltk.tag import AffixTagger
     # ugram_tagger = UnigramTagger(brown_train, backoff=None)
     # # text = ['Hello', "World", "sdklj", "sdfdsf", "frgfg", ".", "!"]
     # # res = ugram_tagger.tag_sents([text])
