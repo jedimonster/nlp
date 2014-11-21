@@ -88,7 +88,7 @@ def plot_nice_data():
     pylab.show()
 
 
-def get_data_from_web(search_query, best_tagger):
+def get_data_from_web(search_query, path="clean/clean_text.txt"):
     """
     doc
     """
@@ -96,8 +96,9 @@ def get_data_from_web(search_query, best_tagger):
     clean_text = ""
     tokens = []
     sents = []
-    for key, value in links_dict.items():
-        tuple_text = value[1]
+
+    for link, data in links_dict.items():
+        tuple_text = data[1]
         clean_text += tuple_text[0]
         tokens += tuple_text[2]
         # check if we got enough text( around 50 sents)
@@ -106,13 +107,22 @@ def get_data_from_web(search_query, best_tagger):
         if len(sents) >= 50:
             break
     print len(sents)
-    clean_text_file = codecs.open("clean/clean_text.txt", 'w', encoding="utf-8").write(clean_text)
-    tagged_tokens = best_tagger.tag(tokens)
+
+    clean_text_file = codecs.open(path, 'w', encoding="utf-8").write(clean_text)
+
+    return clean_text
+
+
+def tag_txt_file(from_path, to_path, tagger):
+    from nltk import word_tokenize
+
+    tokens = word_tokenize(codecs.open(from_path, 'r', encoding="utf-8").read())
+    tagged_tokens = tagger.tag(tokens)
 
     tagged_text = "".join([word + "/" + str(tag) + " " for word, tag in tagged_tokens])
     tagged_text = tagged_text.replace("./.", "./.\n")
     # print tagged_text
-    tagged_text_file = codecs.open("tagged/tagged_text.txt", 'w', encoding="utf-8").write(tagged_text)
+    tagged_text_file = codecs.open(to_path, 'w', encoding="utf-8").write(tagged_text)
 
 
 def report_most_ambigous(cfd, corpus):
@@ -166,5 +176,3 @@ if __name__ == "__main__":
     # print brown.tagged_sents(categories='homework')
 
     # print two_gram_tagger.evaluate(hw_tagged)
-
-
