@@ -1,0 +1,2 @@
+החדשה	DEF:ADJECTIVE-F,S,ABS:	חדש	B-NP	O
+
