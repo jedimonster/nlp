@@ -1,6 +1,7 @@
 from collections import defaultdict
 import difflib
 import itertools
+import codecs
 import numpy
 
 __author__ = 'michael'
@@ -13,16 +14,22 @@ from nltk.corpus import brown
 #    Testing Norvig's Word Segmenter
 ############################################
 
-def brown_to_segment2_format(sent):
-    translation_table = {ord(c): None for c in string.punctuation}
-    return [word.lower().translate(translation_table) for word in sent]
+TRANSLATION_TABLE = {ord(c): None for c in string.punctuation}
+
+def segment2_format(sent):
+    return [word.lower().translate(TRANSLATION_TABLE) for word in sent]
 
 def accuracy_of_segment2(segment_func, sents):
     ratios = []
 
     for sent in sents:
-        formatted_words = brown_to_segment2_format(sent)
+        formatted_words = segment2_format(sent)
+        for f in formatted_words:
+            print f
+        print '---------------------'
         segment2_words = segment_func(''.join(formatted_words))[1]
+        for s in segment2_words:
+            print s
         ratios.append(difflib.SequenceMatcher(None, formatted_words, segment2_words).ratio())
 
     print 'Accuracy of segment2(): %r' % (numpy.mean(ratios),)
@@ -47,43 +54,44 @@ def pairwise(iterable):
 def build_model_1w(words):
     res = defaultdict(lambda: 0)
     for word in words:
-        word = brown_to_segment2_format([word])[0]
+        word = segment2_format([word])[0]
         res[word] += 1
     return res
 
 def build_model_2w(words):
     res = defaultdict(lambda: 0)
     for w1, w2 in pairwise(words):
-        w1, w2 = brown_to_segment2_format([w1, w2])
+        w1, w2 = segment2_format([w1, w2])
         res[(w1, w2)] += 1
     return res
 
-def write_models_to_files():
+def write_models_to_files(words, file1='small_1w.txt', file2='small_2w.txt'):
 
     print 'Building new models'
-    words = brown.words()[:1000000]
     model_1w = build_model_1w(words)
     model_2w = build_model_2w(words)
 
-    f = open('small_1w.txt', 'w+')
+    f = codecs.open(file1, "w", encoding="utf-8")
     for k, v in model_1w.items():
         if not k:
             continue
-        f.write('%s\t%d\n' % (k, v))
+        str = '%s\t%d\n' % (k, v)
+        f.write(str)
 
-    f = open('small_2w.txt', 'w+')
+    f = codecs.open(file2, "w", encoding="utf-8")
     for k, v in model_2w.items():
         if not k[0] or not k[1]: #if empty strings
             continue
-
-        f.write('%s %s\t%d\n' % (k[0], k[1], v))
+        str = '%s %s\t%d\n' % (k[0], k[1], v)
+        f.write(str)
 
 
 #uncomment next section to get results
 #
 # import wordSegment_small
 #
-# write_models_to_files()
+# words = brown.words()[:1000000]
+# write_models_to_files(words)
 #
 # print 'Testing Accuracy on *first* 150 sentences'
 # accuracy_of_segment2(wordSegment_small.segment2, brown.sents()[:150])
@@ -94,10 +102,11 @@ def write_models_to_files():
 """
 Answer: with smaller model (1,000,000 words, not all brown corpus) we got 0.92 accuracy
 when testing on first 150 sentences in brown.
-(This is cheating because out test & train data are the same).
+(This is cheating because our test & train data are the same).
 When testing on last 150 sentences in brown corpus the accuracy dropped to 0.66
 The original data files performed better on new data.
-Both original data and our data performed the same on brown corpus (but we cheated).
+Both original data and our data performed the same on learned brown data (but we cheated).
+(Or Maybe They also "cheated" and learned from brown...)
 """
 
 

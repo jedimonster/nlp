@@ -4,7 +4,6 @@ __author__ = 'michael'
 from BguCorpusReader import BguCorpusReader
 c = BguCorpusReader()
 tagged_words = c.tagged_words()
-print tagged_words
 
 
 #Note: This dict is handmade using Meni Adler's api.
@@ -22,40 +21,65 @@ for k in PREFIXES:
     PREFIXES[k].sort(key=len, reverse=True)
 
 def getWords(word, tag):
+
     prefix_tags = tag.getBguTag()[0]
     word_index = 0
     result = [] # (prefix_index, prefix len)
 
     for prefix_tag, x in prefix_tags:
-        print prefix_tag
-        possible_prefixes = PREFIXES[prefix_tag] + ALL_PREFIXES
+        # print prefix_tag
+
+        if prefix_tag in PREFIXES:
+            possible_prefixes = PREFIXES[prefix_tag] + ALL_PREFIXES
+        else:
+            possible_prefixes = ALL_PREFIXES
 
         if prefix_tag == 'DEF' and word[word_index] != PREFIXES['DEF'][0]:
-            print 'Special Case. Invisible "Ha"'
+            # print 'Special Case. Invisible "Ha"'
             result.append(PREFIXES['DEF'][0])
             continue
 
         for prefix in possible_prefixes:
             if word[word_index:].startswith(prefix):
-                print 'FOUND!!'
+                # print 'FOUND!!'
                 result.append(word[word_index:len(prefix)])
                 word_index += len(prefix)
-                print prefix
+                # print prefix
                 break
 
     result.append(word[word_index:])
 
     return result
 
+from testing_norvig import segment2_format, write_models_to_files, accuracy_of_segment2
 
-for i in range(2000):
-    w,t = tagged_words[i]
-    print 'Word ', w
-    print 'Raw', t.getRaw()
-    print 'BguTag', t.getBguTag()
-    print 'PosTag', t.getPosTag()
-    print 'MyCode'
-    res = getWords(w,t)
-    for r in res:
-        print "%s," % (r,),
-    print
+def build_hebrew_models(tagged_words):
+    all_words = []
+    for w, t in tagged_words:
+        words = getWords(w, t)
+        words = segment2_format(words)
+        all_words += words
+
+    write_models_to_files(all_words, 'hebrew_1w.txt', 'hebrew_2w.txt')
+
+#Uncomment this line to build hebrew models (takes time..)
+build_hebrew_models(tagged_words)
+
+############################################
+# Test segment() performance on hebrew model
+############################################
+
+import wordSegment_hebrew
+print 'Calculating Accuracy of hebrew model...'
+
+all_sents = []
+sent = []
+for w, t in tagged_words[:200]:
+        sent += getWords(w, t)
+        if len(sent) >= 30:
+            all_sents.append(sent)
+            sent = []
+
+
+accuracy_of_segment2(wordSegment_hebrew.segment2, all_sents)
+
