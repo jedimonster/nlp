@@ -24,13 +24,15 @@ def accuracy_of_segment2(segment_func, sents):
 
     for sent in sents:
         formatted_words = segment2_format(sent)
-        for f in formatted_words:
-            print f
-        print '---------------------'
+        # for f in formatted_words:
+        #     print f
+        # print '---------------------'
         segment2_words = segment_func(''.join(formatted_words))[1]
-        for s in segment2_words:
-            print s
-        ratios.append(difflib.SequenceMatcher(None, formatted_words, segment2_words).ratio())
+        # for s in segment2_words:
+        #     print s
+        accuracy = difflib.SequenceMatcher(None, formatted_words, segment2_words).ratio()
+        # print accuracy
+        ratios.append(accuracy)
 
     print 'Accuracy of segment2(): %r' % (numpy.mean(ratios),)
 

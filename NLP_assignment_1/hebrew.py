@@ -74,12 +74,17 @@ print 'Calculating Accuracy of hebrew model...'
 
 all_sents = []
 sent = []
-for w, t in tagged_words[:200]:
+for w, t in tagged_words:
         sent += getWords(w, t)
         if len(sent) >= 30:
             all_sents.append(sent)
             sent = []
 
 
-accuracy_of_segment2(wordSegment_hebrew.segment2, all_sents[:100])
+accuracy_of_segment2(wordSegment_hebrew.segment2, all_sents[:200])
+"""
+Answer:
+Accuracy of segment2 on hebrew words is 0.8
+(But again we are cheating, using same data for train & test)
+"""
 
