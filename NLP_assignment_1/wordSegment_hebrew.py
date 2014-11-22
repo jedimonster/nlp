@@ -8,6 +8,7 @@ Code copyright (c) 2008-2009 by Peter Norvig
 You are free to use this code under the MIT licencse:
 http://www.opensource.org/licenses/mit-license.php
 """
+import codecs
 
 import re, string, random, glob, operator, heapq
 from collections import defaultdict
@@ -59,15 +60,18 @@ class Pdist(dict):
         else: return self.missingfn(key, self.N)
 
 def datafile(name, sep='\t'):
+    f = codecs.open(name, "r", encoding="utf-8")
+
     "Read key,value pairs from file."
-    for line in file(name):
+    for line in f:
         yield line.split(sep)
 
 def avoid_long_words(key, N):
     "Estimate the probability of an unknown word."
     return 10./(N * 10**len(key))
 
-N = 1024908267229 ## Number of tokens
+# N = 1024908267229 ## Number of tokens
+N = 50414
 
 Pw  = Pdist(datafile('hebrew_1w.txt'), N, avoid_long_words)
 

@@ -63,7 +63,7 @@ def build_hebrew_models(tagged_words):
     write_models_to_files(all_words, 'hebrew_1w.txt', 'hebrew_2w.txt')
 
 #Uncomment this line to build hebrew models (takes time..)
-build_hebrew_models(tagged_words)
+# build_hebrew_models(tagged_words)
 
 ############################################
 # Test segment() performance on hebrew model
@@ -81,5 +81,5 @@ for w, t in tagged_words[:200]:
             sent = []
 
 
-accuracy_of_segment2(wordSegment_hebrew.segment2, all_sents)
+accuracy_of_segment2(wordSegment_hebrew.segment2, all_sents[:100])
 
