@@ -42,14 +42,14 @@ class EntropyAffixTagger(AffixTagger):
         for key, p in dist.items():
 
             # print key
-            #print p
+            # print p
 
             if p == 0:
                 continue
             else:
                 ent += p * math.log(p)
         # print -ent
-        #print "************"
+        # print "************"
         return -ent
 
     def _train(self, tagged_corpus, cutoff=1, verbose=False):
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     # start = datetime.datetime.now()
 
 # /    their_tagger = NgramTagger(1, train=train)
-#     print "building nltk tagger took ", datetime.datetime.now() - start
+# print "building nltk tagger took ", datetime.datetime.now() - start
 
-    # print our_tagger.evaluate(test)
-    # print their_tagger.evaluate(test)
+# print our_tagger.evaluate(test)
+# print their_tagger.evaluate(test)
