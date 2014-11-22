@@ -10,7 +10,7 @@ class EntropyTaggerI(TaggerI):
         """
         returns e.g. {'adj':0.6, 'verb':0.4}
         """
-        raise NotImplemented
+        raise Exception(NotImplemented)
 
     def entropy(self, word):
         """
@@ -25,7 +25,7 @@ class EntropyTaggerI(TaggerI):
             if p == 0:
                 continue
             else:
-                ent += p * math.log(p)
+                ent += p * math.log(p, 2)
 
         return -ent
 
@@ -39,7 +39,7 @@ class EntropyTaggerI(TaggerI):
         if len(possible_tags) == 0:
             return None
 
-        tag, count = max(possible_tags.iteritems(), lambda x: x[1])
+        tag, count = max(possible_tags.items(), key=lambda x: x[1])
         return tag
 
 
@@ -84,8 +84,8 @@ class EntropyAffixTagger(EntropyTaggerI):
         # list comprehension here just flattens the sentences.
         self.min_word_length = min_word_length
         self.affix_length = affix_length
-        combined_sents = (item for sublist in train for item in sublist)
-        self._train(combined_sents)
+        self.freq = ConditionalFreqDist()
+        self._train(train)
 
     def entropy(self, word):
         affix = self._get_word_affix(word)
@@ -102,6 +102,23 @@ class EntropyAffixTagger(EntropyTaggerI):
         else:
             return token[self.affix_length:]
 
+    def possible_tags(self, word):
+        suffix = self._get_word_affix(word)
+        if suffix is None or suffix not in self.freq:
+            return dict()
+
+        return self._calc_distribution_of_suffix(self.freq[suffix])
+
+    def _calc_distribution_of_suffix(self, tag_count_dict):
+        overall = 0
+        for item in tag_count_dict:
+            overall += tag_count_dict[item]
+        dist = {}
+        for item in tag_count_dict:
+            dist[item] = float(float(tag_count_dict[item]) / overall)
+        # print dist
+        return dist
+
     def _train(self, tagged_sents, cutoff=0, verbose=False):
         token_count = hit_count = 0
         # cutoff = 0.99
@@ -110,7 +127,7 @@ class EntropyAffixTagger(EntropyTaggerI):
         useful_contexts = set()
 
         # Count how many times each tag occurs in each context.
-        self.freq = ConditionalFreqDist()
+
         for sentence in tagged_sents:
             tokens, tags = zip(*sentence)
             for index, (token, tag) in enumerate(sentence):
@@ -147,9 +164,10 @@ class EntropyVotingTagger(TaggerI):
         :param token:
         :return:
         """
-        best_tagger = min(self._taggers, key=lambda t: t.entropy(token))
+        good_taggers = [x for x in self._taggers if x.entropy(token) is not None]
+        best_tagger = min(good_taggers, key=lambda t: t.entropy(token))
         if best_tagger is None or best_tagger.entropy(token) > self.max_entropy:
-            return
+            return None
 
         return best_tagger.choose_tag(token)
 
@@ -162,6 +180,7 @@ if __name__ == '__main__':
     # voting_tagger = EntropyVotingTagger(tagger2)
     # result = voting_tagger.tag(('hello', 'world', 'this', 'is', 'test'))
     # print result
+
     #
     # voting_tagger = EntropyVotingTagger(tagger2, max_entropy=0.1)
     # result = voting_tagger.tag(('hello', 'world', 'this', 'is', 'test'))
@@ -169,19 +188,26 @@ if __name__ == '__main__':
     #
     # #Testing Entropy Taggers
     # print '--------------Testing Entropy Taggers-------------'
-    all_words = corpus.brown.tagged_sents(tagset='universal', categories='news')
+    all_words = corpus.brown.tagged_sents(tagset='universal')
     # random.shuffle(all_words)  # we shuffle it so we don't get a specific category as the test set!
     ds_length = len(all_words)
-    train = all_words[:int(0.5 * ds_length)]
+    train = all_words[int(0.2 * ds_length):]
+    dev = all_words[:int(0.1 * ds_length)]
+    test = all_words[int(0.1 * ds_length):int(0.2 * ds_length)]
 
-    tagger = EntropyUnigramTagger(train=train)
-    # print "gfg"
-    # affix = EntropyAffixTagger(train=train)
-    # print "gfg"
-    res = tagger.possible_tags('open')
-    print 'Result for tagging the word "open":'
-    print 'Sum oF Dist (should be allways 1): ', sum(res.values())
+    affix_tagger = EntropyAffixTagger(train)
+    unigram_tagger = EntropyUnigramTagger(train)
+    taggers = [affix_tagger, unigram_tagger]
+    tagger = EntropyVotingTagger(taggers, max_entropy=100)
+    print "Accuracy of entropy voting = ", tagger.evaluate(test)
 
-    print 'Entropy:', tagger.entropy('open')
-    print tagger.tag(['open'])
+    from nltk import UnigramTagger, AffixTagger
+
+    u1 = UnigramTagger(train)
+    a1 = AffixTagger(train, backoff=u1)
+    a2 = AffixTagger(train)
+    u2 = UnigramTagger(train, backoff=a2)
+    print "testing"
+    print a1.evaluate(test)
+    print u2.evaluate(test)
 
