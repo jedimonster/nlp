@@ -17,10 +17,13 @@ class EntropyTaggerI(TaggerI):
         """
 
         :param word:
-        :return: either the entropy or None if there are no possible tags.
+        :return: either the entropy or float("inf") if there are no possible tags
         """
         ent = 0
         dist = self.possible_tags(word)
+        if len(dist) == 0:
+            return float("inf")
+
         for key, p in dist.items():
             # print dist
             if p == 0:
@@ -88,12 +91,12 @@ class EntropyAffixTagger(EntropyTaggerI):
         self.freq = ConditionalFreqDist()
         self._train(train)
 
-    def entropy(self, word):
-        affix = self._get_word_affix(word)
-        if affix is None:
-            return None
-
-        return super(EntropyAffixTagger, self).entropy(affix)
+    # def entropy(self, word):
+    # affix = self._get_word_affix(word)
+    #     if affix is None:
+    #         return None
+    #
+    #     return super(EntropyAffixTagger, self).entropy(affix)
 
     def _get_word_affix(self, token):
         if len(token) < self.min_word_length:
@@ -147,12 +150,13 @@ class EntropyAffixTagger(EntropyTaggerI):
 
 
 class EntropyVotingTagger(TaggerI):
-    def __init__(self, taggers, max_entropy=0.6):
+    def __init__(self, taggers, max_entropy=0.6, backoff=None):
         """
 
         :param taggers: list of taggers to use
         :param max_entropy:
         """
+        self.backoff = backoff
         self._taggers = taggers
         self.max_entropy = max_entropy
 
@@ -168,6 +172,8 @@ class EntropyVotingTagger(TaggerI):
         good_taggers = [x for x in self._taggers if x.entropy(token) is not None]
         best_tagger = min(good_taggers, key=lambda t: t.entropy(token))
         if best_tagger is None or best_tagger.entropy(token) > self.max_entropy:
+            if self.backoff is not None:  # use backoff if we're not sure
+                return self.backoff.tag([token])[0][1]
             return None
 
         return best_tagger.choose_tag(token)
@@ -204,7 +210,7 @@ class EntropyVotingTagger(TaggerI):
         :raise ValueError: If ``reference`` and ``length`` do not have the
             same length.
         """
-        print "here!"
+        # print "here!"
         if len(reference) != len(test):
             raise ValueError("Lists must have the same length.")
         return float(sum((x == y or y[1] is None) for x, y in izip(reference, test))) / len(test)
@@ -258,15 +264,22 @@ if __name__ == '__main__':
     train = all_words[int(0.2 * ds_length):]
     dev = all_words[:int(0.1 * ds_length)]
     test = all_words[int(0.1 * ds_length):int(0.2 * ds_length)]
+
+    # from nltk import UnigramTagger
+    # u1 = UnigramTagger(train)
+    # print u1.evaluate(test)
+    # import sys
+    # sys.exit(1)
     #
+
     affix_tagger = EntropyAffixTagger(train)
     unigram_tagger = EntropyUnigramTagger(train)
-    taggers = [unigram_tagger]
+    taggers = [unigram_tagger, affix_tagger]
     #
     # error_rates = []
     # for i in range(15):
-    #     i = float(i) / 10.0
-    #     tagger = EntropyVotingTagger(taggers, max_entropy=i)
+    # i = float(i) / 10.0
+    # tagger = EntropyVotingTagger(taggers, max_entropy=i)
     #     error_rate = 1 - tagger.evaluate(test)
     #     print "error rate for %f= " % (i,), error_rate
     #     error_rates += [(i, error_rate)]
@@ -275,7 +288,7 @@ if __name__ == '__main__':
     # print "error rates (None=error) = ", error_rates
 
     # plot_data()
-    voting_tagger = EntropyVotingTagger(taggers=taggers, max_entropy=0.6)
+    voting_tagger = EntropyVotingTagger(taggers=taggers, max_entropy=20)
 
     u1 = UnigramTagger(train)
     a1 = AffixTagger(train, backoff=u1)
@@ -285,23 +298,26 @@ if __name__ == '__main__':
     # print a1.evaluate(test)
     # print u2.evaluate(test)
     from nltk.tag import untag
-    untagged_dev =[untag(x) for x in dev]
-    tagged_by_voting = voting_tagger.tag_sents(untagged_dev)
-    tagged_by_ua = a1.tag_sents(untagged_dev)
-    count_none_disagreements=0
-    count_error_disagreemnts=0
-    for sent_voting, sent_ua in izip(tagged_by_voting, tagged_by_ua):
-        for token_by_voting, token_by_ua in izip(sent_voting, sent_ua):
-            # import pdb
-            # pdb.set_trace()
-            if token_by_voting != token_by_ua:
-                if token_by_voting[1] is None:
-                    count_none_disagreements += 1
-                    continue
-                count_error_disagreemnts += 1
-                print "******"
-                print "voting tagger answer: ", token_by_voting
-                print "ua tagger answer: ", token_by_ua
-                print "******"
-    print "count None disagreements ", count_none_disagreements
-    print "count error disagreemnts ", count_error_disagreemnts
+
+    print "voting eval = ", voting_tagger.evaluate(test)
+
+    # untagged_dev = [untag(x) for x in dev]
+    # tagged_by_voting = voting_tagger.tag_sents(untagged_dev)
+    # tagged_by_ua = a1.tag_sents(untagged_dev)
+    # count_none_disagreements = 0
+    # count_error_disagreemnts = 0
+    # for sent_voting, sent_ua in izip(tagged_by_voting, tagged_by_ua):
+    #     for token_by_voting, token_by_ua in izip(sent_voting, sent_ua):
+    #         # import pdb
+    #         # pdb.set_trace()
+    #         if token_by_voting != token_by_ua:
+    #             if token_by_voting[1] is None:
+    #                 count_none_disagreements += 1
+    #                 continue
+    #             count_error_disagreemnts += 1
+    #             print "******"
+    #             print "voting tagger answer: ", token_by_voting
+    #             print "ua tagger answer: ", token_by_ua
+    #             print "******"
+    # print "count None disagreements ", count_none_disagreements
+    # print "count error disagreemnts ", count_error_disagreemnts

@@ -84,13 +84,83 @@ class EntropyAffixTagger(AffixTagger):
                 pass
 
 
+def evaluate_tag(reference, test, tag):
+    """
+    :param reference: list of tagged tokens
+    :param test: list of tagged tokens
+    :return:
+    """
+    TP = 0
+    TN = 0
+    FP = 0
+    FN = 0
+    for ref_token, test_token in zip(reference, test):
+        if ref_token[1] == tag and test_token[1] == tag:
+            TP += 1
+        if ref_token[1] != tag and test_token[1] != tag:
+            TN += 1
+        if ref_token[1] == tag and test_token[1] != tag:
+            FP += 1
+        if ref_token[1] != tag and test_token[1] == tag:
+            FN += 1
+    try:
+        precision = float(TP) / float(TP + FP)
+
+        recall = float(TP) / float(TP + FN)
+        f_measure = 2 * precision * recall / (recall + precision)
+    except:
+        print "tag %r is very uncommong TP %r TN %r FP %r FN %r" % (tag, TP, TN, FP, FN)
+        return
+
+    print "results for tag %r are: TP: %r TN: %r FP: %r FN: %r precision: %r recall %r f_measure %r" % (
+        tag, TP, TN, FP, FN, precision, recall, f_measure)
+    return f_measure
+
+
+def get_all_tags(corpus_test):
+    return set([y[1] for x in corpus_test for y in x])
+
+
+def get_statistics_per_tag(corpus_test, tagger):
+    from nltk.tag import untag
+
+    possible_tags = get_all_tags(corpus_test)
+    untaged_test = [untag(x) for x in corpus_test]
+    tagged_sents = tagger.tag_sents(untaged_test)
+    ref_words = sum(corpus_test, [])
+    test_words = sum(tagged_sents, [])
+    best_fmeasure = 0
+    best_tag = "Chtulhu"
+    worst_tag_fmeasure = 100
+    worst_tag = "cthulhu"
+    for tag in possible_tags:
+        f_measure = evaluate_tag(ref_words, test_words, tag)
+        if f_measure > best_fmeasure:
+            best_tag = tag
+            best_fmeasure = f_measure
+        if f_measure < worst_tag_fmeasure:
+            worst_tag = tag
+            worst_tag_fmeasure = f_measure
+    print "best tag: ", best_tag
+    print "worst tag: ", worst_tag
+
+
 if __name__ == "__main__":
     # split the brown corpus to test, dev, and test set
-    all_words = corpus.brown.tagged_sents(tagset='universal')
+    all_words = corpus.brown.tagged_sents()
+    print get_all_tags(all_words)
     ds_length = len(all_words)
     train = all_words[int(0.2 * ds_length):]
     dev = all_words[:int(0.1 * ds_length)]
     test = all_words[int(0.1 * ds_length):int(0.2 * ds_length)]
+
+    from nltk import UnigramTagger
+
+    u_tagger = UnigramTagger(train)
+    get_statistics_per_tag(dev, u_tagger)
+    import sys
+
+    sys.exit(1)
 
     start = datetime.datetime.now()
 
