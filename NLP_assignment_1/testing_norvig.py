@@ -19,6 +19,26 @@ TRANSLATION_TABLE = {ord(c): None for c in string.punctuation}
 def segment2_format(sent):
     return [word.lower().translate(TRANSLATION_TABLE) for word in sent]
 
+def accuracy_of_segment2_hebrew(segment_func, sents):
+    ratios = []
+
+    for sent in sents:
+        formatted_words = segment2_format(sent)
+        # print 'printing original sentences'
+        # for f in formatted_words:
+        #     print f
+        # print '---------------------'
+        segment2_words = segment_func(''.join(formatted_words))
+
+        # for s in segment2_words:
+        #     print s
+        accuracy = difflib.SequenceMatcher(None, formatted_words, segment2_words).ratio()
+        # print accuracy
+        ratios.append(accuracy)
+
+    print 'Accuracy of segment2(): %r' % (numpy.mean(ratios),)
+
+
 def accuracy_of_segment2(segment_func, sents):
     ratios = []
 
@@ -28,6 +48,7 @@ def accuracy_of_segment2(segment_func, sents):
         #     print f
         # print '---------------------'
         segment2_words = segment_func(''.join(formatted_words))[1]
+
         # for s in segment2_words:
         #     print s
         accuracy = difflib.SequenceMatcher(None, formatted_words, segment2_words).ratio()

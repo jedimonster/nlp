@@ -1,4 +1,6 @@
 # coding=utf-8
+import itertools
+
 __author__ = 'michael'
 
 from BguCorpusReader import BguCorpusReader
@@ -70,21 +72,47 @@ def build_hebrew_models(tagged_words):
 ############################################
 
 import wordSegment_hebrew
+from testing_norvig import accuracy_of_segment2_hebrew
 print 'Calculating Accuracy of hebrew model...'
+
+
+def segment2_hebrew(sents_no_spaces):
+    res = wordSegment_hebrew.segment2(sents_no_spaces)[1]
+    output = []
+    orig_index = 0
+    while orig_index < len(res)-2:
+        word = res[orig_index]
+        while res[orig_index] in ALL_PREFIXES and orig_index < len(res)-2:
+            word += res[orig_index+1]
+            orig_index += 1
+
+        output.append(word)
+        orig_index += 1
+
+    return output
 
 all_sents = []
 sent = []
 for w, t in tagged_words:
-        sent += getWords(w, t)
+        # sent += getWords(w, t)
+        sent.append(w)
         if len(sent) >= 30:
             all_sents.append(sent)
             sent = []
 
+print 'Calculating Accuracy *without* aggregation..'
+accuracy_of_segment2(wordSegment_hebrew.segment2, all_sents[:100])
 
-accuracy_of_segment2(wordSegment_hebrew.segment2, all_sents[:200])
+print 'Calculating Accuracy *with* aggregation..'
+accuracy_of_segment2_hebrew(segment2_hebrew, all_sents[:100])
+
 """
 Answer:
-Accuracy of segment2 on hebrew words is 0.8
-(But again we are cheating, using same data for train & test)
+Calculating Accuracy *without* aggregation..
+Accuracy of segment2(): 0.52121271246210821
+
+Calculating Accuracy *with* aggregation..
+Accuracy of segment2(): 0.73326348833278887
 """
+
 
