@@ -93,10 +93,10 @@ class EntropyAffixTagger(EntropyTaggerI):
 
     # def entropy(self, word):
     # affix = self._get_word_affix(word)
-    #     if affix is None:
-    #         return None
+    # if affix is None:
+    # return None
     #
-    #     return super(EntropyAffixTagger, self).entropy(affix)
+    # return super(EntropyAffixTagger, self).entropy(affix)
 
     def _get_word_affix(self, token):
         if len(token) < self.min_word_length:
@@ -213,7 +213,7 @@ class EntropyVotingTagger(TaggerI):
         # print "here!"
         if len(reference) != len(test):
             raise ValueError("Lists must have the same length.")
-        return float(sum((x == y or y[1] is None) for x, y in izip(reference, test))) / len(test)
+        return float(sum((x == y) for x, y in izip(reference, test))) / len(test)
 
 
 def plot_data():
@@ -265,59 +265,124 @@ if __name__ == '__main__':
     dev = all_words[:int(0.1 * ds_length)]
     test = all_words[int(0.1 * ds_length):int(0.2 * ds_length)]
 
-    # from nltk import UnigramTagger
-    # u1 = UnigramTagger(train)
-    # print u1.evaluate(test)
-    # import sys
-    # sys.exit(1)
-    #
+    from nltk import UnigramTagger, AffixTagger
+
+    unigram = UnigramTagger(train)
+    affix_ugram_backoff = AffixTagger(train, backoff=unigram)
+    affix = AffixTagger(train)
+    unigram_affix_backoff = UnigramTagger(train, backoff=affix)
+    # print "testing"
+    # print affix_ugram_backoff.evaluate(test)
+    # print unigram_affix_backoff.evaluate(test)
+    # cutoffs = [x*0.1 for x in range(20)]
+    # for c in cutoffs:
+    # tagger = EntropyVotingTagger(taggers, c)
+    # print "Accuracy of entropy voting = ", tagger.evaluate(test)
+
 
     affix_tagger = EntropyAffixTagger(train)
     unigram_tagger = EntropyUnigramTagger(train)
     taggers = [unigram_tagger, affix_tagger]
-    #
-    # error_rates = []
-    # for i in range(15):
-    # i = float(i) / 10.0
-    # tagger = EntropyVotingTagger(taggers, max_entropy=i)
-    #     error_rate = 1 - tagger.evaluate(test)
-    #     print "error rate for %f= " % (i,), error_rate
-    #     error_rates += [(i, error_rate)]
-    from nltk import UnigramTagger, AffixTagger
-    #
-    # print "error rates (None=error) = ", error_rates
+    tagger = EntropyVotingTagger(taggers, max_entropy=80)
 
-    # plot_data()
-    voting_tagger = EntropyVotingTagger(taggers=taggers, max_entropy=20)
-
-    u1 = UnigramTagger(train)
-    a1 = AffixTagger(train, backoff=u1)
-    a2 = AffixTagger(train)
-    u2 = UnigramTagger(train, backoff=a2)
-    print "testing"
-    # print a1.evaluate(test)
-    # print u2.evaluate(test)
     from nltk.tag import untag
 
-    print "voting eval = ", voting_tagger.evaluate(test)
+    untagged_test = [untag(x) for x in dev]
+    tagged_sents_uni_affix = unigram_affix_backoff.tag_sents(untagged_test)
+    tagged_sents_entr = tagger.tag_sents(untagged_test)
+    affix_mistake = 0
+    unigram_mistake = 0
+    overall_mistakes = 0
+    print "len of dev: ", len(dev)
+    for tagged_reference_sent, tagged_uni_affix_sent, tagged_entropy_sent in izip(dev, tagged_sents_uni_affix,
+                                                                                  tagged_sents_entr):
+        # import pdb;pdb.set_trace()
+        for tagged_reference, tagged_uni_affix, tagged_entropy in izip(tagged_reference_sent, tagged_uni_affix_sent,
+                                                                       tagged_entropy_sent):
+            if tagged_uni_affix[1] != tagged_entropy[1]:
+                overall_mistakes += 1
 
-    # untagged_dev = [untag(x) for x in dev]
-    # tagged_by_voting = voting_tagger.tag_sents(untagged_dev)
-    # tagged_by_ua = a1.tag_sents(untagged_dev)
-    # count_none_disagreements = 0
-    # count_error_disagreemnts = 0
-    # for sent_voting, sent_ua in izip(tagged_by_voting, tagged_by_ua):
-    #     for token_by_voting, token_by_ua in izip(sent_voting, sent_ua):
-    #         # import pdb
-    #         # pdb.set_trace()
-    #         if token_by_voting != token_by_ua:
-    #             if token_by_voting[1] is None:
-    #                 count_none_disagreements += 1
-    #                 continue
-    #             count_error_disagreemnts += 1
-    #             print "******"
-    #             print "voting tagger answer: ", token_by_voting
-    #             print "ua tagger answer: ", token_by_ua
-    #             print "******"
-    # print "count None disagreements ", count_none_disagreements
-    # print "count error disagreemnts ", count_error_disagreemnts
+                print "WE GOT MATCH!"
+                print "Word = ", tagged_reference[0]
+                print "real tag ", tagged_reference[1]
+                print "backoff tag ", tagged_uni_affix[1]
+                print "entropy tag ", tagged_entropy[1]
+                for t in tagger._taggers:
+                    # import pdb
+                    # pdb.set_trace()
+                    print "Entropy for tagger ", t.__class__.__name__, " ", t.entropy(tagged_reference[0])
+                print "******"
+                if tagged_reference[1] !=tagged_entropy[1] and tagger._taggers[0].entropy(tagged_reference[0]) > tagger._taggers[1].entropy(tagged_reference[0]):
+                    affix_mistake+=1
+                if tagged_reference[1] !=tagged_entropy[1] and tagger._taggers[0].entropy(tagged_reference[0]) < tagger._taggers[1].entropy(tagged_reference[0]):
+                    unigram_mistake +=1
+                # from nltk import UnigramTagger
+                # u1 = UnigramTagger(train)
+                # print u1.evaluate(test)
+                # import sys
+                # sys.exit(1)
+                #
+
+                #
+                # error_rates = []
+                # for i in range(15):
+                # i = float(i) / 10.0
+                # error_rate = 1 - tagger.evaluate(test)
+                # print "error rate for %f= " % (i,), error_rate
+                # error_rates += [(i, error_rate)]
+                # from nltk import UnigramTagger, AffixTagger, NgramTagger
+                # #
+                # # print "error rates (None=error) = ", error_rates
+                # ngram = NgramTagger(2, train)
+                # # plot_data()
+                # voting_tagger = EntropyVotingTagger(taggers=taggers, max_entropy=20)
+                #
+                # u1 = UnigramTagger(train)
+                # a1 = AffixTagger(train, backoff=u1)
+                # a2 = AffixTagger(train)
+                # u2 = UnigramTagger(train, backoff=a2)
+                # print "testing"
+                # print a1.evaluate(test)
+                # print u2.evaluate(test)
+                # from nltk.tag import untag
+                #
+                # print "voting eval = ", voting_tagger.evaluate(test)
+                #
+                # print " now choosing best cutoff on dev and after test on test"
+                # #
+                # cutoffs = [0.1*x for x in range(30)]
+                # for cutoff in cutoffs:
+                # print "testing cutoff: ", cutoff
+                #     voting_tagger0 = EntropyVotingTagger(taggers=taggers, max_entropy=cutoff, backoff=None)
+                #     voting_tagger = EntropyVotingTagger(taggers=taggers, max_entropy=cutoff, backoff=ngram)
+                #     voting_tagger2 = EntropyVotingTagger(taggers=taggers, max_entropy=cutoff, backoff=a2)
+                #     voting_tagger3 = EntropyVotingTagger(taggers=taggers, max_entropy=cutoff, backoff=u1)
+                #     print voting_tagger0.evaluate(dev)
+                #     print voting_tagger.evaluate(dev)
+                #     print voting_tagger2.evaluate(dev)
+                #     print voting_tagger3.evaluate(dev)
+                #
+
+                # untagged_dev = [untag(x) for x in dev]
+                # tagged_by_voting = voting_tagger.tag_sents(untagged_dev)
+                # tagged_by_ua = a1.tag_sents(untagged_dev)
+                # count_none_disagreements = 0
+                # count_error_disagreemnts = 0
+                # for sent_voting, sent_ua in izip(tagged_by_voting, tagged_by_ua):
+                #     for token_by_voting, token_by_ua in izip(sent_voting, sent_ua):
+                #         # import pdb
+                #         # pdb.set_trace()
+                #         if token_by_voting != token_by_ua:
+                #             if token_by_voting[1] is None:
+                #                 count_none_disagreements += 1
+                #                 continue
+                #             count_error_disagreemnts += 1
+                #             print "******"
+                #             print "voting tagger answer: ", token_by_voting
+                #             print "ua tagger answer: ", token_by_ua
+                #             print "******"
+                # print "count None disagreements ", count_none_disagreements
+                # print "count error disagreemnts ", count_error_disagreemnts
+    print "overall disagreements:", overall_mistakes
+    print "affix mistakes: ",affix_mistake
+    print "uni mistakes: ", unigram_mistake

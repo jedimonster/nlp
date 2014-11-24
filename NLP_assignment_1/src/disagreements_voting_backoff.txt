@@ -1,0 +1,3251 @@
+/usr/bin/python2.7 /home/itay/PycharmProjects/nlp/NLP_assignment_1/src/voting.py
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  starts
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.749595257259
+Entropy for tagger  EntropyAffixTagger   0.415772108697
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADV
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  mention
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.938315352233
+Entropy for tagger  EntropyAffixTagger   0.160976574644
+******
+WE GOT MATCH!
+Word =  notice
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.528189640796
+******
+WE GOT MATCH!
+Word =  calls
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  calls
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  calls
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  sponsor
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.273769168683
+******
+WE GOT MATCH!
+Word =  notice
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.528189640796
+******
+WE GOT MATCH!
+Word =  sponsor
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.273769168683
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  monthly
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.696212260125
+Entropy for tagger  EntropyAffixTagger   0.497896454312
+******
+WE GOT MATCH!
+Word =  judge
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.998845535995
+Entropy for tagger  EntropyAffixTagger   0.472882165454
+******
+WE GOT MATCH!
+Word =  finance
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.958711882977
+Entropy for tagger  EntropyAffixTagger   0.812565766598
+******
+WE GOT MATCH!
+Word =  boost
+real tag  VERB
+backoff tag  NOUN
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.748969593814
+******
+WE GOT MATCH!
+Word =  boost
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.748969593814
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  finance
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.958711882977
+Entropy for tagger  EntropyAffixTagger   0.812565766598
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  timely
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.650022421648
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  notice
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.528189640796
+******
+WE GOT MATCH!
+Word =  feeds
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.841775972291
+******
+WE GOT MATCH!
+Word =  neutralist
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   1.31866213845
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  rescue
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.70246655129
+******
+WE GOT MATCH!
+Word =  rescue
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.70246655129
+******
+WE GOT MATCH!
+Word =  rescue
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.70246655129
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  urges
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.970950594455
+Entropy for tagger  EntropyAffixTagger   0.379427324316
+******
+WE GOT MATCH!
+Word =  average
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  squeeze
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.970950594455
+Entropy for tagger  EntropyAffixTagger   0.660962335144
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  mention
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.938315352233
+Entropy for tagger  EntropyAffixTagger   0.160976574644
+******
+WE GOT MATCH!
+Word =  Scotch
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   1.16844700533
+******
+WE GOT MATCH!
+Word =  mention
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.938315352233
+Entropy for tagger  EntropyAffixTagger   0.160976574644
+******
+WE GOT MATCH!
+Word =  calls
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  judge
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.998845535995
+Entropy for tagger  EntropyAffixTagger   0.472882165454
+******
+WE GOT MATCH!
+Word =  Liberal
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  judge
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.998845535995
+Entropy for tagger  EntropyAffixTagger   0.472882165454
+******
+WE GOT MATCH!
+Word =  starts
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.749595257259
+Entropy for tagger  EntropyAffixTagger   0.415772108697
+******
+WE GOT MATCH!
+Word =  rescue
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.70246655129
+******
+WE GOT MATCH!
+Word =  missionary
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.917434761998
+******
+WE GOT MATCH!
+Word =  overseas
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.991076059838
+Entropy for tagger  EntropyAffixTagger   0.788064236277
+******
+WE GOT MATCH!
+Word =  Missionary
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.917434761998
+******
+WE GOT MATCH!
+Word =  missionary
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.917434761998
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADV
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  joint
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.888684134531
+******
+WE GOT MATCH!
+Word =  inaugural
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  keeps
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.619382194679
+Entropy for tagger  EntropyAffixTagger   0.473572924917
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  Future
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.881290899231
+Entropy for tagger  EntropyAffixTagger   0.722344967102
+******
+WE GOT MATCH!
+Word =  token
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   0.811278124459
+Entropy for tagger  EntropyAffixTagger   0.760588483317
+******
+WE GOT MATCH!
+Word =  token
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   0.811278124459
+Entropy for tagger  EntropyAffixTagger   0.760588483317
+******
+WE GOT MATCH!
+Word =  joint
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.888684134531
+******
+WE GOT MATCH!
+Word =  joint
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.888684134531
+******
+WE GOT MATCH!
+Word =  joint
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.888684134531
+******
+WE GOT MATCH!
+Word =  boost
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.748969593814
+******
+WE GOT MATCH!
+Word =  calls
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  calls
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  calls
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  Private
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   1.60523686059
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  calls
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  joint
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.888684134531
+******
+WE GOT MATCH!
+Word =  mature
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.791858352567
+Entropy for tagger  EntropyAffixTagger   0.722344967102
+******
+WE GOT MATCH!
+Word =  starts
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.749595257259
+Entropy for tagger  EntropyAffixTagger   0.415772108697
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  champions
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.0675662650547
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADV
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  Place
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.29742881581
+Entropy for tagger  EntropyAffixTagger   0.706748834399
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  thrusts
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.629659090867
+******
+WE GOT MATCH!
+Word =  starts
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.749595257259
+Entropy for tagger  EntropyAffixTagger   0.415772108697
+******
+WE GOT MATCH!
+Word =  champions
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.0675662650547
+******
+WE GOT MATCH!
+Word =  passes
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.936667381878
+Entropy for tagger  EntropyAffixTagger   0.615144609203
+******
+WE GOT MATCH!
+Word =  passes
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.936667381878
+Entropy for tagger  EntropyAffixTagger   0.615144609203
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  passes
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.936667381878
+Entropy for tagger  EntropyAffixTagger   0.615144609203
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  passes
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.936667381878
+Entropy for tagger  EntropyAffixTagger   0.615144609203
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  champions
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.0675662650547
+******
+WE GOT MATCH!
+Word =  keeps
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.619382194679
+Entropy for tagger  EntropyAffixTagger   0.473572924917
+******
+WE GOT MATCH!
+Word =  champions
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.0675662650547
+******
+WE GOT MATCH!
+Word =  starts
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.749595257259
+Entropy for tagger  EntropyAffixTagger   0.415772108697
+******
+WE GOT MATCH!
+Word =  starts
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.749595257259
+Entropy for tagger  EntropyAffixTagger   0.415772108697
+******
+WE GOT MATCH!
+Word =  champions
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.0675662650547
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  total
+real tag  VERB
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  Bill's
+real tag  NOUN
+backoff tag  PRT
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.346934581977
+******
+WE GOT MATCH!
+Word =  boost
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.748969593814
+******
+WE GOT MATCH!
+Word =  knock
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.845350936622
+Entropy for tagger  EntropyAffixTagger   0.774692903908
+******
+WE GOT MATCH!
+Word =  mature
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.791858352567
+Entropy for tagger  EntropyAffixTagger   0.722344967102
+******
+WE GOT MATCH!
+Word =  Major
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.522559374537
+Entropy for tagger  EntropyAffixTagger   0.510066850032
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADV
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADV
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  sponsor
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.273769168683
+******
+WE GOT MATCH!
+Word =  Place
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.29742881581
+Entropy for tagger  EntropyAffixTagger   0.706748834399
+******
+WE GOT MATCH!
+Word =  Fashion
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.160976574644
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  judge
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.998845535995
+Entropy for tagger  EntropyAffixTagger   0.472882165454
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  calls
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  keeps
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.619382194679
+Entropy for tagger  EntropyAffixTagger   0.473572924917
+******
+WE GOT MATCH!
+Word =  misses
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.615144609203
+******
+WE GOT MATCH!
+Word =  Liberal
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  Fashion
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.160976574644
+******
+WE GOT MATCH!
+Word =  starts
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.749595257259
+Entropy for tagger  EntropyAffixTagger   0.415772108697
+******
+WE GOT MATCH!
+Word =  welcome
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   1.50135792871
+Entropy for tagger  EntropyAffixTagger   1.46308748818
+******
+WE GOT MATCH!
+Word =  wants
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.495969072062
+Entropy for tagger  EntropyAffixTagger   0.355287619685
+******
+WE GOT MATCH!
+Word =  presents
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.899743758698
+Entropy for tagger  EntropyAffixTagger   0.355287619685
+******
+WE GOT MATCH!
+Word =  magic
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.824965868014
+******
+WE GOT MATCH!
+Word =  tastes
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.762465360557
+******
+WE GOT MATCH!
+Word =  Place
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.29742881581
+Entropy for tagger  EntropyAffixTagger   0.706748834399
+******
+WE GOT MATCH!
+Word =  Presbyterian
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.953586667343
+******
+WE GOT MATCH!
+Word =  promises
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.881290899231
+Entropy for tagger  EntropyAffixTagger   0.615144609203
+******
+WE GOT MATCH!
+Word =  totals
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.329842690567
+******
+WE GOT MATCH!
+Word =  sponsors
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.970950594455
+Entropy for tagger  EntropyAffixTagger   0.257441908636
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  Major
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.522559374537
+Entropy for tagger  EntropyAffixTagger   0.510066850032
+******
+WE GOT MATCH!
+Word =  crimson
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.101627567531
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  monthly
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.696212260125
+Entropy for tagger  EntropyAffixTagger   0.497896454312
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  calls
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  swearing-in
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   inf
+Entropy for tagger  EntropyAffixTagger   1.0
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  starts
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.749595257259
+Entropy for tagger  EntropyAffixTagger   0.415772108697
+******
+WE GOT MATCH!
+Word =  criminal
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.996791631982
+Entropy for tagger  EntropyAffixTagger   0.383971813306
+******
+WE GOT MATCH!
+Word =  German
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.966618632548
+Entropy for tagger  EntropyAffixTagger   0.893077414675
+******
+WE GOT MATCH!
+Word =  Designs
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.478723511386
+******
+WE GOT MATCH!
+Word =  calls
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  bludgeon
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.336396957116
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADV
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  funeral
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.591672778582
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  funeral
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.591672778582
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  canvass
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.269408680759
+******
+WE GOT MATCH!
+Word =  assaults
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.445064857051
+******
+WE GOT MATCH!
+Word =  present
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  mention
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.938315352233
+Entropy for tagger  EntropyAffixTagger   0.160976574644
+******
+WE GOT MATCH!
+Word =  Human
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.893077414675
+******
+WE GOT MATCH!
+Word =  chemical
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.439496986922
+Entropy for tagger  EntropyAffixTagger   0.211694297144
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  German
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.966618632548
+Entropy for tagger  EntropyAffixTagger   0.893077414675
+******
+WE GOT MATCH!
+Word =  rental
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  calls
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  judge
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.998845535995
+Entropy for tagger  EntropyAffixTagger   0.472882165454
+******
+WE GOT MATCH!
+Word =  judge
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.998845535995
+Entropy for tagger  EntropyAffixTagger   0.472882165454
+******
+WE GOT MATCH!
+Word =  German
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.966618632548
+Entropy for tagger  EntropyAffixTagger   0.893077414675
+******
+WE GOT MATCH!
+Word =  German
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.966618632548
+Entropy for tagger  EntropyAffixTagger   0.893077414675
+******
+WE GOT MATCH!
+Word =  German
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.966618632548
+Entropy for tagger  EntropyAffixTagger   0.893077414675
+******
+WE GOT MATCH!
+Word =  German
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.966618632548
+Entropy for tagger  EntropyAffixTagger   0.893077414675
+******
+WE GOT MATCH!
+Word =  missionary
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.917434761998
+******
+WE GOT MATCH!
+Word =  Place
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.29742881581
+Entropy for tagger  EntropyAffixTagger   0.706748834399
+******
+WE GOT MATCH!
+Word =  Place
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.29742881581
+Entropy for tagger  EntropyAffixTagger   0.706748834399
+******
+WE GOT MATCH!
+Word =  Place
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.29742881581
+Entropy for tagger  EntropyAffixTagger   0.706748834399
+******
+WE GOT MATCH!
+Word =  total
+real tag  VERB
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  cable
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.794375167188
+******
+WE GOT MATCH!
+Word =  yield
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.934068055375
+Entropy for tagger  EntropyAffixTagger   0.511117706474
+******
+WE GOT MATCH!
+Word =  fancy
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.52623490995
+Entropy for tagger  EntropyAffixTagger   0.202118965095
+******
+WE GOT MATCH!
+Word =  yield
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.934068055375
+Entropy for tagger  EntropyAffixTagger   0.511117706474
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  joint
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.888684134531
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  boost
+real tag  VERB
+backoff tag  NOUN
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.748969593814
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  promises
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.881290899231
+Entropy for tagger  EntropyAffixTagger   0.615144609203
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  Japanese
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  DET
+Entropy for tagger  EntropyUnigramTagger   0.684038435639
+Entropy for tagger  EntropyAffixTagger   0.430830114828
+******
+WE GOT MATCH!
+Word =  German
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.966618632548
+Entropy for tagger  EntropyAffixTagger   0.893077414675
+******
+WE GOT MATCH!
+Word =  Chemical
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.211694297144
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  weekly
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   1.22104778518
+Entropy for tagger  EntropyAffixTagger   0.556719160971
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  yield
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.934068055375
+Entropy for tagger  EntropyAffixTagger   0.511117706474
+******
+WE GOT MATCH!
+Word =  starts
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.749595257259
+Entropy for tagger  EntropyAffixTagger   0.415772108697
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  supports
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.970950594455
+Entropy for tagger  EntropyAffixTagger   0.415772108697
+******
+WE GOT MATCH!
+Word =  retail
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.28067212952
+Entropy for tagger  EntropyAffixTagger   0.980620687251
+******
+WE GOT MATCH!
+Word =  calls
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  retail
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.28067212952
+Entropy for tagger  EntropyAffixTagger   0.980620687251
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  total
+real tag  VERB
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  challenges
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.379427324316
+******
+WE GOT MATCH!
+Word =  retail
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.28067212952
+Entropy for tagger  EntropyAffixTagger   0.980620687251
+******
+WE GOT MATCH!
+Word =  notice
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.528189640796
+******
+WE GOT MATCH!
+Word =  wants
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.495969072062
+Entropy for tagger  EntropyAffixTagger   0.355287619685
+******
+WE GOT MATCH!
+Word =  lively
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.779349837292
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  flourishes
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.663726883702
+******
+WE GOT MATCH!
+Word =  notice
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.528189640796
+******
+WE GOT MATCH!
+Word =  Place
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.29742881581
+Entropy for tagger  EntropyAffixTagger   0.706748834399
+******
+WE GOT MATCH!
+Word =  wormy
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   inf
+Entropy for tagger  EntropyAffixTagger   1.0
+******
+WE GOT MATCH!
+Word =  mature
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.791858352567
+Entropy for tagger  EntropyAffixTagger   0.722344967102
+******
+WE GOT MATCH!
+Word =  travel
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.999570839347
+Entropy for tagger  EntropyAffixTagger   0.826082998273
+******
+WE GOT MATCH!
+Word =  mention
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.938315352233
+Entropy for tagger  EntropyAffixTagger   0.160976574644
+******
+WE GOT MATCH!
+Word =  Measure
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.722344967102
+******
+WE GOT MATCH!
+Word =  passes
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.936667381878
+Entropy for tagger  EntropyAffixTagger   0.615144609203
+******
+WE GOT MATCH!
+Word =  Escape
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.935710602652
+******
+WE GOT MATCH!
+Word =  present
+real tag  VERB
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  Presbyterian
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.953586667343
+******
+WE GOT MATCH!
+Word =  Presbyterian
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.953586667343
+******
+WE GOT MATCH!
+Word =  Presbyterian
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.953586667343
+******
+WE GOT MATCH!
+Word =  Place
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.29742881581
+Entropy for tagger  EntropyAffixTagger   0.706748834399
+******
+WE GOT MATCH!
+Word =  Presbyterian
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.953586667343
+******
+WE GOT MATCH!
+Word =  average
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  secure
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.722344967102
+******
+WE GOT MATCH!
+Word =  welcome
+real tag  VERB
+backoff tag  ADJ
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   1.50135792871
+Entropy for tagger  EntropyAffixTagger   1.46308748818
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADV
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  welcome
+real tag  VERB
+backoff tag  ADJ
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   1.50135792871
+Entropy for tagger  EntropyAffixTagger   1.46308748818
+******
+WE GOT MATCH!
+Word =  mature
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.791858352567
+Entropy for tagger  EntropyAffixTagger   0.722344967102
+******
+WE GOT MATCH!
+Word =  judge
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.998845535995
+Entropy for tagger  EntropyAffixTagger   0.472882165454
+******
+WE GOT MATCH!
+Word =  judge
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.998845535995
+Entropy for tagger  EntropyAffixTagger   0.472882165454
+******
+WE GOT MATCH!
+Word =  magic
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.824965868014
+******
+WE GOT MATCH!
+Word =  timely
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.650022421648
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  judge
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.998845535995
+Entropy for tagger  EntropyAffixTagger   0.472882165454
+******
+WE GOT MATCH!
+Word =  totals
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.329842690567
+******
+WE GOT MATCH!
+Word =  total
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  total
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  declines
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.811278124459
+Entropy for tagger  EntropyAffixTagger   0.386387052344
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  mature
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.791858352567
+Entropy for tagger  EntropyAffixTagger   0.722344967102
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  wants
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.495969072062
+Entropy for tagger  EntropyAffixTagger   0.355287619685
+******
+WE GOT MATCH!
+Word =  General
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  average
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  General
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  General
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  criminal
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.996791631982
+Entropy for tagger  EntropyAffixTagger   0.383971813306
+******
+WE GOT MATCH!
+Word =  Human
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.893077414675
+******
+WE GOT MATCH!
+Word =  judge
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.998845535995
+Entropy for tagger  EntropyAffixTagger   0.472882165454
+******
+WE GOT MATCH!
+Word =  travel
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.999570839347
+Entropy for tagger  EntropyAffixTagger   0.826082998273
+******
+WE GOT MATCH!
+Word =  rescue
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.70246655129
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  neutralist
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   1.31866213845
+******
+WE GOT MATCH!
+Word =  Chinese
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  DET
+Entropy for tagger  EntropyUnigramTagger   0.619382194679
+Entropy for tagger  EntropyAffixTagger   0.430830114828
+******
+WE GOT MATCH!
+Word =  Study
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.803430894519
+******
+WE GOT MATCH!
+Word =  judge
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.998845535995
+Entropy for tagger  EntropyAffixTagger   0.472882165454
+******
+WE GOT MATCH!
+Word =  tense
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.979868756651
+Entropy for tagger  EntropyAffixTagger   0.59471065272
+******
+WE GOT MATCH!
+Word =  welcome
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   1.50135792871
+Entropy for tagger  EntropyAffixTagger   1.46308748818
+******
+WE GOT MATCH!
+Word =  wants
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.495969072062
+Entropy for tagger  EntropyAffixTagger   0.355287619685
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADV
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  binding
+real tag  VERB
+backoff tag  NOUN
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   1.48322619697
+Entropy for tagger  EntropyAffixTagger   1.21041465641
+******
+WE GOT MATCH!
+Word =  joint
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.888684134531
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  promises
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.881290899231
+Entropy for tagger  EntropyAffixTagger   0.615144609203
+******
+WE GOT MATCH!
+Word =  champions
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.0675662650547
+******
+WE GOT MATCH!
+Word =  champions
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.0675662650547
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  grumble
+real tag  VERB
+backoff tag  VERB
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.794375167188
+******
+WE GOT MATCH!
+Word =  lively
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.779349837292
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  lively
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.779349837292
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  assaults
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.445064857051
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  sandwich
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  DET
+Entropy for tagger  EntropyUnigramTagger   0.881290899231
+Entropy for tagger  EntropyAffixTagger   0.149287980359
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  General
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  German
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.966618632548
+Entropy for tagger  EntropyAffixTagger   0.893077414675
+******
+WE GOT MATCH!
+Word =  first-class
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.811278124459
+Entropy for tagger  EntropyAffixTagger   0.269408680759
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  mention
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.938315352233
+Entropy for tagger  EntropyAffixTagger   0.160976574644
+******
+WE GOT MATCH!
+Word =  lively
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.779349837292
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  picks
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.456761278138
+******
+WE GOT MATCH!
+Word =  Chinese
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  DET
+Entropy for tagger  EntropyUnigramTagger   0.619382194679
+Entropy for tagger  EntropyAffixTagger   0.430830114828
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  finance
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.958711882977
+Entropy for tagger  EntropyAffixTagger   0.812565766598
+******
+WE GOT MATCH!
+Word =  grumble
+real tag  VERB
+backoff tag  VERB
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.794375167188
+******
+WE GOT MATCH!
+Word =  monthly
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.696212260125
+Entropy for tagger  EntropyAffixTagger   0.497896454312
+******
+WE GOT MATCH!
+Word =  boost
+real tag  VERB
+backoff tag  NOUN
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.748969593814
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  declines
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.811278124459
+Entropy for tagger  EntropyAffixTagger   0.386387052344
+******
+WE GOT MATCH!
+Word =  yield
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.934068055375
+Entropy for tagger  EntropyAffixTagger   0.511117706474
+******
+WE GOT MATCH!
+Word =  yield
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.934068055375
+Entropy for tagger  EntropyAffixTagger   0.511117706474
+******
+WE GOT MATCH!
+Word =  yield
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.934068055375
+Entropy for tagger  EntropyAffixTagger   0.511117706474
+******
+WE GOT MATCH!
+Word =  Japanese
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  DET
+Entropy for tagger  EntropyUnigramTagger   0.684038435639
+Entropy for tagger  EntropyAffixTagger   0.430830114828
+******
+WE GOT MATCH!
+Word =  capture
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.722344967102
+******
+WE GOT MATCH!
+Word =  wants
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.495969072062
+Entropy for tagger  EntropyAffixTagger   0.355287619685
+******
+WE GOT MATCH!
+Word =  wants
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.495969072062
+Entropy for tagger  EntropyAffixTagger   0.355287619685
+******
+WE GOT MATCH!
+Word =  wants
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.495969072062
+Entropy for tagger  EntropyAffixTagger   0.355287619685
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADV
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  passes
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.936667381878
+Entropy for tagger  EntropyAffixTagger   0.615144609203
+******
+WE GOT MATCH!
+Word =  sponsor
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.273769168683
+******
+WE GOT MATCH!
+Word =  monthly
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.696212260125
+Entropy for tagger  EntropyAffixTagger   0.497896454312
+******
+WE GOT MATCH!
+Word =  total
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  finance
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.958711882977
+Entropy for tagger  EntropyAffixTagger   0.812565766598
+******
+WE GOT MATCH!
+Word =  token
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   0.811278124459
+Entropy for tagger  EntropyAffixTagger   0.760588483317
+******
+WE GOT MATCH!
+Word =  boost
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.748969593814
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  boost
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.748969593814
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  joint
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.888684134531
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  German
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.966618632548
+Entropy for tagger  EntropyAffixTagger   0.893077414675
+******
+WE GOT MATCH!
+Word =  German
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.966618632548
+Entropy for tagger  EntropyAffixTagger   0.893077414675
+******
+WE GOT MATCH!
+Word =  feeds
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.985228136034
+Entropy for tagger  EntropyAffixTagger   0.841775972291
+******
+WE GOT MATCH!
+Word =  German
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.966618632548
+Entropy for tagger  EntropyAffixTagger   0.893077414675
+******
+WE GOT MATCH!
+Word =  General
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  binding
+real tag  VERB
+backoff tag  NOUN
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   1.48322619697
+Entropy for tagger  EntropyAffixTagger   1.21041465641
+******
+WE GOT MATCH!
+Word =  calls
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  Australian
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.954434002925
+Entropy for tagger  EntropyAffixTagger   0.953586667343
+******
+WE GOT MATCH!
+Word =  sponsors
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.970950594455
+Entropy for tagger  EntropyAffixTagger   0.257441908636
+******
+WE GOT MATCH!
+Word =  flourishes
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.663726883702
+******
+WE GOT MATCH!
+Word =  partisan
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.811278124459
+Entropy for tagger  EntropyAffixTagger   0.643261834398
+******
+WE GOT MATCH!
+Word =  partisan
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.811278124459
+Entropy for tagger  EntropyAffixTagger   0.643261834398
+******
+WE GOT MATCH!
+Word =  sanction
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.160976574644
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  grumble
+real tag  VERB
+backoff tag  VERB
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.794375167188
+******
+WE GOT MATCH!
+Word =  knock
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.845350936622
+Entropy for tagger  EntropyAffixTagger   0.774692903908
+******
+WE GOT MATCH!
+Word =  drink
+real tag  VERB
+backoff tag  NOUN
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   0.863120568567
+Entropy for tagger  EntropyAffixTagger   0.684428136084
+******
+WE GOT MATCH!
+Word =  finance
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.958711882977
+Entropy for tagger  EntropyAffixTagger   0.812565766598
+******
+WE GOT MATCH!
+Word =  calls
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  yield
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.934068055375
+Entropy for tagger  EntropyAffixTagger   0.511117706474
+******
+WE GOT MATCH!
+Word =  guarantees
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.970950594455
+Entropy for tagger  EntropyAffixTagger   0.345603313731
+******
+WE GOT MATCH!
+Word =  supports
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.970950594455
+Entropy for tagger  EntropyAffixTagger   0.415772108697
+******
+WE GOT MATCH!
+Word =  starts
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.749595257259
+Entropy for tagger  EntropyAffixTagger   0.415772108697
+******
+WE GOT MATCH!
+Word =  retail
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.28067212952
+Entropy for tagger  EntropyAffixTagger   0.980620687251
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADV
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  retail
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.28067212952
+Entropy for tagger  EntropyAffixTagger   0.980620687251
+******
+WE GOT MATCH!
+Word =  boost
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.748969593814
+******
+WE GOT MATCH!
+Word =  magic
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.824965868014
+******
+WE GOT MATCH!
+Word =  average
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.16695272402
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  presents
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.899743758698
+Entropy for tagger  EntropyAffixTagger   0.355287619685
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  total
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  timely
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.650022421648
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  salvage
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.72198271239
+******
+WE GOT MATCH!
+Word =  partisan
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.811278124459
+Entropy for tagger  EntropyAffixTagger   0.643261834398
+******
+WE GOT MATCH!
+Word =  partisan
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.811278124459
+Entropy for tagger  EntropyAffixTagger   0.643261834398
+******
+WE GOT MATCH!
+Word =  ridicule
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.811278124459
+Entropy for tagger  EntropyAffixTagger   0.377646321374
+******
+WE GOT MATCH!
+Word =  welcome
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   1.50135792871
+Entropy for tagger  EntropyAffixTagger   1.46308748818
+******
+WE GOT MATCH!
+Word =  travel
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.999570839347
+Entropy for tagger  EntropyAffixTagger   0.826082998273
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  General
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   0.92914770257
+Entropy for tagger  EntropyAffixTagger   0.52233657263
+******
+WE GOT MATCH!
+Word =  magic
+real tag  NOUN
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.824965868014
+******
+WE GOT MATCH!
+Word =  leases
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.615144609203
+******
+WE GOT MATCH!
+Word =  promises
+real tag  NOUN
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.881290899231
+Entropy for tagger  EntropyAffixTagger   0.615144609203
+******
+WE GOT MATCH!
+Word =  calls
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.968607755591
+Entropy for tagger  EntropyAffixTagger   0.769112257683
+******
+WE GOT MATCH!
+Word =  token
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   0.811278124459
+Entropy for tagger  EntropyAffixTagger   0.760588483317
+******
+WE GOT MATCH!
+Word =  token
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   0.811278124459
+Entropy for tagger  EntropyAffixTagger   0.760588483317
+******
+WE GOT MATCH!
+Word =  secure
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.722344967102
+******
+WE GOT MATCH!
+Word =  wants
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.495969072062
+Entropy for tagger  EntropyAffixTagger   0.355287619685
+******
+WE GOT MATCH!
+Word =  welcome
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  VERB
+Entropy for tagger  EntropyUnigramTagger   1.50135792871
+Entropy for tagger  EntropyAffixTagger   1.46308748818
+******
+WE GOT MATCH!
+Word =  retail
+real tag  NOUN
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.28067212952
+Entropy for tagger  EntropyAffixTagger   0.980620687251
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADV
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  bounce
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.812565766598
+******
+WE GOT MATCH!
+Word =  bounce
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.918295834054
+Entropy for tagger  EntropyAffixTagger   0.812565766598
+******
+WE GOT MATCH!
+Word =  treats
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.684038435639
+Entropy for tagger  EntropyAffixTagger   0.470868487497
+******
+WE GOT MATCH!
+Word =  total
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.09181098463
+Entropy for tagger  EntropyAffixTagger   1.01011361665
+******
+WE GOT MATCH!
+Word =  wants
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.495969072062
+Entropy for tagger  EntropyAffixTagger   0.355287619685
+******
+WE GOT MATCH!
+Word =  treats
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.684038435639
+Entropy for tagger  EntropyAffixTagger   0.470868487497
+******
+WE GOT MATCH!
+Word =  wants
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   0.495969072062
+Entropy for tagger  EntropyAffixTagger   0.355287619685
+******
+WE GOT MATCH!
+Word =  notice
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.528189640796
+******
+WE GOT MATCH!
+Word =  pushes
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.663726883702
+******
+WE GOT MATCH!
+Word =  magic
+real tag  ADJ
+backoff tag  NOUN
+entropy tag  ADJ
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.824965868014
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+WE GOT MATCH!
+Word =  likely
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  ADV
+Entropy for tagger  EntropyUnigramTagger   0.620918135891
+Entropy for tagger  EntropyAffixTagger   0.58645606187
+******
+WE GOT MATCH!
+Word =  paint
+real tag  VERB
+backoff tag  VERB
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.0
+Entropy for tagger  EntropyAffixTagger   0.888684134531
+******
+WE GOT MATCH!
+Word =  Chinese
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  DET
+Entropy for tagger  EntropyUnigramTagger   0.619382194679
+Entropy for tagger  EntropyAffixTagger   0.430830114828
+******
+WE GOT MATCH!
+Word =  present
+real tag  ADJ
+backoff tag  ADJ
+entropy tag  NOUN
+Entropy for tagger  EntropyUnigramTagger   1.69564637132
+Entropy for tagger  EntropyAffixTagger   1.1575340452
+******
+
+Process finished with exit code 0
