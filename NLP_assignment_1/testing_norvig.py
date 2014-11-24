@@ -24,7 +24,7 @@ def accuracy_of_segment2_hebrew(segment_func, sents):
 
     for sent in sents:
         formatted_words = segment2_format(sent)
-        print 'printing original sentences'
+        # print 'printing original sentences'
         # for f in formatted_words:
         #     print f,
         print '\n---------------------'
