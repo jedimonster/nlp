@@ -7,7 +7,6 @@ from BguCorpusReader import BguCorpusReader
 c = BguCorpusReader()
 tagged_words = c.tagged_words()
 
-
 #Note: This dict is handmade using Meni Adler's api.
 ALL_PREFIXES = [u'ה', u'ב', u'כ', u'ל', u'מ', u'מכש' u'מב', u'בכש',  u'ו', u'כש',u'מש', u'לכש', u'ש']
 PREFIXES = {
@@ -91,20 +90,26 @@ def segment2_hebrew(sents_no_spaces):
 
     return output
 
-all_sents = []
-sent = []
-for w, t in tagged_words:
-        # sent += getWords(w, t)
-        sent.append(w)
-        if len(sent) >= 30:
-            all_sents.append(sent)
-            sent = []
+def get_hebrew_sentences(tagged_words, how_much):
+    all_sents = []
+    sent = []
+    if how_much:
+        tagged_words = tagged_words[:how_much]
 
-print 'Calculating Accuracy *without* aggregation..'
-accuracy_of_segment2(wordSegment_hebrew.segment2, all_sents[:100])
+    for w, t in tagged_words:
+            # sent += getWords(w, t)
+            sent.append(w)
+            if len(sent) >= 30:
+                all_sents.append(sent)
+                sent = []
 
-print 'Calculating Accuracy *with* aggregation..'
-accuracy_of_segment2_hebrew(segment2_hebrew, all_sents[:100])
+    return all_sents
+
+# print 'Calculating Accuracy *without* aggregation..'
+# accuracy_of_segment2(wordSegment_hebrew.segment2, get_hebrew_sentences(tagged_words, 100))
+
+# print 'Calculating Accuracy *with* aggregation..'
+# accuracy_of_segment2_hebrew(segment2_hebrew, get_hebrew_sentences(tagged_words, 100))
 
 """
 Answer:
@@ -114,5 +119,3 @@ Accuracy of segment2(): 0.52121271246210821
 Calculating Accuracy *with* aggregation..
 Accuracy of segment2(): 0.73326348833278887
 """
-
-
