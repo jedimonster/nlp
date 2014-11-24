@@ -22,7 +22,6 @@ for k in PREFIXES:
     PREFIXES[k].sort(key=len, reverse=True)
 
 def getWords(word, tag):
-
     prefix_tags = tag.getBguTag()[0]
     word_index = 0
     result = [] # (prefix_index, prefix len)
@@ -43,7 +42,7 @@ def getWords(word, tag):
         for prefix in possible_prefixes:
             if word[word_index:].startswith(prefix):
                 # print 'FOUND!!'
-                result.append(word[word_index:len(prefix)])
+                result.append(word[word_index:word_index + len(prefix)])
                 word_index += len(prefix)
                 # print prefix
                 break
@@ -72,7 +71,6 @@ def build_hebrew_models(tagged_words):
 
 import wordSegment_hebrew
 from testing_norvig import accuracy_of_segment2_hebrew
-print 'Calculating Accuracy of hebrew model...'
 
 
 def segment2_hebrew(sents_no_spaces):
@@ -105,17 +103,27 @@ def get_hebrew_sentences(tagged_words, how_much):
 
     return all_sents
 
-# print 'Calculating Accuracy *without* aggregation..'
-# accuracy_of_segment2(wordSegment_hebrew.segment2, get_hebrew_sentences(tagged_words, 100))
+if __name__== '__main__':
 
-# print 'Calculating Accuracy *with* aggregation..'
-# accuracy_of_segment2_hebrew(segment2_hebrew, get_hebrew_sentences(tagged_words, 100))
+    # for w,t in tagged_words[:100]:
+    #     split = getWords(w,t)
+    #     if len(split) > 1:
+    #         print w, ' == ',
+    #         for x in getWords(w,t):
+    #             print x,
+    #         print '\n-----------'
 
-"""
-Answer:
-Calculating Accuracy *without* aggregation..
-Accuracy of segment2(): 0.52121271246210821
+    print 'Calculating Accuracy *without* aggregation..'
+    accuracy_of_segment2(wordSegment_hebrew.segment2, get_hebrew_sentences(tagged_words, 100))
 
-Calculating Accuracy *with* aggregation..
-Accuracy of segment2(): 0.73326348833278887
-"""
+    print 'Calculating Accuracy *with* aggregation..'
+    accuracy_of_segment2_hebrew(segment2_hebrew, get_hebrew_sentences(tagged_words, 150))
+
+    """
+    Answer:
+    Calculating Accuracy *without* aggregation..
+    Accuracy of segment2(): 0.52121271246210821
+
+    Calculating Accuracy *with* aggregation..
+    Accuracy of segment2(): 0.73326348833278887
+    """

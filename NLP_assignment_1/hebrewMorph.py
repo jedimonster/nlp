@@ -76,7 +76,7 @@ if __name__ == '__main__':
     analysis = do_post(u"במשק".encode("utf-8"))
     print analysis
 
-    analysis = do_post(u"בבית".encode("utf-8"))
+    analysis = do_post(u"שהרפורמה".encode("utf-8"))
     print analysis
 
 PREFIXES = {

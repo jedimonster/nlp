@@ -24,14 +24,15 @@ def accuracy_of_segment2_hebrew(segment_func, sents):
 
     for sent in sents:
         formatted_words = segment2_format(sent)
-        # print 'printing original sentences'
+        print 'printing original sentences'
         # for f in formatted_words:
-        #     print f
-        # print '---------------------'
+        #     print f,
+        print '\n---------------------'
         segment2_words = segment_func(''.join(formatted_words))
 
         # for s in segment2_words:
-        #     print s
+        #     print s,
+        # print '\n=============='
         accuracy = difflib.SequenceMatcher(None, formatted_words, segment2_words).ratio()
         # print accuracy
         ratios.append(accuracy)
@@ -45,12 +46,12 @@ def accuracy_of_segment2(segment_func, sents):
     for sent in sents:
         formatted_words = segment2_format(sent)
         # for f in formatted_words:
-        #     print f
+        #     print f,
         # print '---------------------'
         segment2_words = segment_func(''.join(formatted_words))[1]
 
         # for s in segment2_words:
-        #     print s
+        #     print s,
         accuracy = difflib.SequenceMatcher(None, formatted_words, segment2_words).ratio()
         # print accuracy
         ratios.append(accuracy)
