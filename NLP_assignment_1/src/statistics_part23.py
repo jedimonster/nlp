@@ -59,7 +59,7 @@ class SimpleUnigramTagger(TaggerI):
             if word not in self.distinct_nones:
                 self.distinct_nones.append(word)
             return word, None
-        if self.entropy(self.freq[word]) > 0.69:
+        if self.entropy(self.freq[word]) > 1:
             if word not in self.distinct_bad_entropy:
                 self.distinct_bad_entropy.append(word)
             self.bad_entropy_count += 1

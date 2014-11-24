@@ -78,7 +78,7 @@ class EntropyAffixTagger(AffixTagger):
             dist = fd[affix]
             if self.entropy(dist) <= cutoff:
                 self._context_to_tag[affix] = fd[affix].max()
-                print affix
+                # print affix
             else:
                 # print "NOT ADDING!!! ", self.entropy(dist), "  ", cutoff, "  ", self._calc_distribution_of_suffix(dist)
                 pass
@@ -147,7 +147,7 @@ def get_statistics_per_tag(corpus_test, tagger):
 
 if __name__ == "__main__":
     # split the brown corpus to test, dev, and test set
-    all_words = corpus.brown.tagged_sents()
+    all_words = corpus.brown.tagged_sents(tagset="universal")
     print get_all_tags(all_words)
     ds_length = len(all_words)
     train = all_words[int(0.2 * ds_length):]
