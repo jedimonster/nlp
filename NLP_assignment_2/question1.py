@@ -34,16 +34,16 @@ def generateDataset(N, f, sigma):
     return x_array, t_array, real_y
 
 def generateDataset3(N, f, sigma):
-    x_array = np.linspace(0.0, 1.0, num=N)
-    norm_array = np.random.normal(scale=sigma, size=N)
+    x_array = np.linspace(0.0, 1.0, num=3*N)
+    norm_array = np.random.normal(scale=sigma, size=3*N)
     real_y = f(x_array)
     t_array = f(x_array) + norm_array
     x_t_y = zip(x_array, t_array, real_y)
     np.random.shuffle(x_t_y)
     # train 60% test 20% c-v 20%
-    train = x_t_y[0:int(N*0.6)]
-    c_v = x_t_y[int(N*0.6):int(N*0.8)]
-    test = x_t_y[int(N*0.8):]
+    train = x_t_y[0:N]
+    c_v = x_t_y[N:2*N]
+    test = x_t_y[2*N:]
     x, t, y = [list(g) for g in zip(*x_t_y)]
     train = [list(g) for g in zip(*train)]
     c_v = [list(g) for g in zip(*c_v)]
@@ -92,6 +92,50 @@ def optimizePLS(x, t, M, lamb):
     w = np.dot(m, t)
     return w
 
+
+def calculate_error(x_vector, t_vector, w_vector):
+    N = len(x_vector)
+    res = []
+    learned_polynomial = get_learned_polynomial(w_vector, x_vector)
+    for l, t in zip(learned_polynomial, t_vector):
+        res.append((t - l)**2)
+    res = sum(res)
+    res = math.sqrt(res)
+    res = float(res)/float(N)
+    return res
+
+
+def optimizePLS2(xt, tt, xv, tv, M):
+    best_w_vector = None
+    best_lambda = None
+    best_error = None
+    errors = []
+    train_erros = []
+    log_lambda_range = np.linspace(5, -40, num=100)
+    for lam in log_lambda_range:
+        w_vector = optimizePLS(xt, tt, M, math.e**lam)
+        terr= calculate_error(xt, tt, w_vector)
+        err = calculate_error(xv, tv, w_vector)
+        errors.append(err)
+        train_erros.append(terr)
+        if best_lambda is None:
+            best_w_vector = w_vector
+            best_lambda = lam
+            best_error = err
+        else:
+            if err < best_error:
+                best_w_vector = w_vector
+                best_lambda = lam
+                best_error = err
+    print "best:"
+    print best_error
+    print best_lambda
+    print best_w_vector
+    plot_data(log_lambda_range, errors)
+    return best_w_vector, errors
+
+
+
 def get_learned_polynomial(w_vector, x_vector):
     res = []
     w_pol = zip(w_vector, range(len(w_vector)+1))
@@ -128,5 +172,10 @@ if __name__ == "__main__":
     # plot_data(x_vector, learned_polynomial, real_vector)
     train, c_v, test = generateDataset3(10, vectorised_method, 0.01)
     #sanity check
-    #plot_data(train[0]+c_v[0]+test[0], train[1]+c_v[1]+test[1], train[2]+c_v[2]+test[2])
-    
+    # plot_data(train[0], train[1]+c_v[1]+test[1], train[2]+c_v[2]+test[2])
+    best_w_vector, errors = optimizePLS2(train[0], train[1], c_v[0], c_v[1], 5)
+    pol_fitting = get_learned_polynomial(best_w_vector, x_vector)
+    print calculate_error(test[0], test[1], best_w_vector)
+    plot_data(x_vector, pol_fitting, real_vector)
+
+    # plot_data(x_vector, pol_fitting)
