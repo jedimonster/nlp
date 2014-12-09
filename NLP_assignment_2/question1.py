@@ -8,16 +8,28 @@ import scipy.linalg
 
 def plot_data(x, y, z=None):
     """
-    Simple demo of a scatter plot.
+    plot data
     """
     import matplotlib.pyplot as plt
+
     plt.title("Data visualization")
 
-    plt.scatter(x, y, c='red',  alpha=0.5)
+    plt.scatter(x, y, c='red', alpha=0.5)
     if z is not None:
         plt.scatter(x, z, alpha=0.5, c='blue', marker='*')
     plt.show()
-    
+
+
+def plot_function(x, y, method, x_points, t_points):
+    import matplotlib.pyplot as plt
+    real_vector = method(x)
+    plt.title("Data visualization")
+    a = plt.scatter(x_points, t_points, c='green', alpha=0.5, label='Ponits with noise')
+    b = plt.plot(x, y, c='red', label='Learned polynom')
+    c = plt.plot(x, real_vector, c='blue', label='Original polynom')
+    plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
+    plt.show()
+
 
 def generateDataset(N, f, sigma):
     """
@@ -30,20 +42,21 @@ def generateDataset(N, f, sigma):
     norm_array = np.random.normal(scale=sigma, size=N)
     real_y = f(x_array)
     t_array = f(x_array) + norm_array
-    #plot_data(x_array, t_array, real_y)
+    # plot_data(x_array, t_array, real_y)
     return x_array, t_array, real_y
 
+
 def generateDataset3(N, f, sigma):
-    x_array = np.linspace(0.0, 1.0, num=3*N)
-    norm_array = np.random.normal(scale=sigma, size=3*N)
+    x_array = np.linspace(0.0, 1.0, num=3 * N)
+    norm_array = np.random.normal(scale=sigma, size=3 * N)
     real_y = f(x_array)
     t_array = f(x_array) + norm_array
     x_t_y = zip(x_array, t_array, real_y)
     np.random.shuffle(x_t_y)
     # train 60% test 20% c-v 20%
     train = x_t_y[0:N]
-    c_v = x_t_y[N:2*N]
-    test = x_t_y[2*N:]
+    c_v = x_t_y[N:2 * N]
+    test = x_t_y[2 * N:]
     x, t, y = [list(g) for g in zip(*x_t_y)]
     train = [list(g) for g in zip(*train)]
     c_v = [list(g) for g in zip(*c_v)]
@@ -60,7 +73,7 @@ def generateDataset3(N, f, sigma):
 
 
 def create_row(x, M):
-    return [x**m for m in xrange(0, M+1)]
+    return [x ** m for m in xrange(0, M + 1)]
 
 
 def create_phi(x_vector, M):
@@ -86,7 +99,7 @@ def OptimizeLS(x, t, M):
 def optimizePLS(x, t, M, lamb):
     phi = create_phi(x, M)
     prod = np.dot(phi.T, phi)
-    prod_l = prod + lamb*np.eye(prod.shape[0])
+    prod_l = prod + lamb * np.eye(prod.shape[0])
     i = np.linalg.inv(prod_l)
     m = np.dot(i, phi.T)
     w = np.dot(m, t)
@@ -98,10 +111,10 @@ def calculate_error(x_vector, t_vector, w_vector):
     res = []
     learned_polynomial = get_learned_polynomial(w_vector, x_vector)
     for l, t in zip(learned_polynomial, t_vector):
-        res.append((t - l)**2)
+        res.append((t - l) ** 2)
     res = sum(res)
     res = math.sqrt(res)
-    res = float(res)/float(N)
+    res = float(res) / float(N)
     return res
 
 
@@ -113,8 +126,8 @@ def optimizePLS2(xt, tt, xv, tv, M):
     train_erros = []
     log_lambda_range = np.linspace(5, -40, num=100)
     for lam in log_lambda_range:
-        w_vector = optimizePLS(xt, tt, M, math.e**lam)
-        terr= calculate_error(xt, tt, w_vector)
+        w_vector = optimizePLS(xt, tt, M, math.e ** lam)
+        terr = calculate_error(xt, tt, w_vector)
         err = calculate_error(xv, tv, w_vector)
         errors.append(err)
         train_erros.append(terr)
@@ -135,33 +148,39 @@ def optimizePLS2(xt, tt, xv, tv, M):
     return best_w_vector, errors
 
 
-
 def get_learned_polynomial(w_vector, x_vector):
     res = []
-    w_pol = zip(w_vector, range(len(w_vector)+1))
+    w_pol = zip(w_vector, range(len(w_vector) + 1))
     for x in x_vector:
         new_point = []
-        new_point = [w*x**i for w, i in w_pol]
+        new_point = [w * x ** i for w, i in w_pol]
         res.append(sum(new_point))
     return res
 
 
 if __name__ == "__main__":
     # Q1.1
-    method = lambda x: math.sin(2*math.pi*x)
+    method = lambda x: math.sin(2 * math.pi * x)
     vectorised_method = np.vectorize(method)
-    x_vector, t_vector, real_vector = generateDataset(10, vectorised_method, 0.01)
+    x_vector, t_vector, real_vector = generateDataset(10, vectorised_method, 0.1)
     # plot_data(x_vector, t_vector)
     # End of Q1.1
     # ##########################
-    #Q1.2
+    # Q1.2
     # phi = create_phi(x_vector, 10)
     # print phi.shape
-    # w_vector = OptimizeLS(x_vector, t_vector, 1)
+    w_vector = OptimizeLS(x_vector, t_vector, 1)
+    x_range = np.arange(0.0, 1.0, 0.005)
+    x_range = np.linspace(0.0,1.0,100000)
+    print "g ", len(x_range)
+    learned_polynomial = get_learned_polynomial(w_vector, x_range)
+    # plot_function(x_range, learned_polynomial)
     # w_vector = OptimizeLS(x_vector, t_vector, 3)
     # w_vector = OptimizeLS(x_vector, t_vector, 5)
     w_vector = OptimizeLS(x_vector, t_vector, 9)
-
+    print w_vector
+    learned_polynomial = get_learned_polynomial(w_vector, x_range)
+    plot_function(x_range, learned_polynomial, vectorised_method, x_vector, t_vector)
     learned_polynomial = get_learned_polynomial(w_vector, x_vector)
     # plot_data(x_vector, learned_polynomial, real_vector)
     # END of Q1.2
