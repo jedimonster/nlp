@@ -22,6 +22,7 @@ def plot_data(x, y, z=None):
 
 def plot_function(x, y, method, x_points, t_points):
     import matplotlib.pyplot as plt
+
     real_vector = method(x)
     plt.title("Data visualization")
     a = plt.scatter(x_points, t_points, c='green', alpha=0.5, label='Ponits with noise')
@@ -98,8 +99,8 @@ def OptimizeLS(x, t, M):
 
 def optimizePLS(x, t, M, lamb):
     phi = create_phi(x, M)
-    prod = np.dot(phi.T, phi)
-    prod_l = prod + lamb * np.eye(prod.shape[0])
+    phi_phiT = np.dot(phi.T, phi)
+    prod_l = phi_phiT + lamb * np.eye(phi_phiT.shape[0])  # (phi*phiT+lambda*I)
     i = np.linalg.inv(prod_l)
     m = np.dot(i, phi.T)
     w = np.dot(m, t)
@@ -124,22 +125,19 @@ def optimizePLS2(xt, tt, xv, tv, M):
     best_error = None
     errors = []
     train_erros = []
-    log_lambda_range = np.linspace(5, -40, num=100)
-    for lam in log_lambda_range:
-        w_vector = optimizePLS(xt, tt, M, math.e ** lam)
+    log_lambda_range = np.linspace(-20, -40, num=100)
+    for lambda_exponent in log_lambda_range:
+        w_vector = optimizePLS(xt, tt, M, math.e ** lambda_exponent)
         terr = calculate_error(xt, tt, w_vector)
         err = calculate_error(xv, tv, w_vector)
         errors.append(err)
         train_erros.append(terr)
-        if best_lambda is None:
+
+        if best_lambda is None or err < best_error:
             best_w_vector = w_vector
-            best_lambda = lam
+            best_lambda = lambda_exponent
             best_error = err
-        else:
-            if err < best_error:
-                best_w_vector = w_vector
-                best_lambda = lam
-                best_error = err
+
     print "best:"
     print best_error
     print best_lambda
@@ -159,42 +157,43 @@ def get_learned_polynomial(w_vector, x_vector):
 
 
 if __name__ == "__main__":
-    # Q1.1
+    # # Q1.1
     method = lambda x: math.sin(2 * math.pi * x)
     vectorised_method = np.vectorize(method)
-    x_vector, t_vector, real_vector = generateDataset(10, vectorised_method, 0.1)
-    # plot_data(x_vector, t_vector)
-    # End of Q1.1
-    # ##########################
-    # Q1.2
-    # phi = create_phi(x_vector, 10)
-    # print phi.shape
-    w_vector = OptimizeLS(x_vector, t_vector, 1)
-    x_range = np.arange(0.0, 1.0, 0.005)
-    x_range = np.linspace(0.0,1.0,100000)
-    print "g ", len(x_range)
-    learned_polynomial = get_learned_polynomial(w_vector, x_range)
-    # plot_function(x_range, learned_polynomial)
-    # w_vector = OptimizeLS(x_vector, t_vector, 3)
-    # w_vector = OptimizeLS(x_vector, t_vector, 5)
-    w_vector = OptimizeLS(x_vector, t_vector, 9)
-    print w_vector
-    learned_polynomial = get_learned_polynomial(w_vector, x_range)
-    plot_function(x_range, learned_polynomial, vectorised_method, x_vector, t_vector)
-    learned_polynomial = get_learned_polynomial(w_vector, x_vector)
-    # plot_data(x_vector, learned_polynomial, real_vector)
-    # END of Q1.2
-    # ##########################
-    # Q1.3
-    w_vector2 = optimizePLS(x_vector, t_vector, 5, 0.01)
-    learned_polynomial = get_learned_polynomial(w_vector2, x_vector)
+    # x_vector, t_vector, real_vector = generateDataset(10, vectorised_method, 0.1)
+    # # plot_data(x_vector, t_vector)
+    # # End of Q1.1
+    # # ##########################
+    # # Q1.2
+    # # phi = create_phi(x_vector, 10)
+    # # print phi.shape
+    # w_vector = OptimizeLS(x_vector, t_vector, 1)
+    # x_range = np.arange(0.0, 1.0, 0.005)
+    # x_range = np.linspace(0.0, 1.0, 100000)
+    # print "g ", len(x_range)
+    # learned_polynomial = get_learned_polynomial(w_vector, x_range)
+    # # plot_function(x_range, learned_polynomial)
+    # # w_vector = OptimizeLS(x_vector, t_vector, 3)
+    # # w_vector = OptimizeLS(x_vector, t_vector, 5)
+    # w_vector = OptimizeLS(x_vector, t_vector, 9)
+    # print w_vector
+    # learned_polynomial = get_learned_polynomial(w_vector, x_range)
+    # plot_function(x_range, learned_polynomial, vectorised_method, x_vector, t_vector)
+    # learned_polynomial = get_learned_polynomial(w_vector, x_vector)
+    # # plot_data(x_vector, learned_polynomial, real_vector)
+    # # END of Q1.2
+    # # ##########################
+    # # Q1.3
+    # w_vector2 = optimizePLS(x_vector, t_vector, 5, 0.01)
+    # learned_polynomial = get_learned_polynomial(w_vector2, x_vector)
     # plot_data(x_vector, learned_polynomial, real_vector)
     train, c_v, test = generateDataset3(10, vectorised_method, 0.01)
-    #sanity check
+    # sanity check
     # plot_data(train[0], train[1]+c_v[1]+test[1], train[2]+c_v[2]+test[2])
     best_w_vector, errors = optimizePLS2(train[0], train[1], c_v[0], c_v[1], 5)
-    pol_fitting = get_learned_polynomial(best_w_vector, x_vector)
-    print calculate_error(test[0], test[1], best_w_vector)
-    plot_data(x_vector, pol_fitting, real_vector)
+
+    # pol_fitting = get_learned_polynomial(best_w_vector, x_vector)
+    # print calculate_error(test[0], test[1], best_w_vector)
+    # plot_data(x_vector, pol_fitting, real_vector)
 
     # plot_data(x_vector, pol_fitting)
