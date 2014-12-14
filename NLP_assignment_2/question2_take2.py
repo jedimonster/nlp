@@ -157,7 +157,7 @@ if __name__ == "__main__":
                   ({"a": 1, "b": 4, "c": 3}, "spam")]
     test_data = [{"a": 3, "b": 2, "c": 1},
                  {"a": 0, "b": 3, "c": 7}]
-    from sklearn.svm import SVC
+    from sklearn.svm import SVC, LinearSVC
     classif = SklearnClassifier(SVC(), sparse=False).train(train_data)
     print classif.classify_many(test_data)
     # print get_classes(['esp.train', 'esp.testa', 'esp.testb'])
@@ -180,7 +180,7 @@ if __name__ == "__main__":
         for tagged_word in sent:
             test.append(feature_extraction(tagged_word))
     for c in c_range:
-        classif = SklearnClassifier(SVC(verbose=False, C=0.5), sparse=False).train(train_data[0:10000])
+        classif = SklearnClassifier(LinearSVC(verbose=False, C=0.5), sparse=False).train(train_data[0:10000])
 
         alg_res = classif.classify_many(test[0:10000])
         #print alg_res

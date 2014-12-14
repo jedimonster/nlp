@@ -3,10 +3,10 @@ Question 2
 """
 import string
 from nltk.corpus import conll2002
+import numpy as np
 import collections
 from nltk.chunk.util import tree2conlltags
 # tree2conlltags(chuncked_sents) => (word,pos, iob)
-
 
 
 def word_feature(tagged_word):
@@ -35,8 +35,27 @@ def capitalized(tagged_word):
 def all_capitals(tagged_word):
     return all([x.isupper() for x in tagged_word[0]])
 
-ORT_methods = [is_number, is_contains_digit, contains_hyphen, punctuation, capitalized, all_capitals]
 
+def URL(tagged_word):
+    return "//" in tagged_word[0]
+
+def few_upper(tagged_word):
+    res = [x for x in tagged_word[0] if x.isupper()]
+    return len(res) > 1
+
+# Additional features
+
+
+
+ORT_methods = [is_number, is_contains_digit, contains_hyphen, punctuation, capitalized, all_capitals, URL, few_upper]
+undefined_features = {"pref1", "pref2", "pref3", "suf1", "suf2", "suf3", "undefined_pos", "regular_feature",
+                      "undefined_word",  'first_word', 'last_word', 'not_first_word'}
+
+def is_regular(tagged_word):
+    for method in ORT_methods:
+        if method(tagged_word):
+            return False
+    return True
 
 def get_classes(categories):
     """
@@ -65,15 +84,17 @@ def feature_creator(data):
     :param data:
     :return: vector of all features in data
     """
-    all_features = {'number', 'contains-digit', 'contains-hyphen', 'capitalized', 'all-capitals',
-                    'URL', 'punctuation', 'regular'}
+    all_features = undefined_features
+    for method in ORT_methods:
+        all_features.add(method.__name__)
+
     for sent in data:
         for tagged_word in sent:
             word = tagged_word[0]
             all_features.add(word)
             pos = tagged_word[1]
             all_features.add(pos)
-            suf1= tagged_word[0][-1]
+            suf1 = tagged_word[0][-1]
             pref1 = tagged_word[0][0]
             all_features.add(suf1)
             all_features.add(pref1)
@@ -87,70 +108,82 @@ def feature_creator(data):
                 pref3 = tagged_word[0][0:3]
                 all_features.add(suf3)
                 all_features.add(pref3)
-    print "number" in all_features
+    print "is_number" in all_features
     # print all_features
     print len(all_features)
-    numed_features = {x:index for x,index in zip(all_features, range(1, len(all_features)+1))}
+    numed_features = {x: index for x, index in zip(all_features, range(0, len(all_features)))}
     print len(numed_features.values())
     print 0 in numed_features.values()
-    numed_features['undefined_feature'] = 0
     return numed_features
 
-def feature_extraction(tagged_word, numed_features):
+
+def feature_extraction(tagged_word, numed_features, sent):
+    # undefined_features = {"pref1", "pref2", "pref3", "suf1", "suf2", "suf3", "undefined_pos", "regular_feature",
+    #                   "undefined_word"}
     res = {}
+    for method in ORT_methods:
+        if method(tagged_word):
+            res.update({numed_features[method.__name__]: 1})
+    if sent[0] == tagged_word:
+        res.update({numed_features['first_word']: 1})
+    else:
+        res.update({numed_features['not_first_word']: 1})
+    if sent[-1] == tagged_word:
+        res.update({numed_features['last_word']: 1})
     if tagged_word[0] in numed_features:
         res.update({numed_features[tagged_word[0]]: 1})
     else:
-        res.update({0: 1})
-    try:
-        tagged_word[1]
-    except:
-        print tagged_word
+        res.update({numed_features['undefined_word']: 1})
 
     if tagged_word[1] in numed_features:
         res.update({numed_features[tagged_word[1]]: 1})
     else:
-        res.update({0: 1})
+        res.update({numed_features['undefined_pos']: 1})
+
     suf1= tagged_word[0][-1]
+
     if suf1 in numed_features:
         res.update({numed_features[suf1]: 1})
     else:
-        res.update({0: 1})
+        res.update({numed_features['suf1']: 1})
     pref1 = tagged_word[0][0]
     if pref1 in numed_features:
         res.update({numed_features[pref1]: 1})
     else:
-        res.update({0: 1})
-    if len(tagged_word[0])>1:
+        res.update({numed_features['pref1']: 1})
+
+    if len(tagged_word[0]) > 1:
         suf2 = tagged_word[0][-2:len(tagged_word[0])]
         pref2 = tagged_word[0][0:2]
         if suf2 in numed_features:
             res.update({numed_features[suf2]: 1})
         else:
-            res.update({0: 1})
+            res.update({numed_features['suf2']: 1})
         if pref2 in numed_features:
             res.update({numed_features[pref2]: 1})
         else:
-            res.update({0: 1})
-    if len(tagged_word[0])>2:
+            res.update({numed_features['pref2']: 1})
+    if len(tagged_word[0]) > 2:
         suf3 = tagged_word[0][-3:len(tagged_word[0])]
         pref3 = tagged_word[0][0:3]
         if suf3 in numed_features:
             res.update({numed_features[suf3]: 1})
         else:
-            res.update({0: 1})
+            res.update({numed_features['suf3']: 1})
         if pref3 in numed_features:
             res.update({numed_features[pref3]: 1})
         else:
-            res.update({0: 1})
+            res.update({numed_features['pref3']: 1})
     return res
 
-def prepear_train(train_data, numed_features):
+def prepear_train(train_data, numed_features, classes):
     res = []
     for sent in train_data:
         for tagged_word in sent:
-            features = feature_extraction(tagged_word, numed_features)
-            res.append((features, tagged_word[2]))
+            features = feature_extraction(tagged_word, numed_features, sent)
+            res.append((features, classes[tagged_word[2]]))
+            # import pdb
+            # pdb.set_trace()
     return res
 
 
@@ -172,22 +205,49 @@ if __name__ == "__main__":
     test_data = [{"a": 3, "b": 2, "c": 1},
                  {"a": 0, "b": 3, "c": 7}]
     from sklearn.svm import SVC
+    from sklearn.svm import LinearSVC
     classif = SklearnClassifier(SVC(), sparse=False).train(train_data)
     print classif.classify_many(test_data)
     # print get_classes(['esp.train', 'esp.testa', 'esp.testb'])
+    classes = get_classes(['esp.train', 'esp.testa', 'esp.testb'])
+    print "classes :", classes
     train_data = conll2002.iob_sents('ned.train')
     numed_features = feature_creator(train_data)
-    train_data = prepear_train(train_data, numed_features)
+    train_data = prepear_train(train_data, numed_features, classes)
     print len(train_data)
-    classif = SklearnClassifier(SVC(), sparse=False).train(train_data[0:10000])
+    train_data = train_data[0:40000]
+    # from sklearn.feature_extraction import DictVectorizer
+    # v = DictVectorizer(sparse=True)
+    # list_of_features = []
+    # for item in train_data:
+    #     import pdb
+    #     pdb.set_trace()
+    #     list_of_features.append(item[0])
+    # X = v.fit_transform(list_of_features)
+    # print X
+    classif = SklearnClassifier(SVC(C=50000, verbose=True)).train(train_data)
     test_data = conll2002.iob_sents('ned.testa')
-    print len(test_data)
-    test_data = test_data[0:10]
-    print test_data
+    test_data = test_data
+    # print test_data
+    tag_of_test = []
     test = []
+    words = []
     for sent in test_data:
         for tagged_word in sent:
-            test.append(feature_extraction(tagged_word, numed_features))
-    print test
-    for item in test:
-        print classif.classify_many(item)
+            tag_of_test.append(classes[tagged_word[2]])
+            words.append(tagged_word[0])
+            test.append(feature_extraction(tagged_word, numed_features, sent))
+    # print test
+
+    res = classif.classify_many(test)
+    print len(res)
+    print res
+    print tag_of_test
+    error_count = 0
+    for item in zip(tag_of_test, res, words):
+        if (item[0] != item[1]):
+            print item
+            # import pdb
+            # pdb.set_trace()
+            error_count += 1
+    print error_count
