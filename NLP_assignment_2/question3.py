@@ -1,4 +1,4 @@
-from nltk import NaiveBayesClassifier, DictionaryProbDist, sum_logs
+from nltk import NaiveBayesClassifier, DictionaryProbDist, sum_logs, SklearnClassifier
 
 
 class OneVsAllNaiveBayesClassifier(NaiveBayesClassifier):
@@ -27,79 +27,23 @@ class OneVsAllNaiveBayesClassifier(NaiveBayesClassifier):
 
         return DictionaryProbDist(logprob, normalize=True, log=True)
 
+# we create two classes, where the only feature linearly separates them:
+a_featureset = ({'money': 10, 'bits': 0}, 'finance')
+b_featureset = ({'money': 0, 'bits': 10}, 'computers')
 
-from nltk.corpus import reuters
-from collections import defaultdict
+classifier = NaiveBayesClassifier.train((a_featureset, b_featureset))
+# print [classifier.classify({0: i}) for i in range(10)]
+classes = [classifier.classify({'money': 1, 'bits': 9}),
+           classifier.classify({'money': 9, 'bits': 1}),
+           classifier.classify({'money': 0, 'bits': 9})]
 
-words = reuters.words()
-word_freq = defaultdict(int)
-for word in words:
-    word_freq[word] += 1
+print classes
 
-sorted_words = sorted(set(words), key=word_freq.get, reverse=True)
-most_frequent_words = filter(lambda w: len(w) > 1, sorted_words)
+from sklearn.naive_bayes import GaussianNB
 
-
-def bag_of_words(document, words):
-    document_set = set(document)
-    intersection = document_set.intersection(words)
-    return dict([(word, (word in intersection)) for word in words])
-
-
-def bag_of_words_freq(document, words):
-    bag = dict((word, 0) for word in words)
-
-    for word in document:
-        if word in words:
-            bag[word] += 1
-
-    return bag
-
-
-def get_dataset(K, feature_extractor):
-    train_featuresets = list()  # list of pairs (featureset, category)
-    test_featuresets = list()
-
-    for category in reuters.categories():
-        for fileid in reuters.fileids(categories=category):
-            featureset = feature_extractor(reuters.words(fileids=[fileid]), most_frequent_words[:K])
-            if fileid[:4] == 'test':
-                test_featuresets.append((featureset, category))
-            else:
-                train_featuresets.append((featureset, category))
-
-    return train_featuresets, test_featuresets
-
-
-train_featuresets, test_featuresets = get_dataset(1000, bag_of_words)
-
-from nltk.classify.naivebayes import NaiveBayesClassifier
-import time
-from joblib import Parallel, delayed  # For classification is a long task, and the deadline is near.
-import multiprocessing
-
-# num_cores = multiprocessing.cpu_count()
-start = time.time()
-
-classifer = NaiveBayesClassifier.train(train_featuresets)
-# print "finished training, now Calculating on %d cores" % num_cores
-
-def classify(item):
-    featureset, tag = item
-    return 1 if classifer.classify(featureset) == tag else 0
-
-
-classifer.classify(test_featuresets[0][0])
-
-# binary_list = Parallel(n_jobs=num_cores,  max_nbytes=1e3)(delayed(classify)(item) for item in test_featuresets)
-#
-# correct = sum(binary_list)
-# correct = 0
-# for featureset, tag in test_featuresets:
-# if tag == classifer.classify(featureset):
-# correct += 1
-
-# print float(correct) / len(test_featuresets)
-
-end = time.time()
-print "finished in %fs" % (end - start)
+# classifier = SklearnClassifier(GaussianNB(), sparse=False)
+# classifier.train((a_featureset, b_featureset))
+# print [classifier.classify({'feature': i}) for i in range(10)]
+# probs = classifier.prob_classify_many({'feature': i} for i in range(10))
+# # probs =  [classifier.prob_classify({0: i}) for i in range(10)]
+# print probs
