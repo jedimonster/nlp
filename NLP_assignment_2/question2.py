@@ -3,9 +3,9 @@ Question 2
 """
 import string
 from nltk.corpus import conll2002
-import numpy as np
-import collections
-from nltk.chunk.util import tree2conlltags
+# import numpy as np
+# import collections
+# from nltk.chunk.util import tree2conlltags
 # tree2conlltags(chuncked_sents) => (word,pos, iob)
 
 
