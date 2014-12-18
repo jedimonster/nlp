@@ -3,9 +3,9 @@ Question 2
 """
 import string
 from nltk.corpus import conll2002
-import numpy as np
-import collections
-from nltk.chunk.util import tree2conlltags
+# import numpy as np
+# import collections
+# from nltk.chunk.util import tree2conlltags
 # tree2conlltags(chuncked_sents) => (word,pos, iob)
 
 
@@ -48,8 +48,8 @@ def few_upper(tagged_word):
 
 
 ORT_methods = [is_number, is_contains_digit, contains_hyphen, punctuation, capitalized, all_capitals, URL, few_upper]
-undefined_features = {"pref1", "pref2", "pref3", "suf1", "suf2", "suf3", "undefined_pos", "regular_feature",
-                      "undefined_word",  'first_word', 'last_word', 'not_first_word'}
+undefined_features = {"pref1_undef", "pref2_undef", "pref3_undef", "suf1_undef", "suf2_undef", "suf3_undef", "undefined_pos", "regular_feature",
+                      "undefined_word",  'first_word', 'last_word', 'not_first_word', 'len_of_word'}
 
 def is_regular(tagged_word):
     for method in ORT_methods:
@@ -91,23 +91,23 @@ def feature_creator(data):
     for sent in data:
         for tagged_word in sent:
             word = tagged_word[0]
-            all_features.add(word)
+            all_features.add('word_'+word)
             pos = tagged_word[1]
-            all_features.add(pos)
+            all_features.add('pos_'+pos)
             suf1 = tagged_word[0][-1]
             pref1 = tagged_word[0][0]
-            all_features.add(suf1)
-            all_features.add(pref1)
+            all_features.add('suf1_'+suf1)
+            all_features.add('pref1_'+pref1)
             if len(tagged_word[0]) > 1:
                 suf2 = tagged_word[0][-2:len(tagged_word[0])]
                 pref2 = tagged_word[0][0:2]
-                all_features.add(suf2)
-                all_features.add(pref2)
+                all_features.add('suf2_'+suf2)
+                all_features.add('pref2_'+pref2)
             if len(tagged_word[0]) > 2:
                 suf3 = tagged_word[0][-3:len(tagged_word[0])]
                 pref3 = tagged_word[0][0:3]
-                all_features.add(suf3)
-                all_features.add(pref3)
+                all_features.add('suf3_'+suf3)
+                all_features.add('pref3_'+pref3)
     print "is_number" in all_features
     # print all_features
     print len(all_features)
@@ -121,6 +121,7 @@ def feature_extraction(tagged_word, numed_features, sent):
     # undefined_features = {"pref1", "pref2", "pref3", "suf1", "suf2", "suf3", "undefined_pos", "regular_feature",
     #                   "undefined_word"}
     res = {}
+    res.update({numed_features['len_of_word']: len(tagged_word[0])})
     for method in ORT_methods:
         if method(tagged_word):
             res.update({numed_features[method.__name__]: 1})
@@ -130,50 +131,50 @@ def feature_extraction(tagged_word, numed_features, sent):
         res.update({numed_features['not_first_word']: 1})
     if sent[-1] == tagged_word:
         res.update({numed_features['last_word']: 1})
-    if tagged_word[0] in numed_features:
-        res.update({numed_features[tagged_word[0]]: 1})
+    if 'word_'+tagged_word[0] in numed_features:
+        res.update({numed_features['word_'+tagged_word[0]]: 1})
     else:
         res.update({numed_features['undefined_word']: 1})
 
-    if tagged_word[1] in numed_features:
-        res.update({numed_features[tagged_word[1]]: 1})
+    if 'pos_'+tagged_word[1] in numed_features:
+        res.update({numed_features['pos_'+tagged_word[1]]: 1})
     else:
         res.update({numed_features['undefined_pos']: 1})
 
     suf1= tagged_word[0][-1]
 
-    if suf1 in numed_features:
-        res.update({numed_features[suf1]: 1})
+    if 'suf1_'+suf1 in numed_features:
+        res.update({numed_features['suf1_'+suf1]: 1})
     else:
-        res.update({numed_features['suf1']: 1})
+        res.update({numed_features['suf1_undef']: 1})
     pref1 = tagged_word[0][0]
-    if pref1 in numed_features:
-        res.update({numed_features[pref1]: 1})
+    if 'pref1_'+pref1 in numed_features:
+        res.update({numed_features['pref1_'+pref1]: 1})
     else:
-        res.update({numed_features['pref1']: 1})
+        res.update({numed_features['pref1_undef']: 1})
 
     if len(tagged_word[0]) > 1:
         suf2 = tagged_word[0][-2:len(tagged_word[0])]
         pref2 = tagged_word[0][0:2]
-        if suf2 in numed_features:
-            res.update({numed_features[suf2]: 1})
+        if 'suf2_'+suf2 in numed_features:
+            res.update({numed_features['suf2_'+suf2]: 1})
         else:
-            res.update({numed_features['suf2']: 1})
-        if pref2 in numed_features:
-            res.update({numed_features[pref2]: 1})
+            res.update({numed_features['suf2_undef']: 1})
+        if 'pref2_'+pref2 in numed_features:
+            res.update({numed_features['pref2_'+pref2]: 1})
         else:
-            res.update({numed_features['pref2']: 1})
+            res.update({numed_features['pref2_undef']: 1})
     if len(tagged_word[0]) > 2:
         suf3 = tagged_word[0][-3:len(tagged_word[0])]
         pref3 = tagged_word[0][0:3]
-        if suf3 in numed_features:
-            res.update({numed_features[suf3]: 1})
+        if 'suf3_'+suf3 in numed_features:
+            res.update({numed_features['suf3_'+suf3]: 1})
         else:
-            res.update({numed_features['suf3']: 1})
-        if pref3 in numed_features:
-            res.update({numed_features[pref3]: 1})
+            res.update({numed_features['suf3_undef']: 1})
+        if 'pref3_'+pref3 in numed_features:
+            res.update({numed_features['pref3_'+pref3]: 1})
         else:
-            res.update({numed_features['pref3']: 1})
+            res.update({numed_features['pref3_undef']: 1})
     return res
 
 def prepear_train(train_data, numed_features, classes):
@@ -215,7 +216,8 @@ if __name__ == "__main__":
     numed_features = feature_creator(train_data)
     train_data = prepear_train(train_data, numed_features, classes)
     print len(train_data)
-    train_data = train_data[0:40000]
+    train_data = train_data[0:30000]
+
     # from sklearn.feature_extraction import DictVectorizer
     # v = DictVectorizer(sparse=True)
     # list_of_features = []
@@ -225,29 +227,37 @@ if __name__ == "__main__":
     #     list_of_features.append(item[0])
     # X = v.fit_transform(list_of_features)
     # print X
-    classif = SklearnClassifier(SVC(C=50000, verbose=True)).train(train_data)
-    test_data = conll2002.iob_sents('ned.testa')
-    test_data = test_data
-    # print test_data
-    tag_of_test = []
-    test = []
-    words = []
-    for sent in test_data:
-        for tagged_word in sent:
-            tag_of_test.append(classes[tagged_word[2]])
-            words.append(tagged_word[0])
-            test.append(feature_extraction(tagged_word, numed_features, sent))
-    # print test
+    c_range = range(-2, 20)
+    for c in c_range:
+        print "C is ", c
+        classif = SklearnClassifier(SVC(C=2**c, verbose=False)).train(train_data)
+        test_data = conll2002.iob_sents('ned.testa')
+        test_data = test_data
+        # print test_data
+        tag_of_test = []
+        test = []
+        words = []
+        not_o_tags = []
+        for sent in test_data:
+            for tagged_word in sent:
+                tag_of_test.append(classes[tagged_word[2]])
+                words.append(tagged_word[0])
+                if tagged_word[2] != 'O':
+                    not_o_tags.append(tagged_word[2])
+                test.append(feature_extraction(tagged_word, numed_features, sent))
+        # print test
 
-    res = classif.classify_many(test)
-    print len(res)
-    print res
-    print tag_of_test
-    error_count = 0
-    for item in zip(tag_of_test, res, words):
-        if (item[0] != item[1]):
-            print item
-            # import pdb
-            # pdb.set_trace()
-            error_count += 1
-    print error_count
+        res = classif.classify_many(test)
+        # print len(res)
+        # print res
+        # print tag_of_test
+        error_count = 0
+        for item in zip(tag_of_test, res, words):
+            if (item[0] != item[1]):
+                #print item
+                # import pdb
+                # pdb.set_trace()
+                error_count += 1
+        print " erro count: ", error_count
+        print "amount of not Os is: ", len(not_o_tags)
+        #print not_o_tags
