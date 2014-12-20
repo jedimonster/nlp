@@ -142,60 +142,9 @@ def optimizePLS2(xt, tt, xv, tv, M):
     print best_error
     print best_lambda
     print best_w_vector
-    #plot_data(log_lambda_range, errors)
+    plot_data(log_lambda_range, errors)
     return best_w_vector, errors
 
-# res = np.zeros((M+1, M+1))
-#     print "length of x is: ", len(x)
-#     for i in range(len(x)):
-#         prod = np.array([x[i]**z for z in range(M+1)])
-#         prod2 = np.array([x[i]**z for z in range(M+1)]).T
-#         res += np.outer(prod, prod2)
-#         import pdb
-#         pdb.set_trace()
-
-def bayesianEstimator(x, t, M, alpha, sigma2):
-
-    phi = create_phi(x, M)
-
-    res = np.zeros((M+1, M+1))
-    for n in range(len(x)):
-        phi_x = np.array([x[n]**i for i in range(0,M+1)])
-        res += np.outer(phi_x, phi_x)
-
-
-    s_inv = alpha*np.eye(M+1) + (float(1)/float(sigma2))*res
-
-    s = np.linalg.inv(s_inv)
-    print s
-    print s.shape
-    def variance(x):
-        # import pdb
-        # pdb.set_trace()
-        ph_x = np.array([x**m for m in range(M+1)])
-        ph_x = ph_x.T
-        mul = np.dot(s, ph_x)
-        # print " mul shape: ", mul.shape
-        # print "s shape: ", s.shape
-        # print mul.shape
-        res = sigma2 + np.dot(ph_x.T, mul)
-        return res
-
-    def mean(x_inner):
-        # import pdb
-        # pdb.set_trace()
-        inner_res = np.zeros(M+1)
-        for inner_n in range(len(t)):
-            phi_x = np.array([x[inner_n]**i for i in range(M+1)])
-            mul = phi_x * t[inner_n]
-            inner_res += mul
-        ph_x = np.array([x_inner**m for m in range(M+1)])
-
-        mid_res = np.dot(ph_x, s)
-        return np.dot(mid_res, inner_res)*(float(1)/float(sigma2))
-    # import pdb
-    # pdb.set_trace()
-    return mean, variance
 
 def get_learned_polynomial(w_vector, x_vector):
     res = []
@@ -248,25 +197,3 @@ if __name__ == "__main__":
     # plot_data(x_vector, pol_fitting, real_vector)
 
     # plot_data(x_vector, pol_fitting)
-
-    #QUESTION 1.4 God help us all
-    x_vector, t_vector, real_vector = generateDataset(10, vectorised_method, 0.1)
-    mean, variance = bayesianEstimator(x_vector, t_vector, 9, 0.005, 1/11.1)
-    variance(0.5)
-    mean(0.5)
-    vectorised_mean = np.vectorize(mean)
-    vectorized_variance = np.vectorize(variance)
-
-    x_graph = np.linspace(0.0, 1.0, 100)
-    samples = []
-    for point in x_vector:
-        mu = mean(point)
-        var = variance(point)
-        samples.append(np.random.normal(loc=mu,scale=var, size=1))
-    import pylab
-    pylab.scatter(x_vector,samples, c="black")
-    pylab.plot(x_graph, vectorised_method(x_graph), c='red')
-    pylab.scatter(x_vector, t_vector, c='green', alpha=0.5)
-    pylab.fill_between(x_graph, vectorised_mean(x_graph) - np.sqrt(vectorized_variance(x_graph)),
-                       vectorised_mean(x_graph) + np.sqrt(vectorized_variance(x_graph)), alpha=0.3, hatch='X')
-    pylab.show()
