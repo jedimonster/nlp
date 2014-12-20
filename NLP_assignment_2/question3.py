@@ -10,7 +10,7 @@ from collections import defaultdict
 # words = reuters.words()
 # word_freq = defaultdict(int)
 # for word in words:
-#     word_freq[word] += 1
+# word_freq[word] += 1
 #
 # sorted_words = sorted(set(words), key=word_freq.get, reverse=True)
 # most_frequent_words = filter(lambda w: len(w) > 1, sorted_words)
@@ -20,11 +20,12 @@ def get_classifier(classifier, feature_extractor, K):
 
 
 def get_featuresets(feature_extractor, v, section):
-    for category in reuters.categories():
-        for fileid in reuters.fileids(categories=category):
-            featureset = feature_extractor(reuters.words(fileids=[fileid]), v)
-            if fileid[:len(section)] == section:
-                yield (featureset, category)
+    for fileid in reuters.fileids():
+        featureset = feature_extractor(reuters.words(fileids=[fileid]), v)
+        category = reuters.categories(fileid)[0]
+        if fileid[:len(section)] == section:
+            yield (featureset, category)
+
 
 def bag_of_words_freq(document, words):
     bag = dict((word, 0) for word in words)
@@ -35,6 +36,7 @@ def bag_of_words_freq(document, words):
 
     return bag
 
+
 def bag_of_words(document, words):
     document_set = set(document)
     intersection = document_set.intersection(words)
@@ -42,6 +44,29 @@ def bag_of_words(document, words):
 
 
 class OneVsAllNaiveBayesClassifier(NaiveBayesClassifier):
+    def __init__(self, label_probdist, feature_probdist, feature_comp_probdist):
+        """
+        :param label_probdist: P(label), the probability distribution
+            over labels.  It is expressed as a ``ProbDistI`` whose
+            samples are labels.  I.e., P(label) =
+            ``label_probdist.prob(label)``.
+
+        :param feature_probdist: P(fname=fval|label), the probability
+            distribution for feature values, given labels.  It is
+            expressed as a dictionary whose keys are ``(label, fname)``
+            pairs and whose values are ``ProbDistI`` objects over feature
+            values.  I.e., P(fname=fval|label) =
+            ``feature_probdist[label,fname].prob(fval)``.  If a given
+            ``(label,fname)`` is not a key in ``feature_probdist``, then
+            it is assumed that the corresponding P(fname=fval|label)
+            is 0 for all values of ``fval``.
+        """
+        self._label_probdist = label_probdist
+        self._feature_probdist = feature_probdist
+        self._feature_comp_probdist = feature_comp_probdist
+        self._labels = list(label_probdist.samples())
+
+
     def prob_classify(self, featureset):
         # we know for a fact we've seen all the features before because we use constant words.
 
@@ -58,15 +83,10 @@ class OneVsAllNaiveBayesClassifier(NaiveBayesClassifier):
             for (fname, fval) in featureset.items():
                 # if (label, fname) in self._feature_probdist:
                 feature_probs = self._feature_probdist[label, fname]
+                feature_comp_probs = self._feature_comp_probdist[label, fname]
                 logprob[label] += feature_probs.logprob(fval)
-                # else:
-                # nb: This case will never come up if the
-                # classifier was created by
-                # NaiveBayesClassifier.train().
-                # logprob[label] += sum_logs([])  # = -INF.
-
+                logprob[label] -= feature_comp_probs.logprob(fval)
         return DictionaryProbDist(logprob, normalize=True, log=True)
-
 
     @staticmethod
     def train(labeled_featuresets, estimator=ELEProbDist):
@@ -91,31 +111,37 @@ class OneVsAllNaiveBayesClassifier(NaiveBayesClassifier):
                 # Keep a list of all feature names.
                 fnames.add(fname)
 
-        # If a feature didn't have a value given for an instance, then
-        # we assume that it gets the implicit value 'None.'  This loop
-        # counts up the number of 'missing' feature values for each
-        # (label,fname) pair, and increments the count of the fval
-        # 'None' by that amount.
-        for label in label_freqdist:
-            num_samples = label_freqdist[label]
-            for fname in fnames:
-                count = feature_freqdist[label, fname].N()
-                # Only add a None key when necessary, i.e. if there are
-                # any samples with feature 'fname' missing.
-                if num_samples - count > 0:
-                    feature_freqdist[label, fname][None] += num_samples - count
-                    feature_values[fname].add(None)
+        # Create the compliment of the above freqdist for each [label, fname]
+        feature_comp_freqdist = defaultdict(FreqDist)
+        labels = label_freqdist.keys()
+        for label in labels:
+            other_labels = filter(lambda x: x != label, labels)
+
+            # for each fval, sum the freqdists of other labels:
+            for (other_label, fname), other_freqdist in feature_freqdist.iteritems():
+                if label != other_label:
+                    for fvalue, fcount in other_freqdist.iteritems():
+                        feature_comp_freqdist[label, fname][fvalue] += fcount
+
+
 
         # Create the P(label) distribution
         label_probdist = estimator(label_freqdist)
 
         # Create the P(fval|label, fname) distribution
         feature_probdist = {}
+        feature_comp_probdist = {}
+
         for ((label, fname), freqdist) in feature_freqdist.items():
             probdist = estimator(freqdist, bins=len(feature_values[fname]))
-            feature_probdist[label,fname] = probdist
+            feature_probdist[label, fname] = probdist
 
-        return NaiveBayesClassifier(label_probdist, feature_probdist)
+        for ((label, fname), freqdist) in feature_comp_freqdist.items():
+            probdist = estimator(freqdist, bins=len(feature_values[fname]))
+            feature_comp_probdist[label, fname] = probdist
+
+        return OneVsAllNaiveBayesClassifier(label_probdist, feature_probdist, feature_comp_probdist)
+
 
 # apparently the following class is useless because Python's threads are a fraud.
 class HTClassifierTester:
@@ -165,6 +191,10 @@ class HTClassifierTester:
 
 
 if __name__ == "__main__":
+    pass
+    import sys
+    # from question3 import OneVsAllNaiveBayesClassifier
+
     words = reuters.words()
     word_freq = defaultdict(int)
     for word in words:
@@ -173,8 +203,62 @@ if __name__ == "__main__":
     sorted_words = sorted(set(words), key=word_freq.get, reverse=True)
     most_frequent_words = filter(lambda w: len(w) > 1, sorted_words)
 
-    test_featuresets = get_featuresets(bag_of_words, most_frequent_words[:1000], "test")
-    ls = list(test_featuresets)
+    TP = defaultdict(int)
+    FP = defaultdict(int)
+    TN = defaultdict(int)
+    FN = defaultdict(int)
+
+    start = time.time()
+
+    train_featuresets = get_featuresets(bag_of_words, most_frequent_words[:2000], "training")
+    test_featuresets = get_featuresets(bag_of_words, most_frequent_words[:2000], "test")
+    # finance_doc = "money money money money money money money money money money".split(" ")  # 10 occurences of money
+    # cs_doc = "bit bit bit bit bit bit bit bit bit bit".split(" ")  # 10 occurency of bit
+    # finance_test = "money money money money money money money money money money money".split(" ")  # 11 occurences
+    # cs_test = "bit bit bit bit bit bit bit bit bit bit bit".split(" ")  # 11 occurences
+    #
+    # v = {"bit", "money"}
+    #
+    # train_featuresets = [(bag_of_words_freq(finance_doc, v), "finance"), (bag_of_words_freq(cs_doc, v), "CS")]
+    # test_featuresets = [(bag_of_words_freq(finance_test, v), "finance"), (bag_of_words_freq(cs_test, v), "CS")]
+
+    classifier = OneVsAllNaiveBayesClassifier.train(train_featuresets)
+
+    def classify_one(labeled_featureset):
+        featureset, real_label = labeled_featureset
+        return (classifier.classify(featureset), real_label)
+
+
+    print "Trained, now classifying"
+    sys.stdout.flush()
+
+    tests_refs = Parallel(n_jobs=4, verbose=0)(delayed(classify_one)(item) for item in test_featuresets)
+
+    end = time.time()
+    print "finished in %fs" % (end - start)
+
+    N = 0  # count because the generator dies with the loop
+    for test, ref in tests_refs:
+        N += 1
+        if test == ref:
+            TP[ref] += 1
+        else:
+            FP[test] += 1
+            FN[ref] += 1
+    # for label in labels - set([test, ref]):
+    #         TN[label] += 1 # we add a TN to all labels except test (that one is either TP or FP) and ref (same)
+
+    print "accuracy: %f\n\n" % (float(sum(TP.values())) / N)
+    #
+    # print train_featuresets
+    #
+    # classifier = NaiveBayesClassifier.train(train_featuresets)
+    #
+    # for featureset, label in test_featuresets:
+    #     print "classified %s document as %s" % (label, classifier.classify(featureset))
+    #
+    # test_featuresets = get_featuresets(bag_of_words, most_frequent_words[:1000], "test")
+    # ls = list(test_featuresets)
     from nltk import NaiveBayesClassifier as NB
     # # the threaded classifier simply wraps a trained classifier and calls .classify() on different threads.
     #
