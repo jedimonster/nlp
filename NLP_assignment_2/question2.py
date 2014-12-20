@@ -216,7 +216,7 @@ if __name__ == "__main__":
     numed_features = feature_creator(train_data)
     train_data = prepear_train(train_data, numed_features, classes)
     print len(train_data)
-    train_data = train_data[0:30000]
+    train_data = train_data
 
     # from sklearn.feature_extraction import DictVectorizer
     # v = DictVectorizer(sparse=True)
@@ -227,10 +227,10 @@ if __name__ == "__main__":
     #     list_of_features.append(item[0])
     # X = v.fit_transform(list_of_features)
     # print X
-    c_range = range(-2, 20)
+    c_range = range(0,1)
     for c in c_range:
         print "C is ", c
-        classif = SklearnClassifier(SVC(C=2**c, verbose=False)).train(train_data)
+        classif = SklearnClassifier(SVC(C=1024, verbose=False)).train(train_data)
         test_data = conll2002.iob_sents('ned.testa')
         test_data = test_data
         # print test_data

@@ -145,6 +145,22 @@ def optimizePLS2(xt, tt, xv, tv, M):
     plot_data(log_lambda_range, errors)
     return best_w_vector, errors
 
+def phi_x(phi, n):
+    return phi[n].T
+
+def bayesianEstimator(x, t, M, alpha, sigma2):
+
+    phi = create_phi(x, M)
+
+    res = np.zeros((M+1, M+1))
+    for n in range(len(x)):
+        res += np.dot(phi_x(phi, n), phi_x(phi, n).T)
+    s_inv = alpha*np.eye(M+1) + (float(1)/float(sigma2))*res
+    import pdb
+    pdb.set_trace()
+    s = np.linalg.inv(np.matrix(s_inv))
+
+
 
 def get_learned_polynomial(w_vector, x_vector):
     res = []
@@ -197,3 +213,7 @@ if __name__ == "__main__":
     # plot_data(x_vector, pol_fitting, real_vector)
 
     # plot_data(x_vector, pol_fitting)
+
+    #QUESTION 1.4 God help us all
+    bayesianEstimator(train[0], train[1], 5, 1, 2)
+
