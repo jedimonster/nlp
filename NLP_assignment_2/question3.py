@@ -246,7 +246,7 @@ if __name__ == "__main__":
             FP[test] += 1
             FN[ref] += 1
     # for label in labels - set([test, ref]):
-    #         TN[label] += 1 # we add a TN to all labels except test (that one is either TP or FP) and ref (same)
+    # TN[label] += 1 # we add a TN to all labels except test (that one is either TP or FP) and ref (same)
 
     print "accuracy: %f\n\n" % (float(sum(TP.values())) / N)
     #
