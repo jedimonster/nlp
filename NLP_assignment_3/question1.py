@@ -105,28 +105,30 @@ def get_tag(tree):
         return tree
 
 
-def leads_to_none(tree):
+def leads_to_something(tree):
     if isinstance(tree, Tree):
-        return not any((not leads_to_none(c)) for c in tree)
+        return tree.label() != '-NONE-' and any((leads_to_something(c)) for c in tree)
 
-    return tree is None
+    return tree != '-NONE-'
 
 
 def tree_to_production(tree):
-    return Production(get_tag(tree), [get_tag(child) for child in tree if not leads_to_none(child)])
+    return Production(get_tag(tree), [get_tag(child) for child in tree])
 
 
 def tree_to_productions(tree):
-    production = tree_to_production(tree)
-    if production.rhs() and production.rhs() != production.lhs():
-        yield production
+    yield tree_to_production(tree)
     for child in tree:
         if isinstance(child, Tree):
             for prod in tree_to_productions(child):
-                if len(prod.rhs()) != 0:
-                    yield prod
-                    # else:
-                    # print child
+                yield prod
+
+
+def filter_tree(tree):
+    if isinstance(tree, Tree):
+        return Tree(tree.label(), map(filter_tree, filter(leads_to_something, list(tree))))
+    else:
+        return tree
 
 
 def print_leaves(tree):
@@ -143,20 +145,19 @@ if __name__ == '__main__':
     sents = treebank.parsed_sents()
     t = 0
     o = 0
-    for s in sents[:200]:
-        l = list(tree_to_productions(s))
-        print l
+    for s in sents:
+        l = list(tree_to_productions(filter_tree(s)))
+        # print l
         t += len(l)
         o += len(s.productions())
 
     print t, o
 
-    s = sents[490]  # print list(tree_to_productions(s))
+    # s = sents[490]  # print list(tree_to_productions(s))
     # print s.productions()
     # print list(tree_to_productions(s))
+    # print len(s.productions())
+    # print len(list(tree_to_productions(s)))
+    #
     # prods = tree_to_productions(s)
     # print ([str(p) for p in prods])
-
-
-
-
