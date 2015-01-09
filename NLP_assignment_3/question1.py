@@ -3,6 +3,7 @@ import math
 import nltk
 from nltk.corpus import LazyCorpusLoader
 from nltk.corpus import BracketParseCorpusReader
+from nltk.treetransforms import chomsky_normal_form
 import scipy
 
 __author__ = 'itay'
@@ -140,7 +141,7 @@ def tree_to_productions(tree):
 
 def filter_tree(tree):
     if isinstance(tree, Tree):
-        return Tree(tree.label(), map(filter_tree, filter(leads_to_something, list(tree))))
+        return Tree(simplify_functional_tag(tree.label()), map(filter_tree, filter(leads_to_something, list(tree))))
     else:
         return tree  # teehee
 
@@ -154,11 +155,24 @@ def print_leaves(tree):
     pass
 
 
+def pcfg_cnf_learn(treebank, n):
+    for tree in treebank.parsed_sents()[:n]:
+        tree = filter_tree(tree)
+        chomsky_normal_form(tree, factor='right', horzMarkov=1, vertMarkov=1, childChar='|', parentChar='^')
+        yield tree
+
+
 if __name__ == '__main__':
-    ps = zip([0.5, 0.4, 0, 0, 0.1], [0.6, 0.2, 0.1, 0.1, 0])
-    print ps
-    print smooth_probabilities(ps)
-    # treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
+    # ps = zip([0.5, 0.4, 0, 0, 0.1], [0.6, 0.2, 0.1, 0.1, 0])
+    # print ps
+    # print smooth_probabilities(ps)
+    treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
+    cnfs = pcfg_cnf_learn(treebank, 2)
+    o = 0
+    for s in cnfs:
+        l = list(tree_to_productions(filter_tree(s)))
+        o += len(l)
+    print "internal nodes = ", o
     # sents = treebank.parsed_sents()[:200]
     # sents = treebank.parsed_sents()
     # observed_freqdist = extract_freqdist(extract_trees())
@@ -178,6 +192,7 @@ if __name__ == '__main__':
     #
     # prods = sum([list(tree_to_productions(filter_tree(t))) for t in sents], list())
     # freq = nltk.FreqDist(prods)
+
     # print freq.values()
     # values_frequency = nltk.FreqDist(freq.values())
     # print values_frequency.keys()
