@@ -140,14 +140,14 @@ def pcfg_validate_divergence(pcfg1, pcfg2):
 
 
 
-def pcfg_get_production_prob(pcfg, production):
-    prods = pcfg.productions(production.lhs(), production.rhs()[0])
-
-    for p in prods:
-        if p.rhs() == production.rhs():
-            return p.prob()
-
-    return 0
+# def pcfg_get_production_prob(pcfg, production):
+#     prods = pcfg.productions(production.lhs(), production.rhs()[0])
+#
+#     for p in prods:
+#         if p.rhs() == production.rhs():
+#             return p.prob()
+#
+#     return 0
 
 
 def simplify_functional_tag(tag):
