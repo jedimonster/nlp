@@ -3,6 +3,7 @@ import math
 import nltk
 from nltk.corpus import LazyCorpusLoader
 from nltk.corpus import BracketParseCorpusReader
+from nltk.treetransforms import chomsky_normal_form
 import scipy
 
 __author__ = 'itay'
@@ -72,11 +73,25 @@ def _extract_freqdist(tree, freqdist):
 
 def kl_divergence(probs_tuples):
     kl = 0
+    smooth_probabilities(probs_tuples)
     for probx, proby in probs_tuples:
-        if probx != 0:
-            kl += probx * math.log(probx / proby)
+        # if probx != 0:
+        kl += probx * math.log(probx / proby)
 
     return kl
+
+
+def smooth_probability(xs, epsilon=0.001):
+    zero_count = xs.count(0)
+    nonzero_count = len(xs) - zero_count
+    return map(lambda x: epsilon if x == 0 else x + ((zero_count * epsilon) / nonzero_count), xs)
+
+
+def smooth_probabilities(prob_tuples, epsilon=0.001):
+    xs, ys = map(list, zip(*prob_tuples))
+    xs = smooth_probability(xs, epsilon)
+    ys = smooth_probability(ys, epsilon)
+    return zip(xs, ys)
 
 
 def validate_divergence(grammar, observed_cond_freqdist):
@@ -88,7 +103,7 @@ def validate_divergence(grammar, observed_cond_freqdist):
         test_probs = grammar.productions(cond)
         test_probs = map(lambda prod: (prod.rhs(), prod.prob()), test_probs)
         # print test_probs
-        probs_tuples = [(empirical_probdist.prob(nonterminal), prob ) for nonterminal, prob in test_probs]
+        probs_tuples = [(empirical_probdist.prob(nonterminal), prob) for nonterminal, prob in test_probs]
         yield cond, kl_divergence(probs_tuples)
 
 
@@ -126,9 +141,9 @@ def tree_to_productions(tree):
 
 def filter_tree(tree):
     if isinstance(tree, Tree):
-        return Tree(tree.label(), map(filter_tree, filter(leads_to_something, list(tree))))
+        return Tree(simplify_functional_tag(tree.label()), map(filter_tree, filter(leads_to_something, list(tree))))
     else:
-        return tree  # tehee
+        return tree  # teehee
 
 
 def print_leaves(tree):
@@ -140,23 +155,59 @@ def print_leaves(tree):
     pass
 
 
-if __name__ == '__main__':
-    treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
-    sents = treebank.parsed_sents()
-    t = 0
-    o = 0
-    for s in sents:
-        l = list(tree_to_productions(filter_tree(s)))
-        # print l
-        t += len(l)
-        o += len(s.productions())
+def pcfg_cnf_learn(treebank, n):
+    for tree in treebank.parsed_sents()[:n]:
+        tree = filter_tree(tree)
+        chomsky_normal_form(tree, factor='right', horzMarkov=1, vertMarkov=1, childChar='|', parentChar='^')
+        yield tree
 
-    print "productions = ", t, "out of", o
-    # s = sents[490]  # print list(tree_to_productions(s))
-    # print s.productions()
-    # print list(tree_to_productions(s))
-    # print len(s.productions())
-    # print len(list(tree_to_productions(s)))
+
+if __name__ == '__main__':
+    # ps = zip([0.5, 0.4, 0, 0, 0.1], [0.6, 0.2, 0.1, 0.1, 0])
+    # print ps
+    # print smooth_probabilities(ps)
+    treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
+    cnfs = pcfg_cnf_learn(treebank, 2)
+    o = 0
+    for s in cnfs:
+        l = list(tree_to_productions(filter_tree(s)))
+        o += len(l)
+    print "internal nodes = ", o
+    # sents = treebank.parsed_sents()[:200]
+    # sents = treebank.parsed_sents()
+    # observed_freqdist = extract_freqdist(extract_trees())
+    # test_grammar = nltk.grammar.toy_pcfg2
+    # divs = validate_divergence(test_grammar, observed_freqdist)
     #
-    # prods = tree_to_productions(s)
-    # print ([str(p) for p in prods])
+    # print list(divs)
+    # t = 0
+    # o = 0
+    # for s in sents:
+    # l = list(tree_to_productions(filter_tree(s)))
+    # print l
+    # t += len(l)
+    # o += len(s.productions())
+    #
+    # print "productions = ", t, "out of", o
+    #
+    # prods = sum([list(tree_to_productions(filter_tree(t))) for t in sents], list())
+    # freq = nltk.FreqDist(prods)
+
+    # print freq.values()
+    # values_frequency = nltk.FreqDist(freq.values())
+    # print values_frequency.keys()
+    # print values_frequency.values()
+    #
+    # import pylab
+    #
+    # pylab.plot([math.log(x) for x in values_frequency.keys()], [math.log(x) for x in values_frequency.values()], '-bo')
+    # pylab.show()
+    # s = sents[490]
+    # print s
+    # print filter_tree(s)
+# print list(tree_to_productions(s))
+# print len(s.productions())
+# print len(list(tree_to_productions(s)))
+#
+# prods = tree_to_productions(s)
+# print ([str(p) for p in prods])
