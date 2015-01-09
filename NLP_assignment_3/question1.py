@@ -128,7 +128,7 @@ def filter_tree(tree):
     if isinstance(tree, Tree):
         return Tree(tree.label(), map(filter_tree, filter(leads_to_something, list(tree))))
     else:
-        return tree  # tehee
+        return tree  # teehee
 
 
 def print_leaves(tree):
@@ -142,21 +142,35 @@ def print_leaves(tree):
 
 if __name__ == '__main__':
     treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
+    sents = treebank.parsed_sents()[:200]
     sents = treebank.parsed_sents()
-    t = 0
-    o = 0
-    for s in sents:
-        l = list(tree_to_productions(filter_tree(s)))
-        # print l
-        t += len(l)
-        o += len(s.productions())
-
-    print "productions = ", t, "out of", o
-    # s = sents[490]  # print list(tree_to_productions(s))
-    # print s.productions()
-    # print list(tree_to_productions(s))
-    # print len(s.productions())
-    # print len(list(tree_to_productions(s)))
+    # t = 0
+    # o = 0
+    # for s in sents:
+    # l = list(tree_to_productions(filter_tree(s)))
+    # print l
+    # t += len(l)
+    # o += len(s.productions())
     #
-    # prods = tree_to_productions(s)
-    # print ([str(p) for p in prods])
+    # print "productions = ", t, "out of", o
+    #
+    # prods = sum([list(tree_to_productions(filter_tree(t))) for t in sents], list())
+    # freq = nltk.FreqDist(prods)
+    # print freq.values()
+    # values_frequency = nltk.FreqDist(freq.values())
+    # print values_frequency.keys()
+    # print values_frequency.values()
+    #
+    # import pylab
+    #
+    # pylab.plot([math.log(x) for x in values_frequency.keys()], [math.log(x) for x in values_frequency.values()], '-bo')
+    # pylab.show()
+    s = sents[490]
+    print s
+    print filter_tree(s)
+# print list(tree_to_productions(s))
+# print len(s.productions())
+# print len(list(tree_to_productions(s)))
+#
+# prods = tree_to_productions(s)
+# print ([str(p) for p in prods])
