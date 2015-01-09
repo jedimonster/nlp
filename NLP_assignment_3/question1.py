@@ -116,7 +116,12 @@ def tree_to_production(tree):
     return Production(get_tag(tree), [get_tag(child) for child in tree])
 
 
+internal_nodes = 0
+
+
 def tree_to_productions(tree):
+    global internal_nodes
+    internal_nodes += 1  # every time we reach this line we're at an internal node.
     yield tree_to_production(tree)
     for child in tree:
         if isinstance(child, Tree):
@@ -151,8 +156,9 @@ if __name__ == '__main__':
         t += len(l)
         o += len(s.productions())
 
-    print t, o
-
+    print "productions = ", t, "out of", o
+    print "Total nodes:", internal_nodes
+    print "internal nodes", internal_nodes
     # s = sents[490]  # print list(tree_to_productions(s))
     # print s.productions()
     # print list(tree_to_productions(s))
