@@ -73,7 +73,7 @@ def _extract_freqdist(tree, freqdist):
 
 def kl_divergence(probs_tuples):
     kl = 0
-    smooth_probabilities(probs_tuples)
+    probs_tuples = smooth_probabilities(probs_tuples)
     for probx, proby in probs_tuples:
         # if probx != 0:
         kl += probx * math.log(probx / proby)
