@@ -128,7 +128,7 @@ def filter_tree(tree):
     if isinstance(tree, Tree):
         return Tree(tree.label(), map(filter_tree, filter(leads_to_something, list(tree))))
     else:
-        return tree
+        return tree  # tehee
 
 
 def print_leaves(tree):
