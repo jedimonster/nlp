@@ -9,7 +9,7 @@ __author__ = 'itay'
 from nltk import PCFG
 from nltk import Tree, DictionaryProbDist
 from nltk.grammar import Nonterminal, Production
-
+from nltk.grammar import induce_pcfg
 
 def sample_tree(grammar, current_symbol):
     if not isinstance(current_symbol, Nonterminal):
@@ -184,9 +184,9 @@ def tree_to_productions(tree):
 
 def filter_tree(tree):
     if isinstance(tree, Tree):
-        return Tree(tree.label(), map(filter_tree, filter(leads_to_something, list(tree))))
+        return Tree(simplify_functional_tag(tree.label()), map(filter_tree, filter(leads_to_something, list(tree))))
     else:
-        return tree  # tehee
+        return tree  # teehee
 
 
 def print_leaves(tree):
@@ -198,29 +198,17 @@ def print_leaves(tree):
     pass
 
 
-if __name__ == '__main__':
-    treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
-    sents = treebank.parsed_sents()
-    # t = 0
-    # o = 0
-    # productions = []
-    # for s in sents:
-    #     l = list(tree_to_productions(filter_tree(s)))
-    #     productions += l
-    #     # print l
-    #     t += len(l)
-    #     o += len(s.productions())
-    #
-    # print "productions = ", t, "out of", o
-
-    from nltk.grammar import induce_pcfg
-
-    def get_productions(sents, number_of_trees):
+def get_productions(sents, number_of_trees):
         productions = []
         for s in sents[:number_of_trees]:
             productions += tree_to_productions(filter_tree(s))
 
         return productions
+
+
+if __name__ == '__main__':
+    treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
+    sents = treebank.parsed_sents()
 
     pcfg_200 = induce_pcfg(Nonterminal('S'), get_productions(sents, 200))
     pcfg_400 = induce_pcfg(Nonterminal('S'), get_productions(sents, 400))
