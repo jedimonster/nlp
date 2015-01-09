@@ -70,14 +70,25 @@ def _extract_freqdist(tree, freqdist):
         freqdist[production.lhs()][production.rhs()] += 1
 
 
+def smooth_probability(xs, epsilon=0.001):
+    zero_count = xs.count(0)
+    nonzero_count = len(xs) - zero_count
+    return map(lambda x: epsilon if x == 0 else x + ((zero_count * epsilon) / nonzero_count), xs)
+
+
+def smooth_probabilities(prob_tuples, epsilon=0.001):
+    xs, ys = map(list, zip(*prob_tuples))
+    xs = smooth_probability(xs, epsilon)
+    ys = smooth_probability(ys, epsilon)
+    return zip(xs, ys)
+
 def kl_divergence(probs_tuples):
     kl = 0
+    probs_tuples = smooth_probabilities(probs_tuples)
     for probx, proby in probs_tuples:
-        if probx != 0:
-            kl += probx * math.log(probx / proby)
+        kl += probx * math.log(probx / proby)
 
     return kl
-
 
 def validate_divergence(grammar, observed_cond_freqdist):
     conds = set([prod.lhs() for prod in grammar.productions()])
@@ -88,8 +99,55 @@ def validate_divergence(grammar, observed_cond_freqdist):
         test_probs = grammar.productions(cond)
         test_probs = map(lambda prod: (prod.rhs(), prod.prob()), test_probs)
         # print test_probs
-        probs_tuples = [(empirical_probdist.prob(nonterminal), prob ) for nonterminal, prob in test_probs]
+        probs_tuples = [(empirical_probdist.prob(nonterminal), prob) for nonterminal, prob in test_probs]
         yield cond, kl_divergence(probs_tuples)
+
+
+def pcfg_validate_divergence(pcfg1, pcfg2):
+    conds = set([p.lhs() for p in pcfg1.productions()] + [p.lhs() for p in pcfg2.productions()])
+
+    for cond in conds:
+        cfg1_prods = pcfg1.productions(cond)
+        cfg1_derivations = defaultdict(int, {prod.rhs(): prod.prob() for prod in cfg1_prods})
+
+        cfg2_prods = pcfg2.productions(cond)
+        cfg2_derivations = defaultdict(int, {prod.rhs(): prod.prob() for prod in cfg2_prods})
+
+        all_derivations = set(cfg1_derivations.keys() + cfg2_derivations.keys())
+
+        probs_tuples = [(cfg1_derivations[d], cfg2_derivations[d]) for d in all_derivations]
+
+        yield cond, kl_divergence(probs_tuples)
+
+
+# def pcfg_validate(pcfg1, pcfg2):
+#
+#     productions1 = pcfg1.productions()
+#     productions2 = pcfg2.productions()
+#
+#     #make production1 and pcfg1 the bigger
+#     if len(productions1) < len(productions2):
+#         productions1, productions2 = productions2, productions1
+#         pcfg1, pcfg2 = pcfg2, pcfg1
+#
+#     prob_tuples = []
+#
+#     for prod in productions1:
+#         other_prob = pcfg_get_production_prob(pcfg2, prod)
+#         prob_tuples.append((prod.prob(), other_prob))
+#
+#     return kl_divergence(prob_tuples)
+
+
+
+def pcfg_get_production_prob(pcfg, production):
+    prods = pcfg.productions(production.lhs(), production.rhs()[0])
+
+    for p in prods:
+        if p.rhs() == production.rhs():
+            return p.prob()
+
+    return 0
 
 
 def simplify_functional_tag(tag):
@@ -143,15 +201,36 @@ def print_leaves(tree):
 if __name__ == '__main__':
     treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
     sents = treebank.parsed_sents()
-    t = 0
-    o = 0
-    for s in sents:
-        l = list(tree_to_productions(filter_tree(s)))
-        # print l
-        t += len(l)
-        o += len(s.productions())
+    # t = 0
+    # o = 0
+    # productions = []
+    # for s in sents:
+    #     l = list(tree_to_productions(filter_tree(s)))
+    #     productions += l
+    #     # print l
+    #     t += len(l)
+    #     o += len(s.productions())
+    #
+    # print "productions = ", t, "out of", o
 
-    print "productions = ", t, "out of", o
+    from nltk.grammar import induce_pcfg
+
+    def get_productions(sents, number_of_trees):
+        productions = []
+        for s in sents[:number_of_trees]:
+            productions += tree_to_productions(filter_tree(s))
+
+        return productions
+
+    pcfg_200 = induce_pcfg(Nonterminal('S'), get_productions(sents, 200))
+    pcfg_400 = induce_pcfg(Nonterminal('S'), get_productions(sents, 400))
+
+    print 'Number of rules in pcfg_200: ',  len(pcfg_200.productions())
+    print 'Number of rules in pcfg_400: ', len(pcfg_400.productions())
+
+    for i in pcfg_validate_divergence(pcfg_200, pcfg_400):
+        print i
+
     # s = sents[490]  # print list(tree_to_productions(s))
     # print s.productions()
     # print list(tree_to_productions(s))
