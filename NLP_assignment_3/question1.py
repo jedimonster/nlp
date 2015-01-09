@@ -1,6 +1,8 @@
 from collections import defaultdict
 import math
 import nltk
+from nltk.corpus import LazyCorpusLoader
+from nltk.corpus import BracketParseCorpusReader
 import scipy
 
 __author__ = 'itay'
@@ -65,9 +67,6 @@ def extract_freqdist(trees):
 
 def _extract_freqdist(tree, freqdist):
     for production in tree.productions():
-        # Tree.productions() returns a list of RHS even if it's a terminal, we go ahead and extract it
-        # production_rhs = production.rhs() if len(production.rhs()) > 1 else production.rhs()[0]
-        # then count the occurrence.
         freqdist[production.lhs()][production.rhs()] += 1
 
 
@@ -93,10 +92,71 @@ def validate_divergence(grammar, observed_cond_freqdist):
         yield cond, kl_divergence(probs_tuples)
 
 
-if __name__ == '__main__':
-    # sample_corpus(1000, lambda: pcfg_generate(nltk.grammar.toy_pcfg2))
-    observed_freqdist = extract_freqdist(extract_trees())
-    test_grammar = nltk.grammar.toy_pcfg2
-    divs = validate_divergence(test_grammar, observed_freqdist)
+def simplify_functional_tag(tag):
+    if '-' in tag:
+        tag = tag.split('-')[0]
+    return tag
 
-    print([d for d in divs])
+
+def get_tag(tree):
+    if isinstance(tree, Tree):
+        return Nonterminal(simplify_functional_tag(tree.label()))
+    else:
+        return tree
+
+
+def leads_to_none(tree):
+    if isinstance(tree, Tree):
+        return not any((not leads_to_none(c)) for c in tree)
+
+    return tree is None
+
+
+def tree_to_production(tree):
+    return Production(get_tag(tree), [get_tag(child) for child in tree if not leads_to_none(child)])
+
+
+def tree_to_productions(tree):
+    production = tree_to_production(tree)
+    if production.rhs() and production.rhs() != production.lhs():
+        yield production
+    for child in tree:
+        if isinstance(child, Tree):
+            for prod in tree_to_productions(child):
+                if len(prod.rhs()) != 0:
+                    yield prod
+                    # else:
+                    # print child
+
+
+def print_leaves(tree):
+    """
+
+    :type tree: Tree
+    """
+    # tree.
+    pass
+
+
+if __name__ == '__main__':
+    treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
+    sents = treebank.parsed_sents()
+    t = 0
+    o = 0
+    for s in sents[:200]:
+        l = list(tree_to_productions(s))
+        print l
+        t += len(l)
+        o += len(s.productions())
+
+    print t, o
+
+    s = sents[490]  # print list(tree_to_productions(s))
+    # print s.productions()
+    # print list(tree_to_productions(s))
+    # prods = tree_to_productions(s)
+    # print ([str(p) for p in prods])
+
+
+
+
