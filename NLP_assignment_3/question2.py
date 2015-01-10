@@ -77,10 +77,7 @@ from nltk import UnigramTagger
 
 def get_pos_tagger():
     all_words = corpus.brown.tagged_sents(tagset='universal')
-    ds_length = len(all_words)
-    train = all_words[int(0.2 * ds_length):]
-    dev = all_words[:int(0.1 * ds_length)]
-    test = all_words[int(0.1 * ds_length):int(0.2 * ds_length)]
+    train = all_words
 
     u0 = UnigramTagger(train, backoff=DefaultTagger("NOUN"))
 
