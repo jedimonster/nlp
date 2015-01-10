@@ -4,6 +4,7 @@ from nltk import induce_pcfg, Nonterminal, ViterbiParser, Tree
 from nltk.corpus import LazyCorpusLoader, BracketParseCorpusReader
 from nltk.treetransforms import chomsky_normal_form
 from question1 import filter_tree, tree_to_productions, pcfg_cnf_learn
+from question2 import *
 
 
 def tree_to_constituents(tree):
@@ -54,7 +55,10 @@ def enumerate_tree(tree, i=0):
 
 def exist_same(con, cons_list):
     for item in cons_list:
-        if (item[0].label() == item[0].label()) and (item[1] == con[1]) and (item[2] == con[2]):
+        # if re.findall(r"\w+", con[0].label()) == []:
+        #     import pdb
+        #     pdb.set_trace()
+        if (item[0].label().split('^')[0].split('|')[0] == con[0].label().split('^')[0].split('|')[0]) and (item[1] == con[1]) and (item[2] == con[2]):
             return True
     return False
 
@@ -109,8 +113,8 @@ def calculate_index_metrics(origin_cons, guess_cons):
 
 def calculate_labeled_metrics(origin_cons, guess_cons):
 
-    origin_labels = set([x[0].label() for x in origin_cons])
-    guess_labels = set([x[0].label() for x in guess_cons])
+    origin_labels = set([x[0].label().split('^')[0].split('|')[0] for x in origin_cons])
+    guess_labels = set([x[0].label().split('^')[0].split('|')[0] for x in guess_cons])
 
     origin_len = len(origin_labels)
     guess_len = len(guess_labels)
@@ -141,37 +145,69 @@ def eval_tree(orig_tree, guess_tree):
     # print "joint    ", calculate_joint_metrics(origin_cons, guess_cons)
     # print "label_only   ", calculate_labeled_metrics(origin_cons, guess_cons)
     a, b, c = calculate_joint_metrics(origin_cons, guess_cons)
-    return a, b
+    d, e, f = calculate_index_metrics(origin_cons,guess_cons)
+    return (a,b), (d,e)
 
-def eval_trees(treebank, parser):
-    for tree in treebank:
-        pass
 
+def eval_trees(trees, parser, pcfg):
+    counter = 0
+    overall_prec_labeled = 0
+    overall_recall_labeled = 0
+    overall_prec_index = 0
+    overall_recall_index = 0
+    for tree in trees:
+        counter += 1
+        tokens = pos_uncovered_tokens(tree.leaves(), pcfg)
+        guess_tree = parser.parse(tokens)
+        guess_tree = list(guess_tree)[0]
+        # guess_tree.draw()
+        # tree.draw()
+        labaled_metrics, index_metrics = eval_tree(tree, guess_tree)
+        pre_labeled, recall_labeled = labaled_metrics
+        pre_index, recall_index = index_metrics
+        overall_prec_labeled += pre_labeled
+        overall_recall_labeled += recall_labeled
+        overall_prec_index += pre_index
+        overall_recall_index += recall_index
+    overall_recall_labeled = overall_recall_labeled/float(counter)
+    overall_prec_labeled = overall_prec_labeled/float(counter)
+    overall_recall_index = overall_recall_index/float(counter)
+    overall_prec_index = overall_prec_index/float(counter)
+    print "precision for labeled: ", overall_prec_labeled
+    print "recall_labeled: ", overall_recall_labeled
+    print "fmeasure labeled ", 2*(overall_prec_labeled*overall_recall_labeled)/(overall_prec_labeled+overall_recall_labeled)
+
+    print "precision for index: ", overall_prec_index
+    print "recall_index: ", overall_recall_index
+    print "fmeasure index ", 2*(overall_prec_index*overall_recall_index)/(overall_prec_index+overall_recall_index)
 
 if __name__ == '__main__':
     treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
     trees = treebank.parsed_sents()
+    # #
+    # eighty_perc = int(len(trees) * 0.8)
+    # training_trees = pcfg_cnf_learn(treebank, eighty_perc)
+    # test_trees = trees[eighty_perc:]
     #
-    eighty_perc = int(len(trees) * 0.8)
-    training_trees = pcfg_cnf_learn(treebank, eighty_perc)
-    test_trees = trees[eighty_perc:]
+    # # print len(training_trees), len(test_trees)
+    #
+    # training_prods = sum([list(tree_to_productions(t)) for t in training_trees], list())
+    # # test_prods = sum([list(tree_to_productions(t)) for t in test_trees], list())
 
-    # print len(training_trees), len(test_trees)
+    # training_pcfg = induce_pcfg(Nonterminal("S"), training_prods)
+    #
+    # parser = ViterbiParser(training_pcfg)
 
-    training_prods = sum([list(tree_to_productions(t)) for t in training_trees], list())
-    # test_prods = sum([list(tree_to_productions(t)) for t in test_trees], list())
+    trees = trees[0:5]
+    cleaned_trees = [filter_tree(tree) for tree in trees]
+    for t in cleaned_trees:
+        chomsky_normal_form(tree, factor='right', horzMarkov=1, vertMarkov=1, childChar='|', parentChar='^')
 
-    training_pcfg = induce_pcfg(Nonterminal("S"), training_prods)
-
-    parser = ViterbiParser(training_pcfg)
-
-    tree = filter_tree(test_trees[0])
-    chomsky_normal_form(tree, factor='right', horzMarkov=1, vertMarkov=1, childChar='|', parentChar='^')
-    tree_to_constituents(tree)
-    for c in tree_to_constituents(tree):
-        print c
+    # tree_to_constituents(tree)
+    # for c in tree_to_constituents(tree):
+    #     print c
 
     # tree.draw()
-    eval_tree(tree, tree)
-
-    eval_trees()
+    # eval_tree(tree, tree)
+    parser, pcfg = get_parser(cleaned_trees)
+    eval_trees(cleaned_trees, parser, pcfg)
