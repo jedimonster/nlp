@@ -169,10 +169,12 @@ def eval_trees(trees, parser, pcfg):
         overall_recall_labeled += recall_labeled
         overall_prec_index += pre_index
         overall_recall_index += recall_index
+
     overall_recall_labeled = overall_recall_labeled/float(counter)
     overall_prec_labeled = overall_prec_labeled/float(counter)
     overall_recall_index = overall_recall_index/float(counter)
     overall_prec_index = overall_prec_index/float(counter)
+
     print "precision for labeled: ", overall_prec_labeled
     print "recall_labeled: ", overall_recall_labeled
     print "fmeasure labeled ", 2*(overall_prec_labeled*overall_recall_labeled)/(overall_prec_labeled+overall_recall_labeled)
@@ -180,6 +182,7 @@ def eval_trees(trees, parser, pcfg):
     print "precision for index: ", overall_prec_index
     print "recall_index: ", overall_recall_index
     print "fmeasure index ", 2*(overall_prec_index*overall_recall_index)/(overall_prec_index+overall_recall_index)
+
 
 if __name__ == '__main__':
     treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
@@ -198,7 +201,7 @@ if __name__ == '__main__':
     #
     # parser = ViterbiParser(training_pcfg)
 
-    trees = trees[0:5]
+    trees = trees[:500]
     cleaned_trees = [filter_tree(tree) for tree in trees]
     for t in cleaned_trees:
         chomsky_normal_form(tree, factor='right', horzMarkov=1, vertMarkov=1, childChar='|', parentChar='^')
