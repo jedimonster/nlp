@@ -206,18 +206,102 @@ def get_productions(sents, number_of_trees):
         return productions
 
 
+def tree_to_cons(tree):
+    return [(tree, 1, 5), (tree, 3, 7)]
+
+
+def exist_same(con, cons_list):
+    for item in cons_list:
+        if (item[0].label() == item[0].label()) and (item[1] == con[1]) and (item[2] == con[2]):
+            return True
+    return False
+
+
+def calculate_joint_metrics(origin_cons, guess_cons):
+    origin_len = len(origin_cons)
+    guess_len = len(guess_cons)
+
+    pre_count = 0
+    recall_count = 0
+    # calculate precision
+    for item in guess_cons:
+        if exist_same(item, origin_cons):
+            pre_count += 1
+
+    for item in origin_cons:
+        if exist_same(item, guess_cons):
+            recall_count += 1
+
+    recall = float(recall_count)/float(origin_len)
+    precision = float(pre_count)/float(guess_len)
+    f_measure = 2*(recall*precision)/(recall + precision)
+
+    return precision, recall, f_measure
+
+
+def calculate_index_metrics(origin_cons, guess_cons):
+    origin_len = len(origin_cons)
+    guess_len = len(guess_cons)
+    origin_indexes = set([(x[1], x[2]) for x in origin_cons])
+    guess_indexes = set([(x[1], x[2]) for x in guess_cons])
+    pre_count = 0
+    recall_count = 0
+    for item in guess_indexes:
+        if item in origin_indexes:
+            pre_count += 1
+
+    for item in origin_indexes:
+        if item in guess_indexes:
+            recall_count += 1
+
+    recall = float(recall_count)/float(origin_len)
+    precision = float(pre_count)/float(guess_len)
+    f_measure = 2*(recall*precision)/(recall + precision)
+
+    return precision, recall, f_measure
+
+
+def calculate_labeled_metrics(origin_cons, guess_cons):
+    origin_len = len(origin_cons)
+    guess_len = len(guess_cons)
+    origin_labels = set([x[0].label() for x in origin_cons])
+    guess_labels = set([x[0].label() for x in guess_cons])
+    pre_count = 0
+    recall_count = 0
+    for item in guess_labels:
+        if item in origin_labels:
+            pre_count += 1
+
+    for item in origin_labels:
+        if item in guess_labels:
+            recall_count += 1
+
+    recall = float(recall_count)/float(origin_len)
+    precision = float(pre_count)/float(guess_len)
+    f_measure = 2*(recall*precision)/(recall + precision)
+
+    return precision, recall, f_measure
+
+def eval_trees(orig_tree, guess_tree):
+    origin_cons = tree_to_cons(orig_tree)
+    guess_cons = tree_to_cons(guess_tree)
+
+
+
 if __name__ == '__main__':
     treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
     sents = treebank.parsed_sents()
 
-    pcfg_200 = induce_pcfg(Nonterminal('S'), get_productions(sents, 200))
-    pcfg_400 = induce_pcfg(Nonterminal('S'), get_productions(sents, 400))
 
-    print 'Number of rules in pcfg_200: ',  len(pcfg_200.productions())
-    print 'Number of rules in pcfg_400: ', len(pcfg_400.productions())
 
-    for i in pcfg_validate_divergence(pcfg_200, pcfg_400):
-        print i
+    # pcfg_200 = induce_pcfg(Nonterminal('S'), get_productions(sents, 200))
+    # pcfg_400 = induce_pcfg(Nonterminal('S'), get_productions(sents, 400))
+    #
+    # print 'Number of rules in pcfg_200: ',  len(pcfg_200.productions())
+    # print 'Number of rules in pcfg_400: ', len(pcfg_400.productions())
+    #
+    # for i in pcfg_validate_divergence(pcfg_200, pcfg_400):
+    #     print i
 
     # s = sents[490]  # print list(tree_to_productions(s))
     # print s.productions()
