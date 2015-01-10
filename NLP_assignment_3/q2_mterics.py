@@ -66,11 +66,23 @@ def calculate_joint_metrics(origin_cons, guess_cons):
     origin_len = len(list(origin_cons))
     guess_len = len(list(guess_cons))
 
+
+
     pre_count = 0
     recall_count = 0
     # calculate precision
     for item in guess_cons:
+        distance = item[2]-item[1]+1
+        label = item[0].label()
+        if label not in ACCURACY_PER_LABEL:
+            ACCURACY_PER_LABEL[label] = {'total': 0, 'matches': 0}
+        if distance not in ACCURACY_PER_DISTANCE_LABELED:
+            ACCURACY_PER_DISTANCE_LABELED[distance] = {'total': 0, 'matches': 0}
+        ACCURACY_PER_LABEL[label]['total'] += 1
+        ACCURACY_PER_DISTANCE_LABELED[distance]['total'] += 1
         if exist_same(item, origin_cons):
+            ACCURACY_PER_DISTANCE_LABELED[distance]['matches'] += 1
+            ACCURACY_PER_LABEL[label]['matches'] += 1
             pre_count += 1
 
     for item in origin_cons:
@@ -83,9 +95,12 @@ def calculate_joint_metrics(origin_cons, guess_cons):
 
     return precision, recall, f_measure
 
+ACCURACY_PER_DISTANCE = {}
+ACCURACY_PER_DISTANCE_LABELED = {}
+ACCURACY_PER_LABEL = {}
+
 
 def calculate_index_metrics(origin_cons, guess_cons):
-
     origin_indexes = set([(x[1], x[2]) for x in origin_cons])
     guess_indexes = set([(x[1], x[2]) for x in guess_cons])
     origin_len = len(origin_indexes)
@@ -93,8 +108,14 @@ def calculate_index_metrics(origin_cons, guess_cons):
     pre_count = 0
     recall_count = 0
     for item in guess_indexes:
+        distance = item[1]-item[0]+1
+        if distance not in ACCURACY_PER_DISTANCE:
+            ACCURACY_PER_DISTANCE[distance] = {'total': 0, 'matches': 0}
+
+        ACCURACY_PER_DISTANCE[distance]['total'] += 1
 
         if item in origin_indexes:
+            ACCURACY_PER_DISTANCE[distance]['matches'] += 1
             pre_count += 1
 
     for item in origin_indexes:
@@ -153,24 +174,27 @@ def eval_trees(trees, parser, pcfg):
     print "fmeasure index ", 2*(overall_prec_index*overall_recall_index)/(overall_prec_index+overall_recall_index)
 
 
+def calculate_accuracy_per_distance():
+    x_axis = ACCURACY_PER_DISTANCE.keys()
+    x_axis.sort()
+    y_axis = [ACCURACY_PER_DISTANCE[x]['matches']/float(ACCURACY_PER_DISTANCE[x]['total']) for x in x_axis]
+    x_axis_labeled = ACCURACY_PER_DISTANCE_LABELED.keys()
+    x_axis_labeled.sort()
+    y_axis_labeled = [ACCURACY_PER_DISTANCE_LABELED[x]['matches']/float(ACCURACY_PER_DISTANCE_LABELED[x]['total']) for x in x_axis_labeled]
+    print x_axis
+    print y_axis
+    import matplotlib.pyplot as plt
+    plt.title("Accuracy per distance")
+    plt.scatter(x_axis, y_axis, c="blue", marker='*', label="accuracy index")
+    plt.scatter(x_axis_labeled, y_axis_labeled, c="red", marker='o', label="accuracy label", alpha=0.5)
+    plt.legend(bbox_to_anchor=(0., 1.02, 1., .102), loc=3, ncol=2, mode="expand", borderaxespad=0.)
+    plt.show()
+
 if __name__ == '__main__':
     treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
     trees = treebank.parsed_sents()
-    # #
-    # eighty_perc = int(len(trees) * 0.8)
-    # training_trees = pcfg_cnf_learn(treebank, eighty_perc)
-    # test_trees = trees[eighty_perc:]
-    #
-    # # print len(training_trees), len(test_trees)
-    #
-    # training_prods = sum([list(tree_to_productions(t)) for t in training_trees], list())
-    # # test_prods = sum([list(tree_to_productions(t)) for t in test_trees], list())
 
-    # training_pcfg = induce_pcfg(Nonterminal("S"), training_prods)
-    #
-    # parser = ViterbiParser(training_pcfg)
-
-    trees = trees[:500]
+    trees = trees[:5]
     cleaned_trees = [filter_tree(tree) for tree in trees]
     for t in cleaned_trees:
         chomsky_normal_form(tree, factor='right', horzMarkov=1, vertMarkov=1, childChar='|', parentChar='^')
@@ -183,3 +207,13 @@ if __name__ == '__main__':
     # eval_tree(tree, tree)
     parser, pcfg = get_parser(cleaned_trees)
     eval_trees(cleaned_trees, parser, pcfg)
+    print "reporting per tag"
+    print '&'*100
+    print ACCURACY_PER_LABEL
+    print len(ACCURACY_PER_LABEL)
+    for item in ACCURACY_PER_LABEL:
+        print item, "  ---total ---> ", ACCURACY_PER_LABEL[item]['total']
+        print item, "  ---precision ---> ", ACCURACY_PER_LABEL[item]['matches']/float(ACCURACY_PER_LABEL[item]['total'])
+    print '&'*100
+    print ACCURACY_PER_DISTANCE
+    calculate_accuracy_per_distance()
