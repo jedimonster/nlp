@@ -92,7 +92,6 @@ tagger = get_pos_tagger()
 
 def pos_uncovered_tokens(test_sentence, training_pcfg):
     pos = tagger.tag(test_sentence)
-    print pos
     for i, token in enumerate(test_sentence):
         if token not in training_pcfg._lexical_index:
             test_sentence[i] = "$" + pos[i][1]
