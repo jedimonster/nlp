@@ -139,6 +139,14 @@ def tree_to_productions(tree):
                 yield prod
 
 
+def tree_to_productions_parents(tree, parent_label):
+    yield (parent_label, tree_to_production(tree))
+    for child in tree:
+        if isinstance(child, Tree):
+            for prod in tree_to_productions_parents(child, tree.label()):
+                yield prod
+
+
 def filter_tree(tree):
     if isinstance(tree, Tree):
         return Tree(simplify_functional_tag(tree.label()), map(filter_tree, filter(leads_to_something, list(tree))))
@@ -162,52 +170,71 @@ def pcfg_cnf_learn(treebank, n):
         yield tree
 
 
-if __name__ == '__main__':
-    # ps = zip([0.5, 0.4, 0, 0, 0.1], [0.6, 0.2, 0.1, 0.1, 0])
-    # print ps
-    # print smooth_probabilities(ps)
-    treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
-    cnfs = pcfg_cnf_learn(treebank, 2)
-    o = 0
-    for s in cnfs:
-        l = list(tree_to_productions(filter_tree(s)))
-        o += len(l)
-    print "internal nodes = ", o
-    # sents = treebank.parsed_sents()[:200]
-    # sents = treebank.parsed_sents()
-    # observed_freqdist = extract_freqdist(extract_trees())
-    # test_grammar = nltk.grammar.toy_pcfg2
-    # divs = validate_divergence(test_grammar, observed_freqdist)
-    #
-    # print list(divs)
-    # t = 0
-    # o = 0
-    # for s in sents:
-    # l = list(tree_to_productions(filter_tree(s)))
-    # print l
-    # t += len(l)
-    # o += len(s.productions())
-    #
-    # print "productions = ", t, "out of", o
-    #
-    # prods = sum([list(tree_to_productions(filter_tree(t))) for t in sents], list())
-    # freq = nltk.FreqDist(prods)
+def pcfg_validate_divergence(pcfg1, pcfg2):
+    conds = set([p.lhs() for p in pcfg1.productions()] + [p.lhs() for p in pcfg2.productions()])
 
-    # print freq.values()
-    # values_frequency = nltk.FreqDist(freq.values())
-    # print values_frequency.keys()
-    # print values_frequency.values()
-    #
-    # import pylab
-    #
-    # pylab.plot([math.log(x) for x in values_frequency.keys()], [math.log(x) for x in values_frequency.values()], '-bo')
+    for cond in conds:
+        cfg1_prods = pcfg1.productions(cond)
+        cfg1_derivations = defaultdict(int, {prod.rhs(): prod.prob() for prod in cfg1_prods})
+
+        cfg2_prods = pcfg2.productions(cond)
+        cfg2_derivations = defaultdict(int, {prod.rhs(): prod.prob() for prod in cfg2_prods})
+
+        all_derivations = set(cfg1_derivations.keys() + cfg2_derivations.keys())
+
+        probs_tuples = [(cfg1_derivations[d], cfg2_derivations[d]) for d in all_derivations]
+
+        yield cond, kl_divergence(probs_tuples)
+
+
+def get_productions(sents, number_of_trees):
+    productions = []
+    for s in sents[:number_of_trees]:
+        productions += tree_to_productions(filter_tree(s))
+
+    return productions
+
+
+import pylab
+
+if __name__ == '__main__':
+    treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
+    trees = treebank.parsed_sents()
+    trees = map(filter_tree, trees)
+    prods = sum([list(tree_to_productions_parents(t, 'DUKIS')) for t in trees], list())
+
+    # only LHS = NP, no parent restriction:
+    # nps = list()
+    nps = filter(lambda prod: prod[1].lhs().symbol() == 'NP', list(prods))
+    rhs = map(lambda x: x[1], nps)
+    rhs_dist = nltk.FreqDist(rhs)
+    print len(rhs_dist.keys())
+
+    # only LHS = NP below S
+    nps_below_s = filter(lambda prod: prod[0] == 'S' and prod[1].lhs().symbol() == 'NP', list(prods))
+    nps_below_s_freq = nltk.FreqDist(nps_below_s)
+    # print len(set(nps_below_s))
+    # print nps_below_s[:10]
+
+    # only LHS = NP below VP
+    nps_below_vp = filter(lambda prod: prod[0] == 'VP' and prod[1].lhs().symbol() == 'NP', list(prods))
+    nps_below_vp_freq = nltk.FreqDist(nps_below_vp)
+
+    nps_below_s_dist = nltk.MLEProbDist(nps_below_s_freq)
+    nps_below_vp_dist = nltk.MLEProbDist(nps_below_vp_freq)
+
+    samples = set(nps_below_s_dist.samples() + nps_below_vp_dist.samples())
+    rhs_probs = [(nps_below_s_dist.prob(rhs), nps_below_vp_dist.prob(rhs)) for rhs in samples]
+
+    print kl_divergence(rhs_probs)
+
+    # print len(set(nps_below_vp))
+    # print nps_below_vp[:10]
+    # pylab.xlabel("Rule frequency")
+    # pylab.ylabel("number of rules")
+    # pylab.plot(rhs_dist.values(), '-bo', )
     # pylab.show()
-    # s = sents[490]
-    # print s
-    # print filter_tree(s)
-# print list(tree_to_productions(s))
-# print len(s.productions())
-# print len(list(tree_to_productions(s)))
-#
-# prods = tree_to_productions(s)
-# print ([str(p) for p in prods])
+    # for prod in prods:
+    # print list(prod)
+    # # if prod[1].lhs().label() == 'NP':
+    # # print 'yippie'
