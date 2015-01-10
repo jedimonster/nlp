@@ -111,7 +111,7 @@ if __name__ == '__main__':
     trees = treebank.parsed_sents()
     #
     eighty_perc = int(len(trees) * 0.8)
-    training_trees, training_pcfs = pcfg_cnf_learn(treebank, eighty_perc)
+    training_trees = pcfg_cnf_learn(treebank, eighty_perc)
     test_trees = trees[eighty_perc:]
 
     # test_prods = sum([list(tree_to_productions(t)) for t in test_trees], list())
