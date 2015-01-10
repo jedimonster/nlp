@@ -66,8 +66,6 @@ def calculate_joint_metrics(origin_cons, guess_cons):
     origin_len = len(list(origin_cons))
     guess_len = len(list(guess_cons))
 
-
-
     pre_count = 0
     recall_count = 0
     # calculate precision
@@ -199,21 +197,16 @@ if __name__ == '__main__':
     for t in cleaned_trees:
         chomsky_normal_form(tree, factor='right', horzMarkov=1, vertMarkov=1, childChar='|', parentChar='^')
 
-    # tree_to_constituents(tree)
-    # for c in tree_to_constituents(tree):
-    #     print c
-
-    # tree.draw()
-    # eval_tree(tree, tree)
     parser, pcfg = get_parser(cleaned_trees)
     eval_trees(cleaned_trees, parser, pcfg)
-    print "reporting per tag"
-    print '&'*100
+
+    print "----------- Reporting Per Label -----------"
     print ACCURACY_PER_LABEL
     print len(ACCURACY_PER_LABEL)
     for item in ACCURACY_PER_LABEL:
-        print item, "  ---total ---> ", ACCURACY_PER_LABEL[item]['total']
-        print item, "  ---precision ---> ", ACCURACY_PER_LABEL[item]['matches']/float(ACCURACY_PER_LABEL[item]['total'])
+        print item, "--- total -------> ", ACCURACY_PER_LABEL[item]['total']
+        print item, "--- precision ---> ", ACCURACY_PER_LABEL[item]['matches']/float(ACCURACY_PER_LABEL[item]['total'])
     print '&'*100
+
     print ACCURACY_PER_DISTANCE
     calculate_accuracy_per_distance()
