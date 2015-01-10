@@ -55,9 +55,6 @@ def enumerate_tree(tree, i=0):
 
 def exist_same(con, cons_list):
     for item in cons_list:
-        # if re.findall(r"\w+", con[0].label()) == []:
-        #     import pdb
-        #     pdb.set_trace()
         if (item[0].label().split('^')[0].split('|')[0] == con[0].label().split('^')[0].split('|')[0]) and (item[1] == con[1]) and (item[2] == con[2]):
             return True
     return False
@@ -111,39 +108,11 @@ def calculate_index_metrics(origin_cons, guess_cons):
     return precision, recall, f_measure
 
 
-def calculate_labeled_metrics(origin_cons, guess_cons):
-
-    origin_labels = set([x[0].label().split('^')[0].split('|')[0] for x in origin_cons])
-    guess_labels = set([x[0].label().split('^')[0].split('|')[0] for x in guess_cons])
-
-    origin_len = len(origin_labels)
-    guess_len = len(guess_labels)
-
-    pre_count = 0
-    recall_count = 0
-    for item in guess_labels:
-        if item in origin_labels:
-            pre_count += 1
-
-    for item in origin_labels:
-        if item in guess_labels:
-            recall_count += 1
-
-    recall = float(recall_count)/float(origin_len)
-    precision = float(pre_count)/float(guess_len)
-    f_measure = 2*(recall*precision)/(recall + precision)
-
-    return precision, recall, f_measure
-
 def eval_tree(orig_tree, guess_tree):
     origin_cons = tree_to_constituents(orig_tree)
     guess_cons = tree_to_constituents(guess_tree)
     origin_cons = list(origin_cons)
     guess_cons = list(guess_cons)
-    # print "*"*100
-    # print "index d  ", calculate_index_metrics(origin_cons, guess_cons)
-    # print "joint    ", calculate_joint_metrics(origin_cons, guess_cons)
-    # print "label_only   ", calculate_labeled_metrics(origin_cons, guess_cons)
     a, b, c = calculate_joint_metrics(origin_cons, guess_cons)
     d, e, f = calculate_index_metrics(origin_cons,guess_cons)
     return (a,b), (d,e)
