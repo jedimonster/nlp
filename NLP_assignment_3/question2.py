@@ -109,7 +109,6 @@ def get_parser(training_trees):
 if __name__ == '__main__':
     treebank = LazyCorpusLoader('treebank/combined', BracketParseCorpusReader, r'wsj_.*\.mrg')
     trees = treebank.parsed_sents()
-    #
     eighty_perc = int(len(trees) * 0.8)
     training_trees = pcfg_cnf_learn(treebank, eighty_perc)
     test_trees = trees[eighty_perc:]
