@@ -134,8 +134,9 @@ class TWSCalculator(object):
         return self.rf_dict[term, category]
 
     def _rf(self, term, category):
-        positive_documents = [x for x in self.docs_categories if x == category]
-        negative_documents = [x for x in self.docs_categories if x != category]
+        doc_cat = izip(self.training_docs, self.docs_categories)
+        positive_documents = [x[0] for x in doc_cat if x[1] == category]
+        negative_documents = [x[0] for x in doc_cat if x[1] != category]
         a, b, c, d = 0, 0, 0, 0
         # a - number of documents in the positive category which contain this term
         # b - number of documents in the positive category which do not contain this term
@@ -152,6 +153,7 @@ class TWSCalculator(object):
             else:
                 d += 1
         rf = math.log(2 + (float(a)/max(float(1), float(c))))
+
         return rf
 
     def tf_rf(self, term, document):
