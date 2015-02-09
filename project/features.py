@@ -126,6 +126,25 @@ class TWSCalculator(object):
 
         return self.tf(term, document)*weighted_ig
 
+    def _xi_square(self, term, categoty):
+        true_lambda = lambda x: True
+        false_lambda = lambda x: False
+
+        numerator = self.prob_term_and_category(true_lambda, true_lambda) * self.prob_term_and_category(false_lambda, false_lambda)
+        numerator -= self.prob_term_and_category(true_lambda, false_lambda) * self.prob_term_and_category(false_lambda, true_lambda)
+        numerator = math.pow(numerator, 2)
+
+        p_t = float(self._df(term)) / self.N()
+        p_not_t = 1 - p_t
+        p_c = float(sum((1 for c in self.docs_categories if c == categoty))) / self.N()
+        p_not_c = 1 - p_c
+
+        denominator = p_t * p_c * p_not_t * p_not_c
+
+        result = float(numerator) / denominator
+
+        return result
+
 
 if __name__ == '__main__':
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
