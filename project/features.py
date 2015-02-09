@@ -8,7 +8,7 @@ import terminals
 
 class TWSCalculator(object):
     def __init__(self, training_docs, docs_categories):
-        self._EPSILON = 0.0001
+        self._EPSILON = 10 ** -20
         self.docs_categories = docs_categories
         self.categories = sorted(set(docs_categories))
         self.training_docs = training_docs
@@ -42,10 +42,10 @@ class TWSCalculator(object):
 
     def _idf(self, term):
         df = self._df(term)
-        return math.log(float(self.N()) / max(df, 1), 2)
+        return math.log(float(self.N()) / df, 2)
 
     def tf_idf(self, term, document):
-        return self.tf(term, document) * self.idf(term)
+        return self.tf(term, document) * self._idf(term)
 
     def prob_term_and_category(self, term_occures, category_filter):
         """
