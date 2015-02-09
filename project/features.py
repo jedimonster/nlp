@@ -126,6 +126,8 @@ class TWSCalculator(object):
 
         return self.tf(term, document)*weighted_ig
 
+    
+
 
 if __name__ == '__main__':
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
