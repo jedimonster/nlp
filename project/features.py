@@ -54,7 +54,6 @@ class FeatureExtractor(object):
         :param category_filter:  lambda (c) true iff that's the category we're interested in.
         :return: probability for document be in said category and contain said term.
         """
-        # TODO this does not work. eg. p(bank, acq) == 0 !
         doc_cat = izip(self.training_docs, self.docs_categories)
         occurrences = sum(term_occures(document) for document, category in doc_cat if category_filter(category))
         return float(occurrences) / self.N()
