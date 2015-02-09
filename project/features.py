@@ -73,7 +73,7 @@ class TWSCalculator(object):
         if p_t_c == 0:
             p_t_c = self._EPSILON
 
-        return p_t_c * math.log(p_t_c / (p_t * p_c), 2)
+        return math.fabs(p_t_c * math.log(p_t_c / (p_t * p_c), 2))
 
     def _ig(self, term, category):
         # We're looking at the formula from http://dl.acm.org/citation.cfm?doid=952532.952688
@@ -155,7 +155,6 @@ class TWSCalculator(object):
         return rf
 
     def tf_rf(self, term, document):
-        cat_rf = {}
         res = []
         # Calculate  rf for every category
         for cat in self.categories:
@@ -163,7 +162,7 @@ class TWSCalculator(object):
             p_c = self.docs_categories.count(cat)/float(self.N())
             res.append(float(rf)*p_c)
 
-        weighted_rf = sum(cat_rf.values())
+        weighted_rf = sum(res)
         return self.tf(term, document)*weighted_rf
 
 
@@ -183,6 +182,11 @@ if __name__ == '__main__':
     fe = TWSCalculator(documents, docs_categories)
 
     print "tf =", fe.tf(term, doc), "idf =", fe.idf(term), "tf-idf =", fe.tf_idf(term, doc)
+    term = terminals.WordTerm("in")
+    print "tf_ig: ", fe.tf_ig(term, doc), " tf_rf: ", fe.tf_rf(term, doc)
     print "IG for term 'bank':"
     for c in sorted(set(docs_categories)):
         print c, ":", fe.ig(terminals.WordTerm("bank"), c)
+    print "RF for term 'bank':"
+    for c in sorted(set(docs_categories)):
+        print c, ":", fe.rf(terminals.WordTerm("bank"), c)
