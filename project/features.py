@@ -14,6 +14,7 @@ class TWSCalculator(object):
         self.training_docs = training_docs
         self.idf_dict = {}
         self.ig_dict = {}
+        self.chi_dict = {}
 
     def N(self):
         return len(self.training_docs)
@@ -131,23 +132,31 @@ class TWSCalculator(object):
         weighed_chi = 0
 
         for cat in self.categories:
-            chi = self._chi_square(term, cat)
+            chi = self.chi_square(term, cat)
             p_c = self.docs_categories.count(cat)/float(self.N())
             weighed_chi += chi * p_c
 
         return self.tf(term, doc)*weighed_chi
 
-    def _chi_square(self, term, categoty):
-        true_lambda = lambda x: True
-        false_lambda = lambda x: False
+    def chi_square(self, term, category):
+        if (term, category) not in self.chi_dict:
+            self.chi_dict[term, category] = self._chi_square(term, category)
 
-        numerator = self.prob_term_and_category(true_lambda, true_lambda) * self.prob_term_and_category(false_lambda, false_lambda)
-        numerator -= self.prob_term_and_category(true_lambda, false_lambda) * self.prob_term_and_category(false_lambda, true_lambda)
+        return self.chi_dict[term, category]
+
+    def _chi_square(self, term, category):
+        category_equal = lambda c: c == category
+        category_complements = lambda c: c != category
+        term_occurs = lambda d: term.frequency(d) > 0
+        term_complements = lambda d: term.frequency(d) == 0
+
+        numerator = self.prob_term_and_category(term_occurs, category_equal) * self.prob_term_and_category(term_complements, category_complements)
+        numerator -= self.prob_term_and_category(term_occurs, category_complements) * self.prob_term_and_category(term_complements, category_equal)
         numerator = math.pow(numerator, 2)
 
         p_t = float(self._df(term)) / self.N()
         p_not_t = 1 - p_t
-        p_c = float(sum((1 for c in self.docs_categories if c == categoty))) / self.N()
+        p_c = float(sum((1 for c in self.docs_categories if c == category))) / self.N()
         p_not_c = 1 - p_c
 
         denominator = p_t * p_c * p_not_t * p_not_c
@@ -170,6 +179,9 @@ if __name__ == '__main__':
     fe = TWSCalculator(documents, docs_categories)
 
     print "tf =", fe.tf(term, doc), "idf =", fe.idf(term), "tf-idf =", fe.tf_idf(term, doc)
-    print "IG for term 'bank':"
-    for c in sorted(set(docs_categories)):
-        print c, ":", fe.ig(terminals.WordTerm("bank"), c)
+    print "term 'bank':"
+
+    # print 'TF-IG:', fe.tf_ig(terminals.WordTerm("in"), doc)
+    print "TF-CHI: ", fe.tf_chi(terminals.WordTerm("in"), doc)
+    # print 'TF-IG:', fe.tf_ig(terminals.WordTerm("in"), doc)
+    print "TF-CHI: ", fe.tf_chi(terminals.WordTerm("in"), doc)
