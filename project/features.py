@@ -57,7 +57,7 @@ class FeatureExtractor(object):
         # TODO this does not work. eg. p(bank, acq) == 0 !
         doc_cat = izip(self.training_docs, self.docs_categories)
         occurrences = sum(term_occures(document) for document, category in doc_cat if category_filter(category))
-        return occurrences / self.N()
+        return float(occurrences) / self.N()
 
     # def prob_term_category(self, term, category_filter):
     # doc_cat = izip(self.training_docs, self.docs_categories)
@@ -89,14 +89,14 @@ class FeatureExtractor(object):
         p_t = float(self._df(term)) / self.N()
         p_c = float(sum((category_equal(c) for c in self.docs_categories))) / self.N()
         acc += self._ig_inner_sum(p, p_c, p_t)
-        print category, "p(t,c) = ", p
+        # print category, "p(t,c) = ", p
 
         # (t, c'):
         p = self.prob_term_and_category(term_occurs, category_complements)
         p_t = float(self._df(term)) / self.N()
         p_c = float(sum((category_complements(c) for c in self.docs_categories))) / self.N()
         acc += self._ig_inner_sum(p, p_c, p_t)
-        print category, "p(t,c') = ", p
+        # print category, "p(t,c') = ", p
 
         # (t', c):
         p = self.prob_term_and_category(term_complements, category_equal)
@@ -116,12 +116,12 @@ class FeatureExtractor(object):
 if __name__ == '__main__':
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
                                         reuters.fileids())
-    documents = reuters.sents(training_fileids)
+    documents = [sum(reuters.sents(fid), []) for fid in training_fileids]
     doc = documents[0]
     term = terminals.WordTerm("in")
     docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
     print docs_categories
-
+    print doc
     fe = FeatureExtractor(documents, docs_categories)
 
     print "tf =", fe.tf(term, doc), "idf =", fe.idf(term), "tf-idf =", fe.tf_idf(term, doc)
