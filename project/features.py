@@ -6,7 +6,7 @@ __author__ = 'itay'
 import terminals
 
 
-class FeatureExtractor(object):
+class TWSCalculator(object):
     def __init__(self, training_docs, docs_categories):
         self._EPSILON = 0.0001
         self.docs_categories = docs_categories
@@ -111,6 +111,21 @@ class FeatureExtractor(object):
 
         return acc
 
+    def tf_ig(self, term, document):
+        cat_information_gain = {}
+        # Calculate  ig for every category
+        for cat in self.categories:
+            ig = self.ig(term, cat)
+            cat_information_gain[cat] = ig
+        # Calculate weighted ig for every category
+        for cat in cat_information_gain:
+            p_c = self.docs_categories.count(cat)/float(self.N())
+            cat_information_gain[cat] = float(cat_information_gain[cat])*p_c
+
+        weighted_ig = sum(cat_information_gain.values())
+
+        return self.tf(term, document)*weighted_ig
+
 
 if __name__ == '__main__':
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
@@ -121,7 +136,7 @@ if __name__ == '__main__':
     docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
     print docs_categories
     print doc
-    fe = FeatureExtractor(documents, docs_categories)
+    fe = TWSCalculator(documents, docs_categories)
 
     print "tf =", fe.tf(term, doc), "idf =", fe.idf(term), "tf-idf =", fe.tf_idf(term, doc)
     print "IG for term 'bank':"

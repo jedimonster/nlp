@@ -35,6 +35,9 @@ class WordTerm(AbstractTerm):
     def _frequency(self, document):
         return document.count(self._word)
 
+    def __repr__(self):
+        return self.__class__.__name__ + " " + str(self._word)
+
 
 if __name__ == '__main__':
     training_fileids = fileids = filter(lambda x: "training" in x, reuters.fileids())
