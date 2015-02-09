@@ -37,9 +37,8 @@ class WordTerm(AbstractTerm):
         AbstractTerm.__init__(self)
         self._word = word
 
-
     def __eq__(self, other):
-        return (isinstance(other, self.__class__) and other._word == self._word
+        return (isinstance(other, self.__class__) and other._word == self._word)
 
     def __hash__(self):
         # todo incorporate the fact this is a WordTerm

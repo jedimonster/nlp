@@ -223,12 +223,15 @@ if __name__ == '__main__':
     fe = TWSCalculator(documents, docs_categories)
 
     print "tf =", fe.tf(term, doc), "idf =", fe.idf(term), "tf-idf =", fe.tf_idf(term, doc)
-    print "IG for term 'bank':"
-    for c in sorted(set(docs_categories)):
-        print c, ":", fe.ig(terminals.WordTerm("bank"), c)
 
     
     term = terminals.WordTerm("in")
+
+    print 'TF-CHI: ', fe.tf_chi(term, doc)
+    print 'TF-CHI: ', fe.tf_chi(term, doc)
+    print 'TF-IG: ', fe.tf_ig(term, doc)
+    print 'TF-IG: ', fe.tf_ig(term, doc)
+
     print "tf_ig: ", fe.tf_ig(term, doc), " tf_rf: ", fe.tf_rf(term, doc)
     print "IG for term 'bank':"
     for c in sorted(set(docs_categories)):
