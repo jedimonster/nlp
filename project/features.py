@@ -233,9 +233,10 @@ if __name__ == '__main__':
     print 'TF-IG: ', fe.tf_ig(term, doc)
 
     print "tf_ig: ", fe.tf_ig(term, doc), " tf_rf: ", fe.tf_rf(term, doc)
-    print "IG for term 'bank':"
     for c in sorted(set(docs_categories)):
-        print c, ":", fe.ig(terminals.WordTerm("bank"), c)
+        print c, ": IG", fe.ig(terminals.WordTerm("bank"), c)
+        print c, ": CHI", fe.ig(terminals.WordTerm("bank"), c)
+
     print "RF for term 'bank':"
     for c in sorted(set(docs_categories)):
         print c, ":", fe.rf(terminals.WordTerm("bank"), c)
