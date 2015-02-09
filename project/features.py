@@ -14,6 +14,7 @@ class TWSCalculator(object):
         self.training_docs = training_docs
         self.idf_dict = {}
         self.ig_dict = {}
+        self.rf_dict = {}
 
     def N(self):
         return len(self.training_docs)
@@ -126,7 +127,48 @@ class TWSCalculator(object):
 
         return self.tf(term, document)*weighted_ig
 
-    
+    def rf(self, term, category):
+        if (term, category) not in self.rf_dict:
+            self.rf_dict[term, category] = self._rf(term, category)
+
+        return self.rf_dict[term, category]
+
+    def _rf(self, term, category):
+        positive_documents = [x for x in self.docs_categories if x == category]
+        negative_documents = [x for x in self.docs_categories if x != category]
+        a, b, c, d = 0, 0, 0, 0
+        # a - number of documents in the positive category which contain this term
+        # b - number of documents in the positive category which do not contain this term
+        # c - number of documents in the negative category which contain this term
+        # d - number of documents in the negative category which do not contain this term
+        for item in positive_documents:
+            if term.frequency(item) >= 1:
+                a += 1
+            else:
+                b += 1
+        for item in negative_documents:
+            if term.frequency(item) >= 1:
+                c += 1
+            else:
+                d += 1
+        rf = math.log(2 + (float(a)/max(float(1), float(c))))
+        return rf
+
+    def tf_rf(self, term, document):
+        cat_rf = {}
+        res = []
+        # Calculate  rf for every category
+        for cat in self.categories:
+            rf = self.rf(term, cat)
+            p_c = self.docs_categories.count(cat)/float(self.N())
+            res.append(float(rf)*p_c)
+
+        weighted_rf = sum(cat_rf.values())
+        return self.tf(term, document)*weighted_rf
+
+
+
+
 
 
 if __name__ == '__main__':
