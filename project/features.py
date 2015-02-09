@@ -8,12 +8,13 @@ import terminals
 
 class TWSCalculator(object):
     def __init__(self, training_docs, docs_categories):
-        self._EPSILON = 0.0001
+        self._EPSILON = 10 ** -20
         self.docs_categories = docs_categories
         self.categories = sorted(set(docs_categories))
         self.training_docs = training_docs
         self.idf_dict = {}
         self.ig_dict = {}
+        self.rf_dict = {}
         self.chi_dict = {}
 
     def N(self):
@@ -126,7 +127,6 @@ class TWSCalculator(object):
         weighted_ig = sum(cat_information_gain.values())
 
         return self.tf(term, document)*weighted_ig
-
     def tf_chi(self, term, doc):
 
         weighed_chi = 0
@@ -166,6 +166,50 @@ class TWSCalculator(object):
         return result
 
 
+    def rf(self, term, category):
+        if (term, category) not in self.rf_dict:
+            self.rf_dict[term, category] = self._rf(term, category)
+
+        return self.rf_dict[term, category]
+
+    def _rf(self, term, category):
+        doc_cat = izip(self.training_docs, self.docs_categories)
+        positive_documents = [x[0] for x in doc_cat if x[1] == category]
+        negative_documents = [x[0] for x in doc_cat if x[1] != category]
+        a, b, c, d = 0, 0, 0, 0
+        # a - number of documents in the positive category which contain this term
+        # b - number of documents in the positive category which do not contain this term
+        # c - number of documents in the negative category which contain this term
+        # d - number of documents in the negative category which do not contain this term
+        for item in positive_documents:
+            if term.frequency(item) >= 1:
+                a += 1
+            else:
+                b += 1
+        for item in negative_documents:
+            if term.frequency(item) >= 1:
+                c += 1
+            else:
+                d += 1
+        rf = math.log(2 + (float(a)/max(float(1), float(c))))
+
+        return rf
+
+    def tf_rf(self, term, document):
+        res = []
+        # Calculate  rf for every category
+        for cat in self.categories:
+            rf = self.rf(term, cat)
+            p_c = self.docs_categories.count(cat)/float(self.N())
+            res.append(float(rf)*p_c)
+
+        weighted_rf = sum(res)
+        return self.tf(term, document)*weighted_rf
+
+
+
+
+
 
 if __name__ == '__main__':
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
@@ -179,9 +223,16 @@ if __name__ == '__main__':
     fe = TWSCalculator(documents, docs_categories)
 
     print "tf =", fe.tf(term, doc), "idf =", fe.idf(term), "tf-idf =", fe.tf_idf(term, doc)
-    print "term 'bank':"
+    print "IG for term 'bank':"
+    for c in sorted(set(docs_categories)):
+        print c, ":", fe.ig(terminals.WordTerm("bank"), c)
 
-    # print 'TF-IG:', fe.tf_ig(terminals.WordTerm("in"), doc)
-    print "TF-CHI: ", fe.tf_chi(terminals.WordTerm("in"), doc)
-    # print 'TF-IG:', fe.tf_ig(terminals.WordTerm("in"), doc)
-    print "TF-CHI: ", fe.tf_chi(terminals.WordTerm("in"), doc)
+    
+    term = terminals.WordTerm("in")
+    print "tf_ig: ", fe.tf_ig(term, doc), " tf_rf: ", fe.tf_rf(term, doc)
+    print "IG for term 'bank':"
+    for c in sorted(set(docs_categories)):
+        print c, ":", fe.ig(terminals.WordTerm("bank"), c)
+    print "RF for term 'bank':"
+    for c in sorted(set(docs_categories)):
+        print c, ":", fe.rf(terminals.WordTerm("bank"), c)

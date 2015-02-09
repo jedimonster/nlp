@@ -12,12 +12,14 @@ class AbstractTerm(object):
         self._frequencies = {}
 
     def frequency(self, document):
-        if isinstance(document, list):
-            document = tuple(document)
-        if document not in self._frequencies:
-            self._frequencies[document] = self._frequency(document)
-
-        return self._frequencies[document]
+        # todo fix this memoization so that each document remember the terms that appear in it.
+        # if isinstance(document, list):
+        # document = tuple(document)
+        # if document not in self._frequencies:
+        # self._frequencies[document] = self._frequency(document)
+        #
+        # return self._frequencies[document]
+        return self._frequency(document)
 
     def _frequency(self, document):
         """
@@ -26,14 +28,29 @@ class AbstractTerm(object):
         """
         raise NotImplemented
 
+    def __str__(self):
+        raise NotImplemented
+
 
 class WordTerm(AbstractTerm):
     def __init__(self, word):
         AbstractTerm.__init__(self)
         self._word = word
 
+
+    def __eq__(self, other):
+        return (isinstance(other, self.__class__) and other._word == self._word
+
+    def __hash__(self):
+        # todo incorporate the fact this is a WordTerm
+        return hash(self._word)
+
+
     def _frequency(self, document):
         return document.count(self._word)
+
+    def __str__(self):
+        return str(self._word)
 
     def __repr__(self):
         return self.__class__.__name__ + " " + str(self._word)
