@@ -13,14 +13,14 @@ class AbstractTerm(object):
         self._frequencies = {}
 
     def frequency(self, document):
-        # todo fix this memoization so that each document remember the terms that appear in it.
-        if isinstance(document, list):
-            document = tuple(document)
-        if document not in self._frequencies:
-            self._frequencies[document] = self._frequency(document)
-
-        return self._frequencies[document]
-        # return self._frequency(document)
+        # # todo fix this memoization so that each document remember the terms that appear in it.
+        # if isinstance(document, list):
+        # document = tuple(document)
+        # if document not in self._frequencies:
+        # self._frequencies[document] = self._frequency(document)
+        # 
+        # return self._frequencies[document]
+        return self._frequency(document)
 
     def _frequency(self, document):
         """
@@ -69,12 +69,22 @@ class WordTermExtractor(object):
         self.logger.info("calculating top %d word terms according to IG", k)
         terms = self.all_terms()
 
-        self.logger.debug("starting math")
+        self.logger.debug("starting IG algebra")
         term_ig = [(term, self._tws_calculator.max_ig(term)) for term in terms]
-        term_ig = sorted(term_ig, key=lambda tig: tig[1])
+        term_ig = sorted(term_ig, key=lambda tig: tig[1], reverse=True)
 
         self.logger.info("returning top terms")
         return [term for term, ig in term_ig[:k]]
+
+    def top_common_words(self, k):
+        self.logger.info("calculating top %d word terms according to frequency", k)
+
+        terms = self.all_terms()
+        terms_freq = ((term, sum((term.frequency(doc) for doc in self._documents))) for term in terms)
+
+        terms_freq = sorted(terms_freq, key=lambda x: x[1], reverse=True)
+
+        return [term for term, freq in terms_freq[:k]]
 
 
 if __name__ == '__main__':
