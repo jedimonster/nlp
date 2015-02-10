@@ -1,4 +1,5 @@
 from nltk.corpus import reuters
+from parameters import ProjectParams
 
 
 class AbstractTerm(object):
@@ -13,13 +14,13 @@ class AbstractTerm(object):
 
     def frequency(self, document):
         # todo fix this memoization so that each document remember the terms that appear in it.
-        # if isinstance(document, list):
-        # document = tuple(document)
-        # if document not in self._frequencies:
-        # self._frequencies[document] = self._frequency(document)
-        #
-        # return self._frequencies[document]
-        return self._frequency(document)
+        if isinstance(document, list):
+            document = tuple(document)
+        if document not in self._frequencies:
+            self._frequencies[document] = self._frequency(document)
+
+        return self._frequencies[document]
+        # return self._frequency(document)
 
     def _frequency(self, document):
         """
@@ -55,6 +56,27 @@ class WordTerm(AbstractTerm):
         return self.__class__.__name__ + " " + str(self._word)
 
 
+class WordTermExtractor(object):
+    def __init__(self, documents, tws_calculator):
+        self._tws_calculator = tws_calculator
+        self._documents = documents
+        self.logger = ProjectParams.logger
+
+    def all_terms(self):
+        return list(map(lambda w: WordTerm(w), set(sum(self._documents, []))))
+
+    def top_max_ig(self, k):
+        self.logger.info("calculating top %d word terms according to IG", k)
+        terms = self.all_terms()
+
+        self.logger.debug("starting math")
+        term_ig = [(term, self._tws_calculator.max_ig(term)) for term in terms]
+        term_ig = sorted(term_ig, key=lambda tig: tig[1])
+
+        self.logger.info("returning top terms")
+        return [term for term, ig in term_ig[:k]]
+
+
 if __name__ == '__main__':
     training_fileids = fileids = filter(lambda x: "training" in x, reuters.fileids())
     documents = reuters.sents(training_fileids)
@@ -63,3 +85,4 @@ if __name__ == '__main__':
     print documents[0]
     print " ".join(documents[0])
     print WordTerm("in").frequency(documents[0])
+

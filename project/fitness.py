@@ -1,8 +1,10 @@
+from logging import Logger
+import logging
 from nltk.corpus import reuters
 from sklearn.feature_extraction import DictVectorizer
 from features import TWSCalculator
 from parameters import ProjectParams
-from terminals import WordTerm
+from terminals import WordTerm, WordTermExtractor
 
 __author__ = 'itay'
 
@@ -19,7 +21,9 @@ class FeatureExtractor(object):
 
         for t in self._terms:
             # tws = self._tws_calculator.tws(individual, t, document)
-            tws = self._tws_calculator.tf_idf(t, document)  # todo use the line above
+            tws = self._tws_calculator.terminals(t, document)
+            # todo use individual to process tws's
+            tws = sum(tws)
             doc_features[t] = tws
 
         vector = vectorizer.fit_transform(doc_features)
@@ -72,16 +76,24 @@ class TWSFitnessCalculator(object):
 
 
 if __name__ == '__main__':
+    logger = ProjectParams.logger
+    logger.setLevel(logging.DEBUG)
+
+    logger.info("Starting program")
+
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
-                                        reuters.fileids())
+                                        reuters.fileids(categories=['gold', 'money-fx', 'trade']))
     documents = [sum(reuters.sents(fid), []) for fid in training_fileids]
     docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
 
+    tws_calculator = TWSCalculator(documents, docs_categories)
+    word_term_extractor = WordTermExtractor(documents, tws_calculator)
     doc = documents[0]
 
-    all_terms = list(map(lambda w: WordTerm(w), set(sum(documents, []))))
-    doc0terms = list(map(lambda w: WordTerm(w), set(doc)))
+    top_terms = word_term_extractor.top_max_ig(5)
+    print top_terms
+    # doc0terms = list(map(lambda w: WordTerm(w), set(doc)))
 
-    feature_extractor = FeatureExtractor(documents, TWSCalculator(documents, docs_categories), doc0terms)
+    feature_extractor = FeatureExtractor(documents, tws_calculator, top_terms)
 
     print feature_extractor.get_weighted_features(None, doc)

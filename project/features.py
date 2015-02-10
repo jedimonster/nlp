@@ -1,6 +1,7 @@
 from itertools import izip
 import math
 from nltk.corpus import reuters
+from parameters import ProjectParams
 
 __author__ = 'itay'
 import terminals
@@ -16,6 +17,15 @@ class TWSCalculator(object):
         self.ig_dict = {}
         self.rf_dict = {}
         self.chi_dict = {}
+        self.logger = ProjectParams.logger
+        self.df_dict = {}
+
+        self._pc = dict((cat, float(self.docs_categories.count(cat)) / self.N()) for cat in self.categories)
+
+        print self._pc
+        self.logger.debug("Created TWS Calculator with %d documents and %d categories", len(training_docs),
+                          len(
+                              self.categories))
 
     def N(self):
         return len(self.training_docs)
@@ -29,6 +39,9 @@ class TWSCalculator(object):
         """
         return term.frequency(document) > 0
 
+    def tf_idf(self, term, document):
+        return self.tf(term, document) * self.idf(term)
+
     def tf(self, term, document):
         return term.frequency(document)
 
@@ -38,18 +51,22 @@ class TWSCalculator(object):
 
         return self.idf_dict[term]
 
-    def _df(self, term):
-        df = sum(self.bool(term, document) for document in self.training_docs)
-        return df
+    def tf_ig(self, term, document):
+        cat_information_gain = {}
+        # Calculate  ig for every category
+        for cat in self.categories:
+            ig = self.ig(term, cat)
+            cat_information_gain[cat] = ig
+        # Calculate weighted ig for every category
+        for cat in cat_information_gain:
+            p_c = self.docs_categories.count(cat) / float(self.N())
+            cat_information_gain[cat] = float(cat_information_gain[cat]) * p_c
 
-    def _idf(self, term):
-        df = self._df(term)
-        return math.log(float(self.N()) / max(df, 1), 2)
+        weighted_ig = sum(cat_information_gain.values())
 
-    def tf_idf(self, term, document):
-        return self.tf(term, document) * self.idf(term)
+        return self.tf(term, document) * weighted_ig
 
-    def prob_term_and_category(self, term_occures, category_filter):
+    def _prob_term_and_category(self, term_occures, category_filter):
         """
 
         :param term_occures: lambda (d) that returns true iff term occurs in d.
@@ -60,14 +77,44 @@ class TWSCalculator(object):
         occurrences = sum(term_occures(document) for document, category in doc_cat if category_filter(category))
         return float(occurrences) / self.N()
 
+    def _df(self, term):
+        if term not in self.df_dict:
+            self.df_dict[term] = sum(self.bool(term, document) for document in self.training_docs)
+
+        return self.df_dict[term]
+
     # def prob_term_category(self, term, category_filter):
     # doc_cat = izip(self.training_docs, self.docs_categories)
+
+    def _idf(self, term):
+        df = self._df(term)
+        return math.log(float(self.N()) / max(df, 1), 2)
+
+    def tf_chi(self, term, doc):
+
+        weighed_chi = 0
+
+        for cat in self.categories:
+            chi = self.chi_square(term, cat)
+            p_c = self.docs_categories.count(cat) / float(self.N())
+            weighed_chi += chi * p_c
+
+        return self.tf(term, doc) * weighed_chi
+
+    def max_ig(self, term):
+        max((self._ig(term, c) for c in self.categories))
 
     def ig(self, term, category):
         if (term, category) not in self.ig_dict:
             self.ig_dict[term, category] = self._ig(term, category)
 
         return self.ig_dict[term, category]
+
+    def chi_square(self, term, category):
+        if (term, category) not in self.chi_dict:
+            self.chi_dict[term, category] = self._chi_square(term, category)
+
+        return self.chi_dict[term, category]
 
     def _ig_inner_sum(self, p_t_c, p_c, p_t):
         # p_t_c may be 0:
@@ -86,63 +133,33 @@ class TWSCalculator(object):
         term_complements = lambda d: term.frequency(d) == 0
 
         # (t, c):
-        p = self.prob_term_and_category(term_occurs, category_equal)
+        p = self._prob_term_and_category(term_occurs, category_equal)
         p_t = float(self._df(term)) / self.N()
-        p_c = float(sum((category_equal(c) for c in self.docs_categories))) / self.N()
+        p_c = self._pc[category]
         acc += self._ig_inner_sum(p, p_c, p_t)
         # print category, "p(t,c) = ", p
 
         # (t, c'):
-        p = self.prob_term_and_category(term_occurs, category_complements)
+        p = self._prob_term_and_category(term_occurs, category_complements)
         p_t = float(self._df(term)) / self.N()
-        p_c = float(sum((category_complements(c) for c in self.docs_categories))) / self.N()
+        p_c = sum([self._pc[c] for c in self.categories if category_complements(c)])
+        # p_c = float(sum((category_complements(c) for c in self.docs_categories))) / self.N()
         acc += self._ig_inner_sum(p, p_c, p_t)
         # print category, "p(t,c') = ", p
 
         # (t', c):
-        p = self.prob_term_and_category(term_complements, category_equal)
+        p = self._prob_term_and_category(term_complements, category_equal)
         p_t = 1 - float(self._df(term)) / self.N()
-        p_c = float(sum((category_equal(c) for c in self.docs_categories))) / self.N()
+        p_c = self._pc[category]
         acc += self._ig_inner_sum(p, p_c, p_t)
 
         # (t', c'):
-        p = self.prob_term_and_category(term_complements, category_equal)
+        p = self._prob_term_and_category(term_complements, category_equal)
         p_t = 1 - float(self._df(term)) / self.N()
-        p_c = float(sum((category_complements(c) for c in self.docs_categories))) / self.N()
+        p_c = sum([self._pc[c] for c in self.categories if category_complements(c)])
         acc += self._ig_inner_sum(p, p_c, p_t)
 
         return acc
-
-    def tf_ig(self, term, document):
-        cat_information_gain = {}
-        # Calculate  ig for every category
-        for cat in self.categories:
-            ig = self.ig(term, cat)
-            cat_information_gain[cat] = ig
-        # Calculate weighted ig for every category
-        for cat in cat_information_gain:
-            p_c = self.docs_categories.count(cat)/float(self.N())
-            cat_information_gain[cat] = float(cat_information_gain[cat])*p_c
-
-        weighted_ig = sum(cat_information_gain.values())
-
-        return self.tf(term, document)*weighted_ig
-    def tf_chi(self, term, doc):
-
-        weighed_chi = 0
-
-        for cat in self.categories:
-            chi = self.chi_square(term, cat)
-            p_c = self.docs_categories.count(cat)/float(self.N())
-            weighed_chi += chi * p_c
-
-        return self.tf(term, doc)*weighed_chi
-
-    def chi_square(self, term, category):
-        if (term, category) not in self.chi_dict:
-            self.chi_dict[term, category] = self._chi_square(term, category)
-
-        return self.chi_dict[term, category]
 
     def _chi_square(self, term, category):
         category_equal = lambda c: c == category
@@ -150,8 +167,10 @@ class TWSCalculator(object):
         term_occurs = lambda d: term.frequency(d) > 0
         term_complements = lambda d: term.frequency(d) == 0
 
-        numerator = self.prob_term_and_category(term_occurs, category_equal) * self.prob_term_and_category(term_complements, category_complements)
-        numerator -= self.prob_term_and_category(term_occurs, category_complements) * self.prob_term_and_category(term_complements, category_equal)
+        numerator = self._prob_term_and_category(term_occurs, category_equal) * self._prob_term_and_category(
+            term_complements, category_complements)
+        numerator -= self._prob_term_and_category(term_occurs, category_complements) * self._prob_term_and_category(
+            term_complements, category_equal)
         numerator = math.pow(numerator, 2)
 
         p_t = float(self._df(term)) / self.N()
@@ -191,7 +210,7 @@ class TWSCalculator(object):
                 c += 1
             else:
                 d += 1
-        rf = math.log(2 + (float(a)/max(float(1), float(c))))
+        rf = math.log(2 + (float(a) / max(float(1), float(c))))
 
         return rf
 
@@ -200,15 +219,16 @@ class TWSCalculator(object):
         # Calculate  rf for every category
         for cat in self.categories:
             rf = self.rf(term, cat)
-            p_c = self.docs_categories.count(cat)/float(self.N())
-            res.append(float(rf)*p_c)
+            p_c = self.docs_categories.count(cat) / float(self.N())
+            res.append(float(rf) * p_c)
 
         weighted_rf = sum(res)
-        return self.tf(term, document)*weighted_rf
+        return self.tf(term, document) * weighted_rf
 
-
-
-
+    def terminals(self, term, document):
+        return (
+            self.bool(term, document), self.tf(term, document), self.tf_idf(term, document), self.tf_ig(term, document),
+            self.tf_chi(term, document), self.tf_rf(term, document))
 
 
 if __name__ == '__main__':
@@ -224,7 +244,6 @@ if __name__ == '__main__':
 
     print "tf =", fe.tf(term, doc), "idf =", fe.idf(term), "tf-idf =", fe.tf_idf(term, doc)
 
-    
     term = terminals.WordTerm("in")
 
     print 'TF-CHI: ', fe.tf_chi(term, doc)
