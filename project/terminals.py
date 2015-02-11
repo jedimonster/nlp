@@ -13,7 +13,8 @@ class AbstractTerm(object):
         self._frequencies = {}
 
     def frequency(self, document):
-        # # todo fix this memoization so that each document remember the terms that appear in it.
+        # todo fix this memoization so that each document calculates and remember the terms that appear in it.
+
         # if isinstance(document, list):
         # document = tuple(document)
         # if document not in self._frequencies:
@@ -22,12 +23,16 @@ class AbstractTerm(object):
         # return self._frequencies[document]
         return self._frequency(document)
 
-    def _frequency(self, document):
-        """
-        :param document: document as represented in nltk  - array of words.
-        :return: frequency of the term in the document.
-        """
+    def get_terms(document):
+        # todo memoization on the result
         raise NotImplemented
+
+    # def _frequency(self, document):
+    # """
+    # :param document: document as represented in nltk  - array of words.
+    #     :return: frequency of the term in the document.
+    #     """
+    #     raise NotImplemented
 
     def __str__(self):
         raise NotImplemented
@@ -83,6 +88,8 @@ class WordTermExtractor(object):
         terms_freq = ((term, sum((term.frequency(doc) for doc in self._documents))) for term in terms)
 
         terms_freq = sorted(terms_freq, key=lambda x: x[1], reverse=True)
+
+        self.logger.info("returning top %d word terms according to frequency", k)
 
         return [term for term, freq in terms_freq[:k]]
 

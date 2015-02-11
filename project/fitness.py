@@ -30,12 +30,11 @@ class FeatureExtractor(object):
             tws = self._tws_calculator.terminals(t, document)
             # todo use individual to process tws's
             # tws is array of (bool, tf, tf-idf, tf-ig, tf-chi, tf-rf)
-            interesting_terms = (tws[1], tws[2])
+            interesting_terms = tws
             doc_features[t] = individual_func(*interesting_terms)
 
         # print doc_features
         vector = vectorizer.fit_transform(doc_features)
-
         return vector
 
 
@@ -62,11 +61,15 @@ class TWSFitnessCalculator(object):
         :param individual: lambda that takes term features and returns a TWS.
         :return:
         """
+        self.logger.info("Calculating fitness")
+        self.logger.debug("for " + str(individual))
         # func = toolbox.compile(expr=individual)
         func = deap.gp.compile(individual, pset)
         fmeasures = []
 
         for k in range(self.k_fold):
+            self.logger.debug("k= " + str(k))
+
             test = self._docs_chunk(k)
             train = sum((self._docs_chunk(i) for i in range(self.k_fold) if i != k), [])
 
@@ -89,7 +92,9 @@ class TWSFitnessCalculator(object):
 
         # print fmeasures
 
-        return sum(fmeasures) / len(fmeasures)
+        fitness = sum(fmeasures) / len(fmeasures)
+        print "fitness=", fitness
+        return [fitness]
 
     def classify(self, documents):
         """
