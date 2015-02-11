@@ -28,12 +28,13 @@ class AbstractTerm(object):
         # todo memoization on the result
         raise NotImplemented
 
-    # def _frequency(self, document):
-    # """
-    # :param document: document as represented in nltk  - array of words.
-    #     :return: frequency of the term in the document.
-    #     """
-    #     raise NotImplemented
+    def _frequency(self, document):
+        """
+        :param document: document as represented in nltk  - array of words.
+        :return: frequency of the term in the document.
+        """
+
+        raise NotImplemented
 
     def __str__(self):
         raise NotImplemented
@@ -53,7 +54,7 @@ class WordTerm(AbstractTerm):
 
 
     def _frequency(self, document):
-        return document.count(self._word)
+        return ProjectParams.terms_matrix.get_freq(document.index, self._word)
 
     def __str__(self):
         return str(self._word)
@@ -75,6 +76,14 @@ class WordTermMatrix(object):
         return self.sklean_matrix[doc_index][(0, word_index)]
 
 
+def get_document_objects(documents):
+    doc_obj = []
+    for i, doc in enumerate(documents):
+        doc_obj.append(Document(i, doc))
+
+    return doc_obj
+
+
 class Document(object):
     def __init__(self, index, doc):
         self.index = index
@@ -88,23 +97,22 @@ class WordTermExtractor(object):
     def __init__(self, documents, tws_calculator):
         self._tws_calculator = tws_calculator
         self._documents = documents
-        self.documents = []
+        # self.documents = []
         self.logger = ProjectParams.logger
+        self._build_term_matrix()
+
 
     def _build_term_matrix(self):
         vectorizer = CountVectorizer(lowercase=False)
-        matrix = vectorizer.fit_transform([' '.join(doc) for doc in self._documents])
+        matrix = vectorizer.fit_transform([' '.join(doc.doc) for doc in self._documents])
 
-        #create all documents
-        for doc, i in zip(self._documents, range(len(self._documents))):
-            self.documents.append(Document(i, doc))
-
-        mapping = {w:i for i,w in zip(range(len(vectorizer.get_feature_names())), vectorizer.get_feature_names())}
+        # create all documents
+        mapping = {w: i for i, w in zip(range(len(vectorizer.get_feature_names())), vectorizer.get_feature_names())}
 
         ProjectParams.terms_matrix = WordTermMatrix(matrix, mapping)
 
     def all_terms(self):
-        return list(map(lambda w: WordTerm(w), set(sum(self._documents, []))))
+        return map(lambda w: WordTerm(w), ProjectParams.terms_matrix.words_mapping.keys())
 
     def top_max_ig(self, k):
         self.logger.info("calculating top %d word terms according to IG", k)
@@ -141,9 +149,6 @@ if __name__ == '__main__':
 
     print 'Checking Vectorizer'
     w = WordTermExtractor(documents, None)
-    w._build_term_matrix()
     doc_objects = w.documents
     print doc_objects[0].get_freq('BAHIA')
     print doc_objects[0].get_freq('bahia')
-
-

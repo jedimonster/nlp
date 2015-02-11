@@ -4,7 +4,7 @@ from nltk.corpus import reuters
 from sklearn.svm import SVC
 from features import TWSCalculator
 from fitness import TWSFitnessCalculator, FeatureExtractor
-from terminals import WordTermExtractor
+from terminals import WordTermExtractor, get_document_objects
 
 __author__ = 'itay'
 
@@ -32,6 +32,8 @@ if __name__ == '__main__':
     training_documents = [sum(reuters.sents(fid), []) for fid in training_fileids]
     training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
 
+    training_documents = get_document_objects(training_documents)
+
     test_documents = [sum(reuters.sents(fid), []) for fid in test_fileids]
     test_docs_categories = [reuters.categories(fid)[0] for fid in test_fileids]
     end_clock()
@@ -45,12 +47,12 @@ if __name__ == '__main__':
     start_clock("getting top words by frequency")
     top_terms = word_term_extractor.top_common_words(2000)
     end_clock()
-
-    start_clock("creating feature extractor")
-    feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
-    end_clock()
-
-    fitness_calculator = TWSFitnessCalculator(SVC(), zip(training_documents, training_docs_categories),
-                                              feature_extractor)
-
-
+    #
+    # start_clock("creating feature extractor")
+    # feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
+    # end_clock()
+    #
+    # fitness_calculator = TWSFitnessCalculator(SVC(), zip(training_documents, training_docs_categories),
+    # feature_extractor)
+    #
+    #
