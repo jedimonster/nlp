@@ -129,8 +129,10 @@ class WordTermExtractor(object):
         self.logger.info("calculating top %d word terms according to frequency", k)
 
         terms = self.all_terms()
-        terms_freq = ((term, sum((term.frequency(doc) for doc in self._documents))) for term in terms)
-
+        import pdb
+        pdb.set_trace()
+        terms_freq = [(term, sum((term.frequency(doc) for doc in self._documents))) for term in terms]
+        pdb.set_trace()
         terms_freq = sorted(terms_freq, key=lambda x: x[1], reverse=True)
 
         self.logger.info("returning top %d word terms according to frequency", k)
