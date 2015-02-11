@@ -180,6 +180,10 @@ class TWSCalculator(object):
 
         denominator = p_t * p_c * p_not_t * p_not_c
 
+        #not sure what to do if denominator is zero
+        if denominator == 0:
+            return 0
+
         result = float(numerator) / denominator
 
         return result
