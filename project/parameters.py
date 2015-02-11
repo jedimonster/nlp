@@ -10,3 +10,5 @@ class ProjectParams(object):
     logger.addHandler(logging.StreamHandler())
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     logging.Formatter = formatter
+
+    terms_matrix = None

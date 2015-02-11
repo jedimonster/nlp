@@ -1,5 +1,6 @@
 from nltk.corpus import reuters
 from parameters import ProjectParams
+from sklearn.feature_extraction.text import CountVectorizer
 
 
 class AbstractTerm(object):
@@ -61,11 +62,46 @@ class WordTerm(AbstractTerm):
         return self.__class__.__name__ + " " + str(self._word)
 
 
+class WordTermMatrix(object):
+    def __init__(self, sklearn_matrix, words_mapping):
+        self.sklean_matrix = sklearn_matrix
+        self.words_mapping = words_mapping
+
+    def get_freq(self, doc_index, word):
+        if word not in self.words_mapping:
+            return 0
+
+        word_index = self.words_mapping[word]
+        return self.sklean_matrix[doc_index][(0, word_index)]
+
+
+class Document(object):
+    def __init__(self, index, doc):
+        self.index = index
+        self.doc = doc
+
+    def get_freq(self, word_term):
+        return ProjectParams.terms_matrix.get_freq(self.index, word_term)
+
+
 class WordTermExtractor(object):
     def __init__(self, documents, tws_calculator):
         self._tws_calculator = tws_calculator
         self._documents = documents
+        self.documents = []
         self.logger = ProjectParams.logger
+
+    def _build_term_matrix(self):
+        vectorizer = CountVectorizer(lowercase=False)
+        matrix = vectorizer.fit_transform([' '.join(doc) for doc in self._documents])
+
+        #create all documents
+        for doc, i in zip(self._documents, range(len(self._documents))):
+            self.documents.append(Document(i, doc))
+
+        mapping = {w:i for i,w in zip(range(len(vectorizer.get_feature_names())), vectorizer.get_feature_names())}
+
+        ProjectParams.terms_matrix = WordTermMatrix(matrix, mapping)
 
     def all_terms(self):
         return list(map(lambda w: WordTerm(w), set(sum(self._documents, []))))
@@ -102,4 +138,12 @@ if __name__ == '__main__':
     print documents[0]
     print " ".join(documents[0])
     print WordTerm("in").frequency(documents[0])
+
+    print 'Checking Vectorizer'
+    w = WordTermExtractor(documents, None)
+    w._build_term_matrix()
+    doc_objects = w.documents
+    print doc_objects[0].get_freq('BAHIA')
+    print doc_objects[0].get_freq('bahia')
+
 
