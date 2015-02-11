@@ -1,3 +1,4 @@
+import collections
 from nltk.corpus import reuters
 from parameters import ProjectParams
 from sklearn.feature_extraction.text import CountVectorizer
@@ -64,9 +65,10 @@ class WordTerm(AbstractTerm):
 
 
 class WordTermMatrix(object):
-    def __init__(self, sklearn_matrix, words_mapping):
+    def __init__(self, sklearn_matrix, words_mapping, total_freq):
         self.sklean_matrix = sklearn_matrix
         self.words_mapping = words_mapping
+        self.total_freq = total_freq
 
     def get_freq(self, doc_index, word):
         if word not in self.words_mapping:
@@ -97,7 +99,6 @@ class WordTermExtractor(object):
     def __init__(self, documents, tws_calculator):
         self._tws_calculator = tws_calculator
         self._documents = documents
-        # self.documents = []
         self.logger = ProjectParams.logger
         self._build_term_matrix()
 
@@ -106,10 +107,15 @@ class WordTermExtractor(object):
         vectorizer = CountVectorizer(lowercase=False)
         matrix = vectorizer.fit_transform([' '.join(doc.doc) for doc in self._documents])
 
-        # create all documents
         mapping = {w: i for i, w in zip(range(len(vectorizer.get_feature_names())), vectorizer.get_feature_names())}
 
-        ProjectParams.terms_matrix = WordTermMatrix(matrix, mapping)
+        #calc total freq
+        total_freq = collections.defaultdict(int)
+        for doc in self._documents:
+            for word in doc.doc:
+                total_freq[word] += 1
+
+        ProjectParams.terms_matrix = WordTermMatrix(matrix, mapping, total_freq)
 
     def all_terms(self):
         return map(lambda w: WordTerm(w), ProjectParams.terms_matrix.words_mapping.keys())
@@ -145,12 +151,14 @@ if __name__ == '__main__':
     documents = reuters.sents(training_fileids)
     # dict = set(reuters.words(training_fileids))
 
-    print documents[0]
-    print " ".join(documents[0])
-    print WordTerm("in").frequency(documents[0])
+    # print documents[0]
+    # print " ".join(documents[0])
+    # print WordTerm("in").frequency(documents[0])
 
     print 'Checking Vectorizer'
+    documents = get_document_objects(documents)
     w = WordTermExtractor(documents, None)
-    doc_objects = w.documents
-    print doc_objects[0].get_freq('BAHIA')
-    print doc_objects[0].get_freq('bahia')
+    print documents[0].get_freq('BAHIA')
+    print documents[0].get_freq('bahia')
+
+    print ProjectParams.terms_matrix.total_freq
