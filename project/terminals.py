@@ -113,9 +113,14 @@ class WordTermExtractor(object):
         total_freq = collections.defaultdict(int)
         for doc in self._documents:
             for word in doc.doc:
-                total_freq[word] += 1
+                if word in mapping:
+                    total_freq[word] += 1
+
+
 
         ProjectParams.terms_matrix = WordTermMatrix(matrix, mapping, total_freq)
+
+
 
     def all_terms(self):
         return map(lambda w: WordTerm(w), ProjectParams.terms_matrix.words_mapping.keys())
