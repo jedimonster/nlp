@@ -47,12 +47,22 @@ if __name__ == '__main__':
     start_clock("getting top words by frequency")
     top_terms = word_term_extractor.top_common_words(2000)
     end_clock()
-    #
-    # start_clock("creating feature extractor")
-    # feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
-    # end_clock()
-    #
-    # fitness_calculator = TWSFitnessCalculator(SVC(), zip(training_documents, training_docs_categories),
-    # feature_extractor)
-    #
-    #
+
+    start_clock("creating feature extractor")
+    feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
+    end_clock()
+
+    fitness_calculator = TWSFitnessCalculator(SVC(), zip(training_documents, training_docs_categories),
+                                              feature_extractor)
+
+    print tws_calculator.tf(top_terms[0], training_documents[0])
+
+    start_clock("Calculating tf-idf on one term")
+    tws_calculator.tf_idf(top_terms[0], training_documents[0])
+    end_clock()
+    start_clock("Calculating chi on one term")
+    tws_calculator.chi_square(top_terms[0], training_documents[0])
+    end_clock()
+    start_clock("Calculating IG on one term")
+    tws_calculator.ig(top_terms[0], training_documents[0])
+    end_clock()

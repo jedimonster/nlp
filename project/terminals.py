@@ -109,7 +109,7 @@ class WordTermExtractor(object):
 
         mapping = {w: i for i, w in zip(range(len(vectorizer.get_feature_names())), vectorizer.get_feature_names())}
 
-        #calc total freq
+        # calc total freq
         total_freq = collections.defaultdict(int)
         for doc in self._documents:
             for word in doc.doc:
@@ -135,16 +135,14 @@ class WordTermExtractor(object):
     def top_common_words(self, k):
         self.logger.info("calculating top %d word terms according to frequency", k)
 
-        terms = self.all_terms()
-        import pdb
-        pdb.set_trace()
-        terms_freq = [(term, sum((term.frequency(doc) for doc in self._documents))) for term in terms]
-        pdb.set_trace()
+        # terms = self.all_terms()
+        # terms_freq = [(term, sum((term.frequency(doc) for doc in self._documents))) for term in terms]
+        terms_freq = ProjectParams.terms_matrix.total_freq.items()
         terms_freq = sorted(terms_freq, key=lambda x: x[1], reverse=True)
 
         self.logger.info("returning top %d word terms according to frequency", k)
 
-        return [term for term, freq in terms_freq[:k]]
+        return [WordTerm(term) for term, freq in terms_freq[:k]]
 
 
 if __name__ == '__main__':
