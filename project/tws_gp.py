@@ -14,7 +14,7 @@ from sklearn.svm import SVC
 from features import TWSCalculator
 from fitness import TWSFitnessCalculator, FeatureExtractor
 from parameters import ProjectParams
-from terminals import WordTermExtractor
+from terminals import WordTermExtractor, get_document_objects
 
 __author__ = 'itay'
 
@@ -39,6 +39,8 @@ if __name__ == '__main__':
     training_documents = [sum(reuters.sents(fid), []) for fid in training_fileids]
     training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
 
+    training_documents = get_document_objects(training_documents, training_docs_categories)
+
     test_documents = [sum(reuters.sents(fid), []) for fid in test_fileids]
     test_docs_categories = [reuters.categories(fid)[0] for fid in test_fileids]
 
@@ -51,8 +53,7 @@ if __name__ == '__main__':
 
     feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
 
-    fitness_calculator = TWSFitnessCalculator(SVC(), zip(training_documents, training_docs_categories),
-                                              feature_extractor)
+    fitness_calculator = TWSFitnessCalculator(SVC(), training_documents, feature_extractor)
 
     def if_then_else(input, output1, output2):
         return output1 if input else output2

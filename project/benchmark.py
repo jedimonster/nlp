@@ -86,7 +86,15 @@ if __name__ == '__main__':
     tws_calculator.chi_square(top_terms[0], training_documents[0])
     end_clock()
 
-    # start_clock("Calculating IG on one term")
-    # tws_calculator.ig(top_terms[0], training_documents[0])
-    # end_clock()
+    start_clock("Calculating IG on one term")
+    tws_calculator.ig(top_terms[0], training_documents[0])
+    end_clock()
 
+    start_clock("Calculating feature vector for one term")
+    tws_calculator.terminals(top_terms[0], training_documents[0])
+    end_clock()
+
+    start_clock("Calculating feature vectors for one document, 2K terms")
+    for term in top_terms:
+        tws_calculator.terminals(term, training_documents[0])
+    end_clock()

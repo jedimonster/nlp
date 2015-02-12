@@ -1,6 +1,7 @@
 from itertools import izip
 import math
 from nltk.corpus import reuters
+import sys
 from parameters import ProjectParams
 
 __author__ = 'itay'
@@ -56,7 +57,7 @@ class TWSCalculator(object):
         cat_information_gain = {}
         # Calculate  ig for every category
         for cat in self.categories:
-            ig = self.ig(term, cat)
+            ig = self.ig(term, document)
             cat_information_gain[cat] = ig
         # Calculate weighted ig for every category
         for cat in cat_information_gain:
@@ -92,11 +93,10 @@ class TWSCalculator(object):
         return math.log(float(self.N()) / max(df, 1), 2)
 
     def tf_chi(self, term, doc):
-
         weighed_chi = 0
 
         for cat in self.categories:
-            chi = self.chi_square(term, cat)
+            chi = self.chi_square(term, doc)
             p_c = self.docs_categories.count(cat) / float(self.N())
             weighed_chi += chi * p_c
 
@@ -105,13 +105,15 @@ class TWSCalculator(object):
     def max_ig(self, term):
         max((self._ig(term, c) for c in self.categories))
 
-    def ig(self, term, category):
+    def ig(self, term, document):
+        category = document.category
         if (term, category) not in self.ig_dict:
             self.ig_dict[term, category] = self._ig(term, category)
 
         return self.ig_dict[term, category]
 
-    def chi_square(self, term, category):
+    def chi_square(self, term, document):
+        category = document.category
         if (term, category) not in self.chi_dict:
             self.chi_dict[term, category] = self._chi_square(term, category)
 
@@ -121,8 +123,10 @@ class TWSCalculator(object):
         # p_t_c may be 0:
         if p_t_c == 0:
             p_t_c = self._EPSILON
-
         return p_t_c * math.log(p_t_c / (p_t * p_c), 2)
+
+    def _prob_term_not_category(self, term, category):
+        return sum(self._prob_term_and_category(term, c) for c in self.categories if c != category)
 
     def _ig(self, term, category):
         # We're looking at the formula from http://dl.acm.org/citation.cfm?doid=952532.952688
@@ -134,14 +138,14 @@ class TWSCalculator(object):
         term_complements = lambda d: term.frequency(d) == 0
 
         # (t, c):
-        p = self._prob_term_and_category_OLD_DELETE_ME(term_occurs, category_equal)
+        p = self._prob_term_and_category(term, category)
         p_t = float(self._df(term)) / self.N()
         p_c = self._pc[category]
         acc += self._ig_inner_sum(p, p_c, p_t)
         # print category, "p(t,c) = ", p
 
         # (t, c'):
-        p = self._prob_term_and_category_OLD_DELETE_ME(term_occurs, category_complements)
+        p = self._prob_term_not_category(term, category)
         p_t = float(self._df(term)) / self.N()
         p_c = sum([self._pc[c] for c in self.categories if category_complements(c)])
         # p_c = float(sum((category_complements(c) for c in self.docs_categories))) / self.N()
@@ -149,13 +153,13 @@ class TWSCalculator(object):
         # print category, "p(t,c') = ", p
 
         # (t', c):
-        p = self._prob_term_and_category_OLD_DELETE_ME(term_complements, category_equal)
-        p_t = 1 - float(self._df(term)) / self.N()
         p_c = self._pc[category]
+        p = p_c - self._prob_term_and_category(term, category)
+        p_t = 1 - float(self._df(term)) / self.N()
         acc += self._ig_inner_sum(p, p_c, p_t)
 
         # (t', c'):
-        p = self._prob_term_and_category_OLD_DELETE_ME(term_complements, category_equal)
+        p = (1 - p_c) - self._prob_term_not_category(term, category)
         p_t = 1 - float(self._df(term)) / self.N()
         p_c = sum([self._pc[c] for c in self.categories if category_complements(c)])
         acc += self._ig_inner_sum(p, p_c, p_t)
@@ -164,21 +168,25 @@ class TWSCalculator(object):
 
     def _prob_term_and_category(self, term, category):
         if (term, category) not in self.term_category_dict:
-            p = sum(self.bool(term, d) for d in self.training_docs if d.category == category)
+            p = float(sum(self.bool(term, d) for d in self.training_docs if d.category == category)) / self.N()
             self.term_category_dict[term, category] = p
 
         return self.term_category_dict[term, category]
 
     def _chi_square(self, term, category):
-        category_equal = lambda c: c == category
-        category_complements = lambda c: c != category
-        term_occurs = lambda d: term.frequency(d) > 0
-        term_complements = lambda d: term.frequency(d) == 0
+        # category_equal = lambda c: c == category
+        # category_complements = lambda c: c != category
+        # term_occurs = lambda d: term.frequency(d) > 0
+        # term_complements = lambda d: term.frequency(d) == 0
 
-        numerator = self._prob_term_and_category(term, category) * self._prob_term_and_category_OLD_DELETE_ME(
-            term_complements, category_complements)
-        numerator -= sum(self._prob_term_and_category(term, c) for c in self.categories if
-                         c != category) * (1 - self._prob_term_and_category(term, category))
+        p_c = self._pc[category]
+        p_termC_catC = (1 - p_c) - self._prob_term_not_category(term, category)
+        numerator = self._prob_term_and_category(term, category) * p_termC_catC
+
+        numerator -= self._prob_term_not_category(term, category) * (1 - self._prob_term_and_category(term, category))
+
+        # numerator = self._prob_term_and_category(term, category) * self._prob_term_and_category_OLD_DELETE_ME(
+        # term_complements, category_complements)
         # numerator -= sum(self._prob_term_and_category(term, c) for c in self.categories if
         # c != category) * self._prob_term_and_category_OLD_DELETE_ME(
         # term_complements, category_equal)
@@ -187,7 +195,7 @@ class TWSCalculator(object):
 
         p_t = float(self._df(term)) / self.N()
         p_not_t = 1 - p_t
-        p_c = float(sum((1 for c in self.docs_categories if c == category))) / self.N()
+        p_c = self._pc[category]
         p_not_c = 1 - p_c
 
         denominator = p_t * p_c * p_not_t * p_not_c
@@ -275,3 +283,4 @@ if __name__ == '__main__':
     print "RF for term 'bank':"
     for c in sorted(set(docs_categories)):
         print c, ":", fe.rf(terminals.WordTerm("bank"), c)
+

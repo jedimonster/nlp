@@ -41,17 +41,17 @@ class FeatureExtractor(object):
 class TWSFitnessCalculator(object):
     k_fold = ProjectParams.k_fold
 
-    def __init__(self, classifier, training_data, features_extractor):
+    def __init__(self, classifier, training_documents, features_extractor):
         """
         Fitness calculator for the TWS GP.
         :param classifier: one of sklearn's classifier, expected to support fit and predict.
-        :param training_data: collection of tuples (document, class).
+        :param training_documents: collection of document objects.
         :param features_extractor: collection of AbstractTerms.
         """
         super(TWSFitnessCalculator, self).__init__()
         self._features_extractor = features_extractor
         self._classifier = classifier
-        self._training_docs = training_data
+        self._training_docs = training_documents
         self._chunk_size = len(self._training_docs) / self.k_fold
         self.logger = ProjectParams.logger
 
@@ -72,9 +72,8 @@ class TWSFitnessCalculator(object):
 
             test = self._docs_chunk(k)
             train = sum((self._docs_chunk(i) for i in range(self.k_fold) if i != k), [])
-
-            test_docs, test_categories = zip(*test)
-            train_docs, train_categories = zip(*train)
+            train_categories = [d.category for d in train]
+            test_categories = [d.category for d in test]
 
             train_feature_vectors = [self._features_extractor.get_weighted_features(func, doc) for doc in
                                      train]
