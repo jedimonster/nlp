@@ -32,7 +32,7 @@ if __name__ == '__main__':
     training_documents = [sum(reuters.sents(fid), []) for fid in training_fileids]
     training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
 
-    training_documents = get_document_objects(training_documents)
+    training_documents = get_document_objects(training_documents, training_docs_categories)
 
     test_documents = [sum(reuters.sents(fid), []) for fid in test_fileids]
     test_docs_categories = [reuters.categories(fid)[0] for fid in test_fileids]
@@ -57,12 +57,36 @@ if __name__ == '__main__':
 
     print tws_calculator.tf(top_terms[0], training_documents[0])
 
+    start_clock("Calculating df of one term")
+    tws_calculator._df(top_terms[0])
+    end_clock()
+
+    start_clock("Calculating df of one term 10^5")
+    for i in range(10 ** 5):
+        tws_calculator._df(top_terms[0])
+    end_clock()
+
+    start_clock("Calculating tf of one term")
+    tws_calculator.tf(top_terms[0], training_documents[0])
+    end_clock()
+
+    start_clock("Calculating tf of one term x10000")
+    for i in range(10000):
+        tws_calculator.tf(top_terms[0], training_documents[0])
+    end_clock()
+
     start_clock("Calculating tf-idf on one term")
     tws_calculator.tf_idf(top_terms[0], training_documents[0])
     end_clock()
+    start_clock("Calculating tf-idf on SAME term")
+    tws_calculator.tf_idf(top_terms[0], training_documents[0])
+    end_clock()
+
     start_clock("Calculating chi on one term")
     tws_calculator.chi_square(top_terms[0], training_documents[0])
     end_clock()
-    start_clock("Calculating IG on one term")
-    tws_calculator.ig(top_terms[0], training_documents[0])
-    end_clock()
+
+    # start_clock("Calculating IG on one term")
+    # tws_calculator.ig(top_terms[0], training_documents[0])
+    # end_clock()
+
