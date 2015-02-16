@@ -57,8 +57,9 @@ class TWSCalculator(object):
         cat_information_gain = {}
         # Calculate  ig for every category
         for cat in self.categories:
-            ig = self.ig(term, document)
+            ig = self.ig(term, cat)
             cat_information_gain[cat] = ig
+
         # Calculate weighted ig for every category
         for cat in cat_information_gain:
             p_c = self.docs_categories.count(cat) / float(self.N())
@@ -67,17 +68,6 @@ class TWSCalculator(object):
         weighted_ig = sum(cat_information_gain.values())
 
         return self.tf(term, document) * weighted_ig
-
-    def _prob_term_and_category_OLD_DELETE_ME(self, term_occures, category_filter):
-        """
-        :param term_occures: lambda (d) that returns true iff term occurs in d.
-        :param category_filter:  lambda (c) true iff that's the category we're interested in.
-        :return: probability for document be in said category and contain said term.
-        """
-
-        doc_cat = izip(self.training_docs, self.docs_categories)
-        occurrences = sum(term_occures(document) for document, category in doc_cat if category_filter(category))
-        return float(occurrences) / self.N()
 
     def _df(self, term):
         if term not in self.df_dict:
@@ -96,8 +86,8 @@ class TWSCalculator(object):
         weighed_chi = 0
 
         for cat in self.categories:
-            chi = self.chi_square(term, doc)
-            p_c = self.docs_categories.count(cat) / float(self.N())
+            chi = self.chi_square(term, cat)
+            p_c = self._pc[cat]
             weighed_chi += chi * p_c
 
         return self.tf(term, doc) * weighed_chi
@@ -105,15 +95,13 @@ class TWSCalculator(object):
     def max_ig(self, term):
         max((self._ig(term, c) for c in self.categories))
 
-    def ig(self, term, document):
-        category = document.category
+    def ig(self, term, category):
         if (term, category) not in self.ig_dict:
             self.ig_dict[term, category] = self._ig(term, category)
 
         return self.ig_dict[term, category]
 
-    def chi_square(self, term, document):
-        category = document.category
+    def chi_square(self, term, category):
         if (term, category) not in self.chi_dict:
             self.chi_dict[term, category] = self._chi_square(term, category)
 
@@ -125,44 +113,37 @@ class TWSCalculator(object):
             p_t_c = self._EPSILON
         return p_t_c * math.log(p_t_c / (p_t * p_c), 2)
 
-    def _prob_term_not_category(self, term, category):
-        return sum(self._prob_term_and_category(term, c) for c in self.categories if c != category)
 
     def _ig(self, term, category):
         # We're looking at the formula from http://dl.acm.org/citation.cfm?doid=952532.952688
         # calculate each of the 4 possibilities for (t, c) - (t,c), (t, c'), (t', c), (t', c')
         acc = 0
-        category_equal = lambda c: c == category
-        category_complements = lambda c: c != category
-        term_occurs = lambda d: term.frequency(d) > 0
-        term_complements = lambda d: term.frequency(d) == 0
 
+        p_c = self._pc[category]
+        p_c_comp = 1 - p_c
         # (t, c):
         p = self._prob_term_and_category(term, category)
-        p_t = float(self._df(term)) / self.N()
-        p_c = self._pc[category]
+        doc_freq = float(self._df(term)) / self.N()
+        p_t = doc_freq
         acc += self._ig_inner_sum(p, p_c, p_t)
         # print category, "p(t,c) = ", p
 
         # (t, c'):
         p = self._prob_term_not_category(term, category)
-        p_t = float(self._df(term)) / self.N()
-        p_c = sum([self._pc[c] for c in self.categories if category_complements(c)])
+        p_t = doc_freq
         # p_c = float(sum((category_complements(c) for c in self.docs_categories))) / self.N()
-        acc += self._ig_inner_sum(p, p_c, p_t)
+        acc += self._ig_inner_sum(p, p_c_comp, p_t)
         # print category, "p(t,c') = ", p
 
         # (t', c):
-        p_c = self._pc[category]
         p = p_c - self._prob_term_and_category(term, category)
-        p_t = 1 - float(self._df(term)) / self.N()
+        p_t = 1 - doc_freq
         acc += self._ig_inner_sum(p, p_c, p_t)
 
         # (t', c'):
         p = (1 - p_c) - self._prob_term_not_category(term, category)
-        p_t = 1 - float(self._df(term)) / self.N()
-        p_c = sum([self._pc[c] for c in self.categories if category_complements(c)])
-        acc += self._ig_inner_sum(p, p_c, p_t)
+        p_t = 1 - doc_freq
+        acc += self._ig_inner_sum(p, p_c_comp, p_t)
 
         return acc
 
@@ -173,30 +154,21 @@ class TWSCalculator(object):
 
         return self.term_category_dict[term, category]
 
+    def _prob_term_not_category(self, term, category):
+        return sum(self._prob_term_and_category(term, c) for c in self.categories if c != category)
+
     def _chi_square(self, term, category):
-        # category_equal = lambda c: c == category
-        # category_complements = lambda c: c != category
-        # term_occurs = lambda d: term.frequency(d) > 0
-        # term_complements = lambda d: term.frequency(d) == 0
-
-        p_c = self._pc[category]
-        p_termC_catC = (1 - p_c) - self._prob_term_not_category(term, category)
-        numerator = self._prob_term_and_category(term, category) * p_termC_catC
-
-        numerator -= self._prob_term_not_category(term, category) * (1 - self._prob_term_and_category(term, category))
-
-        # numerator = self._prob_term_and_category(term, category) * self._prob_term_and_category_OLD_DELETE_ME(
-        # term_complements, category_complements)
-        # numerator -= sum(self._prob_term_and_category(term, c) for c in self.categories if
-        # c != category) * self._prob_term_and_category_OLD_DELETE_ME(
-        # term_complements, category_equal)
-
-        numerator = math.pow(numerator, 2)
-
         p_t = float(self._df(term)) / self.N()
-        p_not_t = 1 - p_t
         p_c = self._pc[category]
         p_not_c = 1 - p_c
+        p_termC_catC = (1 - p_c) - self._prob_term_not_category(term, category)
+        p_t_c = self._prob_term_and_category(term, category)
+
+        numerator = p_t_c * p_termC_catC
+        numerator -= self._prob_term_not_category(term, category) * (1 - p_t_c)
+        numerator = math.pow(numerator, 2)
+
+        p_not_t = 1 - p_t
 
         denominator = p_t * p_c * p_not_t * p_not_c
 
@@ -253,6 +225,11 @@ class TWSCalculator(object):
         return (
             self.bool(term, document), self.tf(term, document), self.tf_idf(term, document), self.tf_ig(term, document),
             self.tf_chi(term, document), self.tf_rf(term, document))
+
+    def raw_terminals(self, term, document):
+        category = document.category
+        return (self.tf(term, document), self._prob_term_and_category(term, category),
+                self._prob_term_not_category(term, category))
 
 
 if __name__ == '__main__':

@@ -27,11 +27,11 @@ class FeatureExtractor(object):
 
         for t in self._terms:
             # tws = self._tws_calculator.tws(individual, t, document)
-            tws = self._tws_calculator.terminals(t, document)
-            # todo use individual to process tws's
+            # tws = self._tws_calculator.terminals(t, document)
+            tws = self._tws_calculator.raw_terminals(t, document)
+
             # tws is array of (bool, tf, tf-idf, tf-ig, tf-chi, tf-rf)
-            interesting_terms = tws
-            doc_features[t] = individual_func(*interesting_terms)
+            doc_features[t] = individual_func(*tws)
 
         # print doc_features
         vector = vectorizer.fit_transform(doc_features)
@@ -61,6 +61,7 @@ class TWSFitnessCalculator(object):
         :param individual: lambda that takes term features and returns a TWS.
         :return:
         """
+        logger = self.logger
         self.logger.info("Calculating fitness")
         self.logger.debug("for " + str(individual))
         # func = toolbox.compile(expr=individual)
@@ -75,20 +76,25 @@ class TWSFitnessCalculator(object):
             train_categories = [d.category for d in train]
             test_categories = [d.category for d in test]
 
+            logger.debug("getting train feature vectors")
             train_feature_vectors = [self._features_extractor.get_weighted_features(func, doc) for doc in
                                      train]
+            logger.debug("getting test feature vectors")
             test_feature_vectors = [self._features_extractor.get_weighted_features(func, doc) for doc in
                                     test]
 
             train_matrix = vstack(train_feature_vectors)
             test_matrix = vstack(test_feature_vectors)
 
+            logger.debug("training classifier")
             self._classifier.fit(train_matrix, train_categories)
+            logger.debug("predicting...")
             predictions = self._classifier.predict(test_matrix)
 
+            logger.debug("calculating metrics")
             fmeasure = sklearn.metrics.precision_recall_fscore_support(test_categories, predictions, average='macro')[2]
             fmeasures.append(fmeasure)
-
+            logger.debug("done k")
         # print fmeasures
 
         fitness = sum(fmeasures) / len(fmeasures)

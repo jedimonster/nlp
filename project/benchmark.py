@@ -23,6 +23,7 @@ def end_clock():
 
 
 if __name__ == '__main__':
+
     start_clock("initializing data sets")
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
                                         reuters.fileids())
@@ -45,56 +46,68 @@ if __name__ == '__main__':
     word_term_extractor = WordTermExtractor(training_documents, tws_calculator)
 
     start_clock("getting top words by frequency")
-    top_terms = word_term_extractor.top_common_words(2000)
+    top_terms = word_term_extractor.top_common_words(200)
     end_clock()
 
-    start_clock("creating feature extractor")
-    feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
-    end_clock()
+    # start_clock("creating feature extractor")
+    # feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
+    # end_clock()
+    #
+    # fitness_calculator = TWSFitnessCalculator(SVC(), zip(training_documents, training_docs_categories),
+    #                                           feature_extractor)
+    #
+    # print tws_calculator.tf(top_terms[0], training_documents[0])
+    #
+    # start_clock("Calculating df of one term")
+    # tws_calculator._df(top_terms[0])
+    # end_clock()
+    #
+    # start_clock("Calculating df of one term 10^5")
+    # for i in range(10 ** 5):
+    #     tws_calculator._df(top_terms[0])
+    # end_clock()
+    #
+    # start_clock("Calculating tf of one term")
+    # tws_calculator.tf(top_terms[0], training_documents[0])
+    # end_clock()
+    #
+    # start_clock("Calculating tf of one term x10000")
+    # for i in range(10000):
+    #     tws_calculator.tf(top_terms[0], training_documents[0])
+    # end_clock()
+    #
+    # start_clock("Calculating tf-idf on one term")
+    # tws_calculator.tf_idf(top_terms[0], training_documents[0])
+    # end_clock()
+    # start_clock("Calculating tf-idf on SAME term")
+    # tws_calculator.tf_idf(top_terms[0], training_documents[0])
+    # end_clock()
+    #
+    # start_clock("Calculating tf-chi on one term")
+    # tws_calculator.tf_chi(top_terms[0], training_documents[0])
+    # end_clock()
+    #
+    # start_clock("Calculating tf-ig on one term")
+    # tws_calculator.tf_ig(top_terms[0], training_documents[0])
+    # end_clock()
+    #
+    # start_clock("Calculating feature for one term")
+    # tws_calculator.terminals(top_terms[10], training_documents[0])
+    # end_clock()
 
-    fitness_calculator = TWSFitnessCalculator(SVC(), zip(training_documents, training_docs_categories),
-                                              feature_extractor)
+    # start_clock("Calculating feature vector for one document, 200 terms")
+    # for term in top_terms:
+    # tws_calculator.terminals(term, training_documents[0])
+    # end_clock()
 
-    print tws_calculator.tf(top_terms[0], training_documents[0])
+    # start_clock("Calculating raw terminals for dataset")
+    # for doc in training_documents:
+    #     for term in top_terms[:500]:
+    #         tws_calculator.raw_terminals(term, doc)
+    # end_clock()
 
-    start_clock("Calculating df of one term")
-    tws_calculator._df(top_terms[0])
-    end_clock()
-
-    start_clock("Calculating df of one term 10^5")
-    for i in range(10 ** 5):
-        tws_calculator._df(top_terms[0])
-    end_clock()
-
-    start_clock("Calculating tf of one term")
-    tws_calculator.tf(top_terms[0], training_documents[0])
-    end_clock()
-
-    start_clock("Calculating tf of one term x10000")
-    for i in range(10000):
-        tws_calculator.tf(top_terms[0], training_documents[0])
-    end_clock()
-
-    start_clock("Calculating tf-idf on one term")
-    tws_calculator.tf_idf(top_terms[0], training_documents[0])
-    end_clock()
-    start_clock("Calculating tf-idf on SAME term")
-    tws_calculator.tf_idf(top_terms[0], training_documents[0])
-    end_clock()
-
-    start_clock("Calculating chi on one term")
-    tws_calculator.chi_square(top_terms[0], training_documents[0])
-    end_clock()
-
-    start_clock("Calculating IG on one term")
-    tws_calculator.ig(top_terms[0], training_documents[0])
-    end_clock()
-
-    start_clock("Calculating feature vector for one term")
-    tws_calculator.terminals(top_terms[0], training_documents[0])
-    end_clock()
-
-    start_clock("Calculating feature vectors for one document, 2K terms")
-    for term in top_terms:
-        tws_calculator.terminals(term, training_documents[0])
-    end_clock()
+    # start_clock("Calculating feature vectors for 100 documents, 200 terms")
+    # for doc in training_documents[:100]:
+    # for term in top_terms:
+    # tws_calculator.terminals(term, doc)
+    # end_clock()

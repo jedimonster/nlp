@@ -49,7 +49,7 @@ if __name__ == '__main__':
     # doc = documents[0]
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might be problematic.
-    top_terms = word_term_extractor.top_common_words(2000)
+    top_terms = word_term_extractor.top_common_words(500)
 
     feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
 
@@ -58,7 +58,8 @@ if __name__ == '__main__':
     def if_then_else(input, output1, output2):
         return output1 if input else output2
 
-    pset = PrimitiveSetTyped("MAIN", [bool, float, float, float, float, float], float)
+    # pset = PrimitiveSetTyped("MAIN", [bool, float, float, float, float, float], float)
+    pset = PrimitiveSetTyped("MAIN", [float, float, float], float)
     pset.addPrimitive(operator.add, [float, float], float)
     pset.addPrimitive(operator.sub, [float, float], float)
     pset.addPrimitive(operator.mul, [float, float], float)
@@ -69,13 +70,13 @@ if __name__ == '__main__':
     pset.renameArguments(ARG0='bool')
     pset.renameArguments(ARG1='tf')
     pset.renameArguments(ARG2='tf_idf')
-    pset.renameArguments(ARG3='tf_ig')
-    pset.renameArguments(ARG4='tf_chi')
-    pset.renameArguments(ARG5='tf_rf')
+    # pset.renameArguments(ARG3='tf_ig')
+    # pset.renameArguments(ARG4='tf_chi')
+    # pset.renameArguments(ARG5='tf_rf')
 
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))
 
-    creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
+    # creator.create("FitnessMin", base.Fitness, weights=(-1.0,))
     creator.create("Individual", PrimitiveTree, fitness=creator.FitnessMax)
 
     toolbox = base.Toolbox()
