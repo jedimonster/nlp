@@ -10,6 +10,7 @@ from deap import algorithms
 from nltk.corpus import reuters
 from scipy.sparse import vstack
 import sklearn
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.svm import SVC
 from features import TWSCalculator
 from fitness import TWSFitnessCalculator, FeatureExtractor
@@ -117,7 +118,7 @@ if __name__ == '__main__':
     # import pdb
     # pdb.set_trace()
 
-    classifier = SVC()
+    classifier = MultinomialNB()
     classifier.fit(train_matrix, training_docs_categories)
 
     predictions = classifier.predict(test_matrix)

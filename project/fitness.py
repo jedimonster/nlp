@@ -20,18 +20,34 @@ class FeatureExtractor(object):
         self._terms = terms
         self._tws_calculator = tws_calculator
         self._train_documents = train_documents
+        self._terminals = {}
+        self.logger = ProjectParams.logger
+
+        self.get_terminals()
+
+    def get_terminals(self):
+        logger = self.logger
+        logger.info("Prefetching terminals for trees")
+        total_docs = len(self._train_documents)
+
+        for i, doc in enumerate(self._train_documents):
+            if i % 50 == 0:
+                logger.debug("document %d/%d", i, total_docs)
+            for term in self._terms:
+                self._terminals[doc, term] = self._tws_calculator.raw_terminals(term, doc)
+
 
     def get_weighted_features(self, individual_func, document):
         doc_features = {}
         vectorizer = DictVectorizer()
 
-        for t in self._terms:
-            # tws = self._tws_calculator.tws(individual, t, document)
-            # tws = self._tws_calculator.terminals(t, document)
-            tws = self._tws_calculator.raw_terminals(t, document)
+        for term in self._terms:
+            # tws = self._tws_calculator.tws(individual, term, document)
+            # tws = self._tws_calculator.terminals(term, document)
+            tws = self._terminals[document, term]
 
             # tws is array of (bool, tf, tf-idf, tf-ig, tf-chi, tf-rf)
-            doc_features[t] = individual_func(*tws)
+            doc_features[term] = individual_func(*tws)
 
         # print doc_features
         vector = vectorizer.fit_transform(doc_features)
@@ -62,6 +78,7 @@ class TWSFitnessCalculator(object):
         :return:
         """
         logger = self.logger
+
         self.logger.info("Calculating fitness")
         self.logger.debug("for " + str(individual))
         # func = toolbox.compile(expr=individual)
