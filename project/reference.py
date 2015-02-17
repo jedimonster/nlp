@@ -21,14 +21,14 @@ if __name__ == '__main__':
 
     training_documents_objects = get_document_objects(training_documents, training_docs_categories)
 
-    tws_calculator = TWSCalculator(training_documents_objects, training_docs_categories)
-    word_term_extractor = WordTermExtractor(training_documents_objects, tws_calculator)
+    # tws_calculator = TWSCalculator(training_documents_objects, training_docs_categories)
+    # word_term_extractor = WordTermExtractor(training_documents_objects, tws_calculator)
     #
-    top_terms = word_term_extractor.top_common_words(500)
+    # top_terms = word_term_extractor.top_common_words(500)
     print training_documents[0]
     print training_fileids
 
-    vectorizer = TfidfVectorizer(input='content', vocabulary=top_terms)
+    vectorizer = TfidfVectorizer(input='content')
     feature_matrix = vectorizer.fit_transform(training_documents)
 
     classifier = OneVsRestClassifier(MultinomialNB())
