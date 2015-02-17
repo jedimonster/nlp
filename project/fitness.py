@@ -1,5 +1,6 @@
 import logging
 import deap
+import math
 
 from nltk.corpus import reuters
 from scipy.sparse import vstack
@@ -44,14 +45,19 @@ class FeatureExtractor(object):
         for term in self._terms:
             # tws = self._tws_calculator.tws(individual, term, document)
             # tws = self._tws_calculator.terminals(term, document)
-            tws = self._terminals[document, term]
+            tws = self.terminals(document, term)
 
             # tws is array of (bool, tf, tf-idf, tf-ig, tf-chi, tf-rf)
-            doc_features[term] = individual_func(*tws)
+            doc_features[term] = abs(individual_func(*tws))
 
         # print doc_features
         vector = vectorizer.fit_transform(doc_features)
         return vector
+
+    def terminals(self, document, term):
+        if (document, term) in self._terminals:
+            return self._terminals[document, term]
+        return self._tws_calculator.raw_terminals(term, document)
 
 
 class TWSFitnessCalculator(object):

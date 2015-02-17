@@ -103,10 +103,13 @@ class Document(object):
 
     def get_freq(self, word_term):
         # return ProjectParams.terms_matrix.get_freq(self.index, word_term)
-        if self._freqs[word_term.TERM_ID] != 0:
-            return self._freqs[word_term.TERM_ID][word_term]
+        if word_term.TERM_ID in self._freqs:
+            if word_term in self._freqs[word_term.TERM_ID]:
+                return self._freqs[word_term.TERM_ID][word_term]
+            # else we've never seen this word
+            return 0 # todo default dict instead of all the branching?
         else:
-            raise IndexError("no frequencies for types of terms.")
+            raise IndexError("no frequencies for types of terms - " + str(word_term.TERM_ID))
 
 
 class WordTermExtractor(object):
@@ -149,7 +152,7 @@ class WordTermExtractor(object):
 
     def top_max_ig(self, k):
         self.logger.info("calculating top %d word terms according to IG", k)
-        terms = self.all_terms()
+        terms = self._total_freq.keys()
 
         self.logger.debug("starting IG algebra")
         term_ig = [(term, self._tws_calculator.max_ig(term)) for term in terms]

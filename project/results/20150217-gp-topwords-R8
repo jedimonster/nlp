@@ -1,0 +1,433 @@
+/usr/bin/python2.7 /home/itay/PycharmProjects/nlp/project/tws_gp.py
+test
+a
+Starting program
+Created TWS Calculator with 5680 documents and 9 categories
+{u'earn': 0.5, u'money-fx': 0.039084507042253525, u'money-supply': 0.021654929577464788, u'sugar': 0.017077464788732396, u'acq': 0.28098591549295776, u'interest': 0.03362676056338028, u'crude': 0.044542253521126764, u'ship': 0.019014084507042252, u'trade': 0.04401408450704225}
+calculating top 500 word terms according to frequency
+returning top 500 word terms according to frequency
+Prefetching terminals for trees
+document 0/5680
+document 50/5680
+document 100/5680
+document 150/5680
+document 200/5680
+document 250/5680
+document 300/5680
+document 350/5680
+document 400/5680
+document 450/5680
+document 500/5680
+document 550/5680
+document 600/5680
+document 650/5680
+document 700/5680
+document 750/5680
+document 800/5680
+document 850/5680
+document 900/5680
+document 950/5680
+document 1000/5680
+document 1050/5680
+document 1100/5680
+document 1150/5680
+document 1200/5680
+document 1250/5680
+document 1300/5680
+document 1350/5680
+document 1400/5680
+document 1450/5680
+document 1500/5680
+document 1550/5680
+document 1600/5680
+document 1650/5680
+document 1700/5680
+document 1750/5680
+document 1800/5680
+document 1850/5680
+document 1900/5680
+document 1950/5680
+document 2000/5680
+document 2050/5680
+document 2100/5680
+document 2150/5680
+document 2200/5680
+document 2250/5680
+document 2300/5680
+document 2350/5680
+document 2400/5680
+document 2450/5680
+document 2500/5680
+document 2550/5680
+document 2600/5680
+document 2650/5680
+document 2700/5680
+document 2750/5680
+document 2800/5680
+document 2850/5680
+document 2900/5680
+document 2950/5680
+document 3000/5680
+document 3050/5680
+document 3100/5680
+document 3150/5680
+document 3200/5680
+document 3250/5680
+document 3300/5680
+document 3350/5680
+document 3400/5680
+document 3450/5680
+document 3500/5680
+document 3550/5680
+document 3600/5680
+document 3650/5680
+document 3700/5680
+document 3750/5680
+document 3800/5680
+document 3850/5680
+document 3900/5680
+document 3950/5680
+document 4000/5680
+document 4050/5680
+document 4100/5680
+document 4150/5680
+document 4200/5680
+document 4250/5680
+document 4300/5680
+document 4350/5680
+document 4400/5680
+document 4450/5680
+document 4500/5680
+document 4550/5680
+document 4600/5680
+document 4650/5680
+document 4700/5680
+document 4750/5680
+document 4800/5680
+document 4850/5680
+document 4900/5680
+document 4950/5680
+document 5000/5680
+document 5050/5680
+document 5100/5680
+document 5150/5680
+document 5200/5680
+document 5250/5680
+document 5300/5680
+document 5350/5680
+document 5400/5680
+document 5450/5680
+document 5500/5680
+document 5550/5680
+document 5600/5680
+document 5650/5680
+Calculating fitness
+for mul(mul(protectedDiv(tf, mul(p_c_t, tf)), cos(p_c_t)), protectedDiv(sub(p_c_t, add(p_c_t, tf)), add(tf, add(p_c_nt, p_c_nt))))
+k= 0
+getting train feature vectors
+/usr/lib64/python2.7/site-packages/numpy/core/fromnumeric.py:2499: VisibleDeprecationWarning: `rank` is deprecated; use the `ndim` attribute or function instead. To find the rank of a matrix see `numpy.linalg.matrix_rank`.
+  VisibleDeprecationWarning)
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+/home/itay/.local/lib/python2.7/site-packages/sklearn/metrics/metrics.py:1771: UndefinedMetricWarning: Precision and F-score are ill-defined and being set to 0.0 in labels with no predicted samples.
+  'precision', 'predicted', average, warn_for)
+done k
+k= 1
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 2
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+fitness= 0.113464080781
+Calculating fitness
+for protectedDiv(sub(add(sub(p_c_t, p_c_t), add(p_c_t, p_c_nt)), mul(mul(tf, p_c_nt), add(p_c_nt, tf))), sub(protectedDiv(sub(tf, p_c_nt), sub(p_c_t, p_c_nt)), sub(sub(p_c_nt, p_c_t), sub(p_c_nt, tf))))
+k= 0
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 1
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 2
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+fitness= 0.40366672302
+done k
+Calculating fitness
+for protectedDiv(cos(tf), add(p_c_t, protectedDiv(protectedDiv(tf, p_c_nt), add(tf, p_c_t))))
+k= 0
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 1
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 2
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+fitness= 0.113998715874
+Calculating fitness
+for cos(cos(mul(tf, p_c_t)))
+k= 0
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 1
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 2
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+fitness= 0.0777243766282
+done k
+Calculating fitness
+for cos(cos(p_c_nt))
+k= 0
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 1
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 2
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+fitness= 0.0740225442266
+gen	nevals
+0  	5
+Calculating fitness
+for cos(p_c_nt)
+k= 0
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 1
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 2
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+fitness= 0.0740225442266
+Calculating fitness
+for protectedDiv(sub(add(sub(p_c_t, p_c_t), add(p_c_t, cos(p_c_nt))), mul(mul(tf, p_c_nt), add(p_c_nt, tf))), sub(protectedDiv(sub(tf, p_c_nt), sub(p_c_t, p_c_nt)), sub(sub(p_c_nt, p_c_t), sub(p_c_nt, tf))))
+k= 0
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 1
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 2
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+fitness= 0.926403614587
+1  	2
+Calculating fitness
+for protectedDiv(sub(add(sub(p_c_t, p_c_t), add(p_c_t, p_c_t)), mul(mul(tf, p_c_nt), add(p_c_nt, tf))), sub(protectedDiv(sub(p_c_nt, p_c_nt), sub(p_c_t, p_c_nt)), sub(sub(p_c_nt, p_c_t), sub(p_c_nt, tf))))
+k= 0
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 1
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 2
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+fitness= 0.981646797391
+done k
+Calculating fitness
+for protectedDiv(sub(add(sub(p_c_t, p_c_t), add(p_c_t, p_c_nt)), mul(mul(tf, p_c_nt), add(p_c_nt, tf))), sub(protectedDiv(sub(tf, p_c_nt), sub(p_c_t, tf)), sub(sub(p_c_nt, p_c_t), sub(p_c_nt, tf))))
+k= 0
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 1
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 2
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+fitness= 0.5312954336
+done k
+Calculating fitness
+for protectedDiv(sub(add(sub(p_c_t, p_c_t), add(p_c_t, p_c_nt)), mul(sub(sub(p_c_nt, tf), mul(tf, p_c_nt)), add(p_c_nt, tf))), sub(protectedDiv(sub(tf, p_c_nt), sub(p_c_t, p_c_nt)), sub(sub(p_c_nt, p_c_t), sub(p_c_nt, tf))))
+k= 0
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 1
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 2
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+fitness= 0.515253758777
+done k
+2  	3
+Calculating fitness
+for protectedDiv(sub(add(sub(p_c_t, p_c_t), add(p_c_t, cos(p_c_nt))), mul(mul(tf, p_c_nt), add(p_c_nt, tf))), sub(protectedDiv(p_c_t, sub(p_c_t, p_c_nt)), sub(sub(p_c_nt, p_c_t), p_c_t)))
+k= 0
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 1
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 2
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+fitness= 0.628854461095
+Calculating fitness
+for protectedDiv(sub(add(sub(p_c_t, p_c_t), add(p_c_t, p_c_t)), mul(mul(tf, p_c_nt), add(p_c_nt, tf))), sub(protectedDiv(sub(p_c_nt, p_c_nt), sub(sub(tf, p_c_nt), p_c_nt)), sub(sub(p_c_nt, p_c_t), sub(p_c_nt, tf))))
+k= 0
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 1
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+k= 2
+getting train feature vectors
+getting test feature vectors
+training classifier
+predicting...
+calculating metrics
+done k
+fitness= 0.981646797391
+3  	2
+protectedDiv(sub(add(sub(p_c_t, p_c_t), add(p_c_t, p_c_nt)), mul(sub(sub(p_c_nt, tf), mul(tf, p_c_nt)), add(p_c_nt, tf))), sub(protectedDiv(sub(tf, p_c_nt), sub(p_c_t, p_c_nt)), sub(sub(p_c_nt, p_c_t), sub(p_c_nt, tf))))
+protectedDiv(sub(add(sub(p_c_t, p_c_t), add(p_c_t, cos(p_c_nt))), mul(mul(tf, p_c_nt), add(p_c_nt, tf))), sub(protectedDiv(sub(tf, p_c_nt), sub(p_c_t, p_c_nt)), sub(sub(p_c_nt, p_c_t), sub(p_c_nt, tf))))
+protectedDiv(sub(add(sub(p_c_t, p_c_t), add(p_c_t, cos(p_c_nt))), mul(mul(tf, p_c_nt), add(p_c_nt, tf))), sub(protectedDiv(p_c_t, sub(p_c_t, p_c_nt)), sub(sub(p_c_nt, p_c_t), p_c_t)))
+protectedDiv(sub(add(sub(p_c_t, p_c_t), add(p_c_t, p_c_t)), mul(mul(tf, p_c_nt), add(p_c_nt, tf))), sub(protectedDiv(sub(p_c_nt, p_c_nt), sub(sub(tf, p_c_nt), p_c_nt)), sub(sub(p_c_nt, p_c_t), sub(p_c_nt, tf))))
+protectedDiv(sub(add(sub(p_c_t, p_c_t), add(p_c_t, p_c_nt)), mul(mul(tf, p_c_nt), add(p_c_nt, tf))), sub(protectedDiv(sub(tf, p_c_nt), sub(p_c_t, tf)), sub(sub(p_c_nt, p_c_t), sub(p_c_nt, tf))))
+{u'earn': 0.4849977608598298, u'money-fx': 0.03896103896103896, u'money-supply': 0.012539184952978056, u'sugar': 0.011195700850873265, u'acq': 0.3116883116883117, u'interest': 0.036274070756829375, u'crude': 0.054187192118226604, u'ship': 0.0161218092252575, u'trade': 0.03403493058665472}
+Created TWS Calculator with 2233 documents and 9 categories
+[u'trade', u'ship', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'trade', u'sugar', u'sugar', u'acq', u'earn', u'acq', u'earn', u'trade', u'acq', u'acq', u'earn', u'trade', u'acq', u'sugar', u'sugar', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'acq', u'acq', u'earn', u'ship', u'earn', u'ship', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'earn', u'sugar', u'money-fx', u'sugar', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'sugar', u'earn', u'sugar', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'money-fx', u'interest', u'acq', u'earn', u'earn', u'earn', u'acq', u'acq', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'interest', u'earn', u'earn', u'interest', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'acq', u'acq', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'acq', u'acq', u'earn', u'earn', u'trade', u'acq', u'earn', u'acq', u'earn', u'trade', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'crude', u'acq', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'trade', u'earn', u'earn', u'crude', u'earn', u'money-fx', u'acq', u'earn', u'money-supply', u'earn', u'crude', u'money-supply', u'earn', u'earn', u'money-fx', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'acq', u'acq', u'earn', u'acq', u'earn', u'interest', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'acq', u'trade', u'earn', u'earn', u'earn', u'acq', u'acq', u'earn', u'earn', u'earn', u'interest', u'trade', u'earn', u'earn', u'earn', u'sugar', u'earn', u'earn', u'acq', u'earn', u'interest', u'earn', u'sugar', u'earn', u'acq', u'acq', u'earn', u'trade', u'earn', u'trade', u'earn', u'sugar', u'trade', u'money-fx', u'money-fx', u'earn', u'money-fx', u'earn', u'earn', u'sugar', u'acq', u'acq', u'acq', u'earn', u'earn', u'earn', u'acq', u'earn', u'ship', u'acq', u'earn', u'earn', u'earn', u'earn', u'acq', u'money-fx', u'earn', u'earn', u'earn', u'money-fx', u'money-fx', u'earn', u'earn', u'acq', u'acq', u'acq', u'earn', u'earn', u'interest', u'earn', u'earn', u'earn', u'interest', u'acq', u'acq', u'earn', u'earn', u'earn', u'acq', u'acq', u'interest', u'interest', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'interest', u'acq', u'interest', u'earn', u'acq', u'interest', u'money-fx', u'earn', u'acq', u'earn', u'earn', u'money-fx', u'earn', u'earn', u'earn', u'earn', u'earn', u'money-fx', u'acq', u'trade', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'money-fx', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'sugar', u'interest', u'earn', u'earn', u'acq', u'interest', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'trade', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'earn', u'acq', u'acq', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'acq', u'acq', u'earn', u'earn', u'earn', u'earn', u'crude', u'earn', u'money-supply', u'money-supply', u'acq', u'earn', u'acq', u'acq', u'crude', u'earn', u'acq', u'earn', u'acq', u'money-supply', u'money-supply', u'money-supply', u'earn', u'earn', u'earn', u'earn', u'earn', u'money-supply', u'money-supply', u'acq', u'acq', u'money-supply', u'acq', u'acq', u'earn', u'money-fx', u'crude', u'money-fx', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'earn', u'trade', u'earn', u'money-supply', u'interest', u'interest', u'ship', u'crude', u'earn', u'trade', u'acq', u'sugar', u'trade', u'trade', u'interest', u'earn', u'acq', u'earn', u'interest', u'trade', u'trade', u'acq', u'money-fx', u'acq', u'trade', u'earn', u'earn', u'money-fx', u'acq', u'interest', u'acq', u'acq', u'acq', u'acq', u'earn', u'earn', u'acq', u'earn', u'acq', u'money-fx', u'sugar', u'money-fx', u'earn', u'acq', u'earn', u'earn', u'acq', u'acq', u'money-fx', u'interest', u'acq', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'acq', u'earn', u'acq', u'earn', u'earn', u'acq', u'money-fx', u'earn', u'trade', u'trade', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'interest', u'earn', u'acq', u'earn', u'money-supply', u'earn', u'earn', u'money-fx', u'acq', u'earn', u'earn', u'earn', u'earn', u'interest', u'earn', u'earn', u'earn', u'acq', u'earn', u'interest', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'sugar', u'money-fx', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'trade', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'earn', u'acq', u'acq', u'earn', u'acq', u'interest', u'acq', u'earn', u'earn', u'earn', u'acq', u'acq', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'crude', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'trade', u'acq', u'acq', u'earn', u'acq', u'acq', u'earn', u'acq', u'earn', u'acq', u'acq', u'earn', u'acq', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'trade', u'acq', u'acq', u'acq', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'acq', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'crude', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'crude', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'acq', u'crude', u'money-supply', u'crude', u'acq', u'earn', u'earn', u'earn', u'acq', u'crude', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'acq', u'acq', u'acq', u'earn', u'earn', u'acq', u'interest', u'acq', u'acq', u'earn', u'acq', u'acq', u'earn', u'acq', u'earn', u'acq', u'earn', u'crude', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'crude', u'earn', u'earn', u'acq', u'acq', u'earn', u'acq', u'crude', u'trade', u'acq', u'sugar', u'money-fx', u'money-supply', u'acq', u'crude', u'money-fx', u'trade', u'trade', u'money-supply', u'trade', u'trade', u'earn', u'trade', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'interest', u'trade', u'earn', u'earn', u'trade', u'acq', u'acq', u'acq', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'money-fx', u'money-supply', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'acq', u'acq', u'trade', u'trade', u'trade', u'earn', u'earn', u'earn', u'earn', u'money-supply', u'earn', u'acq', u'money-supply', u'acq', u'acq', u'interest', u'acq', u'crude', u'ship', u'earn', u'interest', u'interest', u'trade', u'trade', u'ship', u'interest', u'crude', u'acq', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'trade', u'acq', u'acq', u'crude', u'money-fx', u'acq', u'acq', u'acq', u'acq', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'crude', u'acq', u'interest', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'earn', u'earn', u'crude', u'earn', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'earn', u'earn', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'money-fx', u'acq', u'money-fx', u'acq', u'earn', u'acq', u'earn', u'crude', u'interest', u'acq', u'acq', u'acq', u'acq', u'acq', u'crude', u'earn', u'acq', u'acq', u'acq', u'crude', u'acq', u'acq', u'acq', u'acq', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'acq', u'acq', u'earn', u'acq', u'crude', u'crude', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'crude', u'acq', u'money-fx', u'interest', u'earn', u'crude', u'interest', u'earn', u'earn', u'acq', u'acq', u'money-fx', u'earn', u'sugar', u'ship', u'crude', u'money-fx', u'interest', u'interest', u'trade', u'acq', u'money-fx', u'acq', u'acq', u'acq', u'acq', u'crude', u'earn', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'acq', u'ship', u'money-fx', u'acq', u'acq', u'earn', u'acq', u'interest', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'earn', u'money-fx', u'earn', u'trade', u'earn', u'earn', u'crude', u'earn', u'acq', u'acq', u'acq', u'acq', u'crude', u'earn', u'acq', u'trade', u'interest', u'crude', u'acq', u'earn', u'acq', u'acq', u'acq', u'trade', u'acq', u'earn', u'earn', u'acq', u'earn', u'ship', u'earn', u'earn', u'acq', u'crude', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'ship', u'acq', u'crude', u'acq', u'acq', u'acq', u'earn', u'earn', u'earn', u'acq', u'trade', u'earn', u'ship', u'earn', u'earn', u'acq', u'trade', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'ship', u'crude', u'acq', u'acq', u'acq', u'acq', u'earn', u'earn', u'ship', u'money-fx', u'interest', u'interest', u'acq', u'ship', u'trade', u'acq', u'acq', u'earn', u'earn', u'money-supply', u'interest', u'crude', u'earn', u'earn', u'acq', u'earn', u'trade', u'interest', u'crude', u'acq', u'sugar', u'money-supply', u'interest', u'interest', u'trade', u'sugar', u'earn', u'interest', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'interest', u'acq', u'earn', u'acq', u'earn', u'earn', u'crude', u'earn', u'acq', u'acq', u'acq', u'earn', u'earn', u'acq', u'crude', u'acq', u'acq', u'acq', u'acq', u'money-fx', u'interest', u'money-fx', u'crude', u'crude', u'acq', u'acq', u'acq', u'crude', u'crude', u'crude', u'earn', u'crude', u'earn', u'crude', u'crude', u'crude', u'crude', u'earn', u'earn', u'earn', u'earn', u'earn', u'crude', u'acq', u'earn', u'crude', u'crude', u'crude', u'crude', u'crude', u'acq', u'crude', u'crude', u'earn', u'crude', u'crude', u'acq', u'earn', u'acq', u'crude', u'crude', u'crude', u'acq', u'earn', u'crude', u'earn', u'earn', u'earn', u'trade', u'crude', u'acq', u'ship', u'acq', u'acq', u'acq', u'acq', u'ship', u'trade', u'earn', u'earn', u'acq', u'acq', u'acq', u'interest', u'acq', u'acq', u'acq', u'acq', u'acq', u'money-supply', u'earn', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'trade', u'earn', u'acq', u'earn', u'interest', u'interest', u'earn', u'trade', u'acq', u'trade', u'earn', u'acq', u'acq', u'earn', u'trade', u'crude', u'ship', u'acq', u'ship', u'ship', u'acq', u'acq', u'interest', u'ship', u'acq', u'crude', u'acq', u'acq', u'earn', u'acq', u'acq', u'trade', u'interest', u'earn', u'earn', u'earn', u'earn', u'acq', u'acq', u'crude', u'interest', u'crude', u'ship', u'acq', u'acq', u'ship', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'sugar', u'acq', u'earn', u'acq', u'acq', u'trade', u'acq', u'acq', u'acq', u'money-supply', u'crude', u'acq', u'acq', u'crude', u'trade', u'money-supply', u'acq', u'earn', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'earn', u'acq', u'acq', u'sugar', u'earn', u'earn', u'trade', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'acq', u'money-supply', u'money-fx', u'acq', u'acq', u'earn', u'earn', u'acq', u'earn', u'acq', u'acq', u'trade', u'acq', u'earn', u'acq', u'acq', u'acq', u'earn', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'earn', u'acq', u'acq', u'earn', u'earn', u'acq', u'interest', u'interest', u'money-fx', u'ship', u'crude', u'crude', u'acq', u'crude', u'crude', u'acq', u'crude', u'acq', u'interest', u'interest', u'earn', u'interest', u'trade', u'interest', u'trade', u'interest', u'crude', u'interest', u'crude', u'crude', u'earn', u'earn', u'trade', u'earn', u'acq', u'acq', u'acq', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'trade', u'acq', u'acq', u'earn', u'earn', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'earn', u'acq', u'earn', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'interest', u'acq', u'earn', u'earn', u'earn', u'earn', u'acq', u'acq', u'earn', u'acq', u'earn', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'crude', u'acq', u'acq', u'acq', u'crude', u'earn', u'earn', u'acq', u'acq', u'earn', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'ship', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'earn', u'trade', u'acq', u'crude', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'acq', u'earn', u'acq', u'acq', u'earn', u'acq', u'acq', u'acq', u'money-fx', u'money-fx', u'money-fx', u'crude', u'money-fx', u'crude', u'money-fx', u'money-fx', u'money-fx', u'money-supply', u'interest', u'money-supply', u'interest', u'ship', u'acq', u'acq', u'interest', u'acq', u'interest', u'money-supply', u'money-supply', u'money-fx', u'money-fx', u'money-fx', u'money-fx', u'money-fx', u'money-fx', u'money-fx', u'money-fx', u'crude', u'crude', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'interest', u'earn', u'interest', u'interest', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'money-fx', u'ship', u'interest', u'interest', u'earn', u'earn', u'crude', u'earn', u'earn', u'interest', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'acq', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'money-fx', u'money-fx', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'money-fx', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'acq', u'earn', u'earn', u'earn', u'interest', u'earn', u'earn', u'earn', u'earn', u'crude', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'ship', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'crude', u'earn', u'acq', u'earn', u'trade', u'earn', u'earn', u'earn', u'crude', u'earn', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'earn', u'money-fx', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'interest', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'ship', u'earn', u'earn', u'crude', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'crude', u'earn', u'earn', u'earn', u'earn', u'earn', u'crude', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'trade', u'earn', u'crude', u'acq', u'earn', u'acq', u'earn', u'earn', u'crude', u'earn', u'earn', u'earn', u'ship', u'crude', u'acq', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'acq', u'acq', u'trade', u'interest', u'acq', u'earn', u'earn', u'interest', u'earn', u'earn', u'earn', u'acq', u'earn', u'crude', u'earn', u'earn', u'trade', u'earn', u'acq', u'earn', u'earn', u'money-fx', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'trade', u'earn', u'acq', u'acq', u'earn', u'earn', u'earn', u'acq', u'money-fx', u'trade', u'crude', u'crude', u'earn', u'earn', u'earn', u'acq', u'earn', u'money-fx', u'earn', u'earn', u'acq', u'earn', u'acq', u'ship', u'earn', u'acq', u'money-fx', u'crude', u'earn', u'earn', u'earn', u'acq', u'earn', u'crude', u'earn', u'acq', u'money-fx', u'money-fx', u'earn', u'earn', u'earn', u'earn', u'earn', u'crude', u'earn', u'earn', u'money-fx', u'earn', u'crude', u'acq', u'acq', u'earn', u'money-fx', u'earn', u'earn', u'money-fx', u'crude', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'trade', u'acq', u'acq', u'acq', u'acq', u'earn', u'earn', u'earn', u'earn', u'crude', u'acq', u'earn', u'money-fx', u'earn', u'acq', u'trade', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'acq', u'acq', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'acq', u'earn', u'earn', u'crude', u'acq', u'acq', u'acq', u'acq', u'acq', u'crude', u'acq', u'acq', u'crude', u'earn', u'acq', u'earn', u'acq', u'acq', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'money-fx', u'interest', u'money-fx', u'acq', u'crude', u'earn', u'acq', u'acq', u'earn', u'earn', u'money-fx', u'acq', u'earn', u'acq', u'earn', u'earn', u'money-fx', u'money-fx', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'trade', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'crude', u'earn', u'acq', u'money-fx', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'crude', u'earn', u'earn', u'crude', u'earn', u'money-fx', u'acq', u'earn', u'acq', u'earn', u'interest', u'earn', u'acq', u'acq', u'acq', u'earn', u'acq', u'earn', u'earn', u'acq', u'earn', u'money-fx', u'acq', u'earn', u'earn', u'acq', u'acq', u'sugar', u'earn', u'money-fx', u'earn', u'earn', u'earn', u'interest', u'acq', u'earn', u'earn', u'money-fx', u'interest', u'money-fx', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'acq', u'earn', u'earn', u'earn', u'crude', u'crude', u'ship', u'earn', u'earn', u'acq', u'acq', u'earn', u'crude', u'acq', u'earn', u'earn', u'acq', u'earn', u'trade', u'acq', u'acq', u'acq', u'earn', u'acq', u'earn', u'earn', u'acq', u'acq', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'acq', u'acq', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'earn', u'earn', u'earn', u'acq', u'earn', u'earn', u'acq', u'crude', u'acq', u'acq', u'earn', u'money-fx', u'acq', u'earn', u'earn', u'crude', u'earn', u'earn', u'earn', u'ship', u'crude', u'acq', u'money-fx', u'ship', u'money-fx', u'ship', u'sugar', u'acq', u'money-fx', u'crude', u'acq', u'earn', u'earn', u'acq', u'money-fx', u'trade', u'sugar', u'crude', u'acq', u'ship']
+[u'trade' u'ship' u'trade' ..., u'crude' u'acq' u'ship']
+Metrics (percision, recall, fmeasure): (0.93510439314351901, 0.93334372523652853, 0.93169677009727359, None)
+Accuracy: 0.955665024631
+
+Process finished with exit code 0
