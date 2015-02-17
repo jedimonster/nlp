@@ -31,10 +31,16 @@ def protectedDiv(left, right):
     except ZeroDivisionError:
         return 1
 
-def individual_func(tf, p_c_t,  p_c_t_gag):
-    res1 = protectedDiv((p_c_t-tf), p_c_t)
-    res2 = p_c_t - tf
-    return res1+res2
+def add(a,b):
+    return a+b
+def sub(a,b):
+    return a-b
+def cos(a):
+    return math.cos(a)
+def sin(a):
+    return math.sin(a)
+def individual_func(tf, p_c_t,  p_c_nt):
+    return add(cos(sub(cos(p_c_nt), sub(p_c_t, p_c_nt))), protectedDiv(cos(protectedDiv(p_c_nt, p_c_t)), sub(p_c_nt, protectedDiv(tf, tf))))
 
 if __name__ == "__main__":
     #add(protectedDiv(sub(p_c_t, tf), p_c_t), sub(p_c_t, tf))
