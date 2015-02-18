@@ -1,3 +1,5 @@
+this was trained on SVC and tested on NaiveBayes.
+
 /usr/bin/python2.7 /home/itay/PycharmProjects/nlp/project/tws_gp.py
 Starting program
 test
@@ -433,4 +435,6 @@ Accuracy: 1.0
 
 Process finished with exit code 0
 
+
+add(cos(sub(cos(p_c_nt), sub(p_c_t, p_c_nt))), protectedDiv(cos(protectedDiv(p_c_nt, p_c_t)), sub(p_c_nt, protectedDiv(tf, tf))))
 

@@ -67,7 +67,7 @@ if __name__ == '__main__':
 
     feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
 
-    fitness_calculator = TWSFitnessCalculator(SVC(), training_documents, feature_extractor)
+    fitness_calculator = TWSFitnessCalculator(MultinomialNB(), training_documents, feature_extractor)
 
     def if_then_else(input, output1, output2):
         return output1 if input else output2
@@ -115,7 +115,7 @@ if __name__ == '__main__':
 
     pop = toolbox.population(n=20)
     hof = tools.HallOfFame(1)
-    pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 10,
+    pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 20,
                                    halloffame=hof, verbose=True)
 
     for i in pop:

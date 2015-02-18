@@ -25,60 +25,71 @@ from fitness import TWSFitnessCalculator, FeatureExtractor
 from parameters import ProjectParams
 from terminals import WordTermExtractor, get_document_objects
 
+
 def protectedDiv(left, right):
     try:
         return left / right
     except ZeroDivisionError:
         return 1
 
-def add(a,b):
-    return a+b
-def sub(a,b):
-    return a-b
+
+def add(a, b):
+    return a + b
+
+
+def sub(a, b):
+    return a - b
+
+
 def cos(a):
     return math.cos(a)
-def sin(a):
-    return math.sin(a)
-def individual_func(tf, p_c_t,  p_c_nt):
-    return add(cos(sub(cos(p_c_nt), sub(p_c_t, p_c_nt))), protectedDiv(cos(protectedDiv(p_c_nt, p_c_t)), sub(p_c_nt, protectedDiv(tf, tf))))
+
+sin = math.sin
+
+
+def individual_func(tf, p_c_t, p_c_nt):
+    return add(cos(sub(cos(p_c_nt), sub(p_c_t, p_c_nt))),
+               protectedDiv(cos(protectedDiv(p_c_nt, p_c_t)), sub(p_c_nt, protectedDiv(tf, tf))))
+
 
 if __name__ == "__main__":
-    #add(protectedDiv(sub(p_c_t, tf), p_c_t), sub(p_c_t, tf))
+    # add(protectedDiv(sub(p_c_t, tf), p_c_t), sub(p_c_t, tf))
     logger = ProjectParams.logger
     logger.setLevel(logging.DEBUG)
     logger.info("Starting program")
-    import pdb
-    pdb.set_trace()
+    # import pdb
+    # pdb.set_trace()
 
     # cats_limiter = categories = ['gold', 'money-fx', 'trade']
     cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply', 'ship',
                                  'sugar']  # top 9
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
-                                        reuters.fileids(cats_limiter))
+                                        reuters.fileids())
 
     training_documents = [sum(reuters.sents(fid), []) for fid in training_fileids]
     training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
+    print len(set(training_docs_categories))
 
     training_documents = get_document_objects(training_documents, training_docs_categories)
-    import pdb
-    pdb.set_trace()
+    # import pdb
+    # pdb.set_trace()
     tws_calculator = TWSCalculator(training_documents, training_docs_categories)
     word_term_extractor = WordTermExtractor(training_documents, tws_calculator)
     # doc = documents[0]
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might hurt generalization (but if it works we're OK..)
-    # top_terms = word_term_extractor.top_common_words(500)
-    top_terms = word_term_extractor.top_max_ig(500)
+    top_terms = word_term_extractor.top_common_words(500)
+    # top_terms = word_term_extractor.top_max_ig(500)
 
     feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
 
-    fitness_calculator = TWSFitnessCalculator(SVC(), training_documents, feature_extractor)
+    # fitness_calculator = TWSFitnessCalculator(SVC(), training_documents, feature_extractor)
 
     def if_then_else(input, output1, output2):
         return output1 if input else output2
 
-    import pdb
-    pdb.set_trace()
+    # import pdb
+    # pdb.set_trace()
 
     # now we're done training
     test_fileids = fileids = filter(lambda fileid: "training" not in fileid and len(reuters.categories(fileid)) == 1,
@@ -86,7 +97,7 @@ if __name__ == "__main__":
     test_documents = [sum(reuters.sents(fid), []) for fid in test_fileids]
     test_docs_categories = [reuters.categories(fid)[0] for fid in test_fileids]
     test_documents = get_document_objects(test_documents, test_docs_categories)
-    WordTermExtractor(test_documents, TWSCalculator(test_documents, test_docs_categories)) # just to get counts
+    WordTermExtractor(test_documents, TWSCalculator(test_documents, test_docs_categories))  # just to get counts
 
     print "test document 0 "
     print test_documents[0].doc

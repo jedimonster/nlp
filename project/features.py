@@ -147,6 +147,12 @@ class TWSCalculator(object):
 
         return acc
 
+    def max_prob_term_not_category(self, term, document):
+        return max(self._prob_term_and_category(term, c) for c in self.categories)
+
+    def max_prob_term_and_category(self, term, document):
+        return max(self._prob_term_not_category(term, c) for c in self.categories)
+
     def _prob_term_and_category(self, term, category):
         if (term, category) not in self.term_category_dict:
             p = float(sum(self.bool(term, d) for d in self.training_docs if d.category == category)) / self.N()
@@ -227,9 +233,8 @@ class TWSCalculator(object):
             self.tf_chi(term, document), self.tf_rf(term, document))
 
     def raw_terminals(self, term, document):
-        category = document.category
-        return (self.tf(term, document), self._prob_term_and_category(term, category),
-                self._prob_term_not_category(term, category))
+        return (self.tf(term, document), self.max_prob_term_and_category(term, document),
+                self.max_prob_term_not_category(term, document))
 
 
 if __name__ == '__main__':
