@@ -64,7 +64,7 @@ if __name__ == "__main__":
     cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply', 'ship',
                                  'sugar']  # top 9
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
-                                        reuters.fileids())
+                                        reuters.fileids(cats_limiter))
 
     training_documents = [sum(reuters.sents(fid), []) for fid in training_fileids]
     training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
