@@ -148,10 +148,18 @@ class TWSCalculator(object):
         return acc
 
     def max_prob_term_not_category(self, term, document):
-        return max(self._prob_term_and_category(term, c) for c in self.categories)
+        return max(self._prob_term_not_category(term, c) for c in self.categories)
 
     def max_prob_term_and_category(self, term, document):
-        return max(self._prob_term_not_category(term, c) for c in self.categories)
+        return max(self._prob_term_and_category(term, c) for c in self.categories)
+
+    def avg_prob_term_category(self, term, document):
+        total = sum(self._prob_term_and_category(term, c) for c in self.categories)
+        return total / len(self.categories)
+
+    def avg_prob_term_not_category(self, term, document):
+        total = sum(self._prob_term_not_category(term, c) for c in self.categories)
+        return total / len(self.categories)
 
     def _prob_term_and_category(self, term, category):
         if (term, category) not in self.term_category_dict:
@@ -234,7 +242,8 @@ class TWSCalculator(object):
 
     def raw_terminals(self, term, document):
         return (self.tf(term, document), self.max_prob_term_and_category(term, document),
-                self.max_prob_term_not_category(term, document))
+                self.max_prob_term_not_category(term, document), self.avg_prob_term_category(term, document),
+                self.avg_prob_term_not_category(term, document))
 
 
 if __name__ == '__main__':

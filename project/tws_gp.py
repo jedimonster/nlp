@@ -35,35 +35,33 @@ def evalOne(one, pset):
     return 0.5
 
 
+def to_lower(str):
+    return str.lower()
+
+
 if __name__ == '__main__':
-    print 'test'
-    pass
-
-    print 'a'
-
     logger = ProjectParams.logger
     logger.setLevel(logging.DEBUG)
     logger.info("Starting program")
 
     # cats_limiter = categories = ['gold', 'money-fx', 'trade']
-    cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply', 'ship',
-                                 'sugar']  # top 9
+    cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply', 'ship'
+    ]  # top 9
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
                                         reuters.fileids(cats_limiter))
 
-    training_documents = [sum(reuters.sents(fid), []) for fid in training_fileids]
+    training_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in training_fileids]
     training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
 
     training_documents = get_document_objects(training_documents, training_docs_categories)
-
 
     tws_calculator = TWSCalculator(training_documents, training_docs_categories)
     word_term_extractor = WordTermExtractor(training_documents, tws_calculator)
     # doc = documents[0]
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might hurt generalization (but if it works we're OK..)
-    top_terms = word_term_extractor.top_common_words(500)
-    # top_terms = word_term_extractor.top_max_ig(500)
+    # top_terms = word_term_extractor.top_common_words(500)
+    top_terms = word_term_extractor.top_max_ig(1000)
 
     feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
 
@@ -73,7 +71,7 @@ if __name__ == '__main__':
         return output1 if input else output2
 
     # pset = PrimitiveSetTyped("MAIN", [bool, float, float, float, float, float], float)
-    pset = PrimitiveSetTyped("MAIN", [float, float, float], float)
+    pset = PrimitiveSetTyped("MAIN", [float, float, float, float, float], float)
     pset.addPrimitive(operator.add, [float, float], float)
     pset.addPrimitive(operator.sub, [float, float], float)
     pset.addPrimitive(operator.mul, [float, float], float)
@@ -82,10 +80,10 @@ if __name__ == '__main__':
     # pset.addPrimitive(if_then_else, [bool, float, float], float)
 
     pset.renameArguments(ARG0='tf')
-    pset.renameArguments(ARG1='p_c_t')
-    pset.renameArguments(ARG2='p_c_nt')
-    # pset.renameArguments(ARG3='tf_ig')
-    # pset.renameArguments(ARG4='tf_chi')
+    pset.renameArguments(ARG1='max_p_t_c')
+    pset.renameArguments(ARG2='max_p_t_nc')
+    pset.renameArguments(ARG3='avg_p_t_c')
+    pset.renameArguments(ARG4='avg_p_t_nc')
     # pset.renameArguments(ARG5='tf_rf')
 
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))
@@ -113,9 +111,9 @@ if __name__ == '__main__':
     # toolbox.register("map", futures.map)
 
 
-    pop = toolbox.population(n=20)
+    pop = toolbox.population(n=50)
     hof = tools.HallOfFame(1)
-    pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 20,
+    pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 50,
                                    halloffame=hof, verbose=True)
 
     for i in pop:
@@ -125,10 +123,10 @@ if __name__ == '__main__':
     # now we're done training
     test_fileids = fileids = filter(lambda fileid: "training" not in fileid and len(reuters.categories(fileid)) == 1,
                                     reuters.fileids(cats_limiter))
-    test_documents = [sum(reuters.sents(fid), []) for fid in test_fileids]
+    test_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in test_fileids]
     test_docs_categories = [reuters.categories(fid)[0] for fid in test_fileids]
     test_documents = get_document_objects(test_documents, test_docs_categories)
-    WordTermExtractor(test_documents, TWSCalculator(test_documents, test_docs_categories)) # just to get counts
+    WordTermExtractor(test_documents, TWSCalculator(test_documents, test_docs_categories))  # just to get counts
 
     best_individual = hof.items[0]
     print "---"
@@ -152,8 +150,27 @@ if __name__ == '__main__':
     # print train_matrix
     # import pdb
     # pdb.set_trace()
+    print "Testing with Naive Bayes"
 
     classifier = MultinomialNB()
+    # print train_matrix
+    classifier.fit(train_matrix, training_docs_categories)
+
+    predictions = classifier.predict(test_matrix)
+    metrics = sklearn.metrics.precision_recall_fscore_support(test_docs_categories, predictions, average='macro')
+
+    print test_docs_categories
+    print predictions
+
+    print "Metrics (percision, recall, fmeasure):", metrics
+
+    accuracy = accuracy_score(test_docs_categories, predictions)
+
+    print "Accuracy:", accuracy
+
+    print "---"
+    print "Testing with SVC"
+    classifier = SVC()
     # print train_matrix
     classifier.fit(train_matrix, training_docs_categories)
 

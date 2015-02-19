@@ -9,8 +9,7 @@ from terminals import get_document_objects, WordTermExtractor
 
 __author__ = 'itay'
 if __name__ == '__main__':
-    cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply', 'ship',
-                                 'sugar']  # top 9
+    cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply', 'ship']  # top 8
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
                                         reuters.fileids(cats_limiter))
 

@@ -24,6 +24,7 @@ from features import TWSCalculator
 from fitness import TWSFitnessCalculator, FeatureExtractor
 from parameters import ProjectParams
 from terminals import WordTermExtractor, get_document_objects
+from tws_gp import to_lower
 
 
 def protectedDiv(left, right):
@@ -44,12 +45,19 @@ def sub(a, b):
 def cos(a):
     return math.cos(a)
 
+
 sin = math.sin
 
 
-def individual_func(tf, p_c_t, p_c_nt):
-    return add(cos(sub(cos(p_c_nt), sub(p_c_t, p_c_nt))),
-               protectedDiv(cos(protectedDiv(p_c_nt, p_c_t)), sub(p_c_nt, protectedDiv(tf, tf))))
+def mul(x, y):
+    return x * y
+
+
+def individual_func(tf, max_p_c_t, max_p_c_nt, a, b):
+    return sub(mul(protectedDiv(add(max_p_c_t, tf), cos(max_p_c_nt)),
+                   add(sub(max_p_c_t, max_p_c_t), protectedDiv(tf, max_p_c_t))), mul(
+        sub(add(protectedDiv(sub(mul(max_p_c_nt, max_p_c_nt), tf), cos(max_p_c_nt)), max_p_c_nt),
+            protectedDiv(mul(max_p_c_nt, max_p_c_nt), tf)), sub(mul(max_p_c_t, max_p_c_t), add(max_p_c_t, tf))))
 
 
 if __name__ == "__main__":
@@ -61,12 +69,12 @@ if __name__ == "__main__":
     # pdb.set_trace()
 
     # cats_limiter = categories = ['gold', 'money-fx', 'trade']
-    cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply', 'ship',
-                                 'sugar']  # top 9
+    cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply',
+                                 'ship']  # top 8
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
                                         reuters.fileids(cats_limiter))
 
-    training_documents = [sum(reuters.sents(fid), []) for fid in training_fileids]
+    training_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in training_fileids]
     training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
     print len(set(training_docs_categories))
 
@@ -78,7 +86,7 @@ if __name__ == "__main__":
     # doc = documents[0]
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might hurt generalization (but if it works we're OK..)
-    top_terms = word_term_extractor.top_common_words(500)
+    top_terms = word_term_extractor.top_common_words(2000)
     # top_terms = word_term_extractor.top_max_ig(500)
 
     feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
@@ -94,7 +102,7 @@ if __name__ == "__main__":
     # now we're done training
     test_fileids = fileids = filter(lambda fileid: "training" not in fileid and len(reuters.categories(fileid)) == 1,
                                     reuters.fileids(cats_limiter))
-    test_documents = [sum(reuters.sents(fid), []) for fid in test_fileids]
+    test_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in test_fileids]
     test_docs_categories = [reuters.categories(fid)[0] for fid in test_fileids]
     test_documents = get_document_objects(test_documents, test_docs_categories)
     WordTermExtractor(test_documents, TWSCalculator(test_documents, test_docs_categories))  # just to get counts
