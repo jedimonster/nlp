@@ -9,7 +9,8 @@ from terminals import get_document_objects, WordTermExtractor
 
 __author__ = 'itay'
 if __name__ == '__main__':
-    cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply', 'ship']  # top 8
+    cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply',
+                                 'ship']  # top 8
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
                                         reuters.fileids(cats_limiter))
 
@@ -27,7 +28,7 @@ if __name__ == '__main__':
     print training_documents[0]
     print training_fileids
 
-    vectorizer = TfidfVectorizer(input='content')
+    vectorizer = TfidfVectorizer(input='content', max_features=2100)
     feature_matrix = vectorizer.fit_transform(training_documents)
 
     classifier = OneVsRestClassifier(MultinomialNB())
@@ -45,7 +46,7 @@ if __name__ == '__main__':
 
     predictions = classifier.predict(test_features)
 
-    metrics = sklearn.metrics.precision_recall_fscore_support(test_docs_categories, predictions, average='macro')
+    metrics = sklearn.metrics.precision_recall_fscore_support(test_docs_categories, predictions, average='weighted')
 
     print "Metrics (percision, recall, fmeasure):", metrics
 

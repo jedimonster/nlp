@@ -61,7 +61,7 @@ def individual_func(tf, max_p_t_c, max_p_t_nc, avg_p_t_c, avg_p_t_nc, first_occ_
     # as of 21/2 17:00 this is running on Hedwig
     # return add(add(sub(max_p_t_c, max_p_t_nc), add(sub(max_p_t_c, max_p_t_nc), sub(
     # add(add(sub(max_p_t_c, avg_p_t_nc), add(sub(max_p_t_c, max_p_t_nc), sub(add(tf, tf), avg_p_t_nc))), tf),
-    #     avg_p_t_nc))), add(add(sub(max_p_t_nc, max_p_t_c), tf), add(sub(max_p_t_c, avg_p_t_nc), add(tf, tf))))
+    # avg_p_t_nc))), add(add(sub(max_p_t_nc, max_p_t_c), tf), add(sub(max_p_t_c, avg_p_t_nc), add(tf, tf))))
     #
     # first one after adding word first occurrence.
     return add(mul(protectedDiv(sub(avg_p_t_c, first_occ_perc), sub(max_p_t_nc, max_p_t_c)),
@@ -96,7 +96,7 @@ if __name__ == "__main__":
     # doc = documents[0]
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might hurt generalization (but if it works we're OK..)
-    top_terms = word_term_extractor.top_common_words(500)
+    top_terms = word_term_extractor.top_common_words(1000)
     print "using terms:"
     print top_terms
     # top_terms = word_term_extractor.top_max_ig(500)
@@ -138,16 +138,18 @@ if __name__ == "__main__":
     # import pdb
     # pdb.set_trace()
 
-    classifier = MultinomialNB()
+    classifier = OneVsRestClassifier(MultinomialNB())
     # print train_matrix
     classifier.fit(train_matrix, training_docs_categories)
 
     predictions = classifier.predict(test_matrix)
     metrics = sklearn.metrics.precision_recall_fscore_support(test_docs_categories, predictions, average='weighted')
+    metrics_per_c = sklearn.metrics.precision_recall_fscore_support(test_docs_categories, predictions)
 
     print test_docs_categories
     print predictions
 
+    print "Metrics per category (percision, recall, fmeasure):", metrics_per_c
     print "Metrics (percision, recall, fmeasure):", metrics
 
     accuracy = accuracy_score(test_docs_categories, predictions)
