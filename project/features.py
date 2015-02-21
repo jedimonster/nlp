@@ -21,7 +21,6 @@ class TWSCalculator(object):
         self.logger = ProjectParams.logger
         self.df_dict = {}
         self.term_category_dict = {}
-
         self._pc = dict((cat, float(self.docs_categories.count(cat)) / self.N()) for cat in self.categories)
 
         print self._pc
@@ -234,6 +233,9 @@ class TWSCalculator(object):
         weighted_rf = sum(res)
         return self.tf(term, document) * weighted_rf
 
+    def first_occurrence_perc(self, term, document):
+        return term.first_occurrence(document) / len(document.doc)
+
     def terminals(self, term, document):
         return (
             self.bool(term, document), self.tf(term, document), self.tf_idf(term, document), self.tf_ig(term, document),
@@ -242,7 +244,7 @@ class TWSCalculator(object):
     def raw_terminals(self, term, document):
         return (self.tf(term, document), self.max_prob_term_and_category(term, document),
                 self.max_prob_term_not_category(term, document), self.avg_prob_term_category(term, document),
-                self.avg_prob_term_not_category(term, document))
+                self.avg_prob_term_not_category(term, document), self.first_occurrence_perc(term, document))
 
 
 if __name__ == '__main__':

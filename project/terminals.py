@@ -38,6 +38,9 @@ class AbstractTerm(object):
 
         raise NotImplemented
 
+    def first_occurrence(self, document):
+        return document.first_occurrence(self)
+
     def __str__(self):
         raise NotImplemented
 
@@ -49,6 +52,9 @@ class WordTerm(AbstractTerm):
         AbstractTerm.__init__(self)
         self._word = word
 
+    def _frequency(self, document):
+        return document.get_freq(self)
+
     def __eq__(self, other):
         return (isinstance(other, self.__class__) and other._word == self._word)
 
@@ -56,9 +62,6 @@ class WordTerm(AbstractTerm):
         # todo incorporate the fact this is a WordTerm
         return hash(self._word)
 
-
-    def _frequency(self, document):
-        return document.get_freq(self)
 
     def __str__(self):
         return str(self._word)
@@ -96,10 +99,23 @@ class Document(object):
         self.doc = doc
         self.MAX_TERM_TYPES = 10
         self._freqs = {}
-
+        self._first_occ = {}
 
     def set_freqs(self, term_id, freqs_dict):
         self._freqs[term_id] = freqs_dict
+
+    def set_occurrences(self, term_id, occurences_dict):
+        self._first_occ[term_id] = occurences_dict
+
+    def first_occurrence(self, word_term):
+        # return ProjectParams.terms_matrix.get_freq(self.index, word_term)
+        if word_term.TERM_ID in self._first_occ:
+            if word_term in self._first_occ[word_term.TERM_ID]:
+                return self._first_occ[word_term.TERM_ID][word_term]
+            # else we've never seen this word
+            return 0  # todo default dict instead of all the branching?
+        else:
+            raise IndexError("no first occurrences for types of terms - " + str(word_term.TERM_ID))
 
     def get_freq(self, word_term):
         # return ProjectParams.terms_matrix.get_freq(self.index, word_term)
@@ -130,13 +146,17 @@ class WordTermExtractor(object):
         stop_words = set(stopwords.words('english'))
         for doc in self._documents:
             word_freq = collections.defaultdict(int)
-            for word in doc.doc:
+            first_occurrences = dict()
+            for i, word in enumerate(doc.doc):
                 if (word not in stop_words) and len(word) > 1:
                     word = WordTerm(word)
                     word_freq[word] += 1
                     self._total_freq[word] += 1
+                    if word not in first_occurrences:
+                        first_occurrences[word] = i
 
             doc.set_freqs(WordTerm.TERM_ID, word_freq)
+            doc.set_occurrences(WordTerm.TERM_ID, first_occurrences)
 
             # mapping = {w: i for i, w in zip(range(len(vectorizer.get_feature_names())), vectorizer.get_feature_names())}
 
@@ -153,7 +173,7 @@ class WordTermExtractor(object):
         return map(lambda w: WordTerm(w), ProjectParams.terms_matrix.words_mapping.keys())
 
     def top_max_ig(self, k):
-        self.logger.info("calculating top %d word terms according to IG", k)
+        self.logger.info("calculating top %d of %d word terms according to IG", k, len(self._total_freq))
         terms = self._total_freq.keys()
 
         self.logger.debug("starting IG algebra")
@@ -164,7 +184,7 @@ class WordTermExtractor(object):
         return [term for term, ig in term_ig[:k]]
 
     def top_common_words(self, k):
-        self.logger.info("calculating top %d word terms according to frequency", k)
+        self.logger.info("calculating top %d of %d word terms according to frequency", k, len(self._total_freq))
 
         # terms = self.all_terms()
         # terms_freq = [(term, sum((term.frequency(doc) for doc in self._documents))) for term in terms]

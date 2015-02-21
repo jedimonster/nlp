@@ -41,13 +41,13 @@ def to_lower(str):
 
 if __name__ == '__main__':
     logger = ProjectParams.logger
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
     logger.info("Starting program")
 
     # cats_limiter = categories = ['gold', 'money-fx', 'trade']
-    # cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply', 'ship'
-    # ]  # top 9
-    cats_limiter = ['veg-oil', 'retail', 'bop', 'nat-gas', 'copper'] # bunch of small, evenly sized, categories.
+    cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply', 'ship'
+    ]  # top 9
+    # cats_limiter = ['veg-oil', 'retail', 'bop', 'nat-gas', 'copper'] # bunch of small, evenly sized, categories.
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
                                         reuters.fileids(cats_limiter))
 
@@ -61,8 +61,8 @@ if __name__ == '__main__':
     # doc = documents[0]
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might hurt generalization (but if it works we're OK..)
-    # top_terms = word_term_extractor.top_common_words(500)
-    top_terms = word_term_extractor.top_max_ig(500)
+    top_terms = word_term_extractor.top_common_words(500)
+    # top_terms = word_term_extractor.top_max_ig(500)
 
     feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
 
@@ -72,7 +72,7 @@ if __name__ == '__main__':
         return output1 if input else output2
 
     # pset = PrimitiveSetTyped("MAIN", [bool, float, float, float, float, float], float)
-    pset = PrimitiveSetTyped("MAIN", [float, float, float, float, float], float)
+    pset = PrimitiveSetTyped("MAIN", [float, float, float, float, float, float], float)
     pset.addPrimitive(operator.add, [float, float], float)
     pset.addPrimitive(operator.sub, [float, float], float)
     pset.addPrimitive(operator.mul, [float, float], float)
@@ -85,7 +85,7 @@ if __name__ == '__main__':
     pset.renameArguments(ARG2='max_p_t_nc')
     pset.renameArguments(ARG3='avg_p_t_c')
     pset.renameArguments(ARG4='avg_p_t_nc')
-    # pset.renameArguments(ARG5='tf_rf')
+    pset.renameArguments(ARG5='first_occ_perc')
 
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))
 
@@ -112,9 +112,9 @@ if __name__ == '__main__':
     # toolbox.register("map", futures.map)
 
 
-    pop = toolbox.population(n=50)
+    pop = toolbox.population(n=20)
     hof = tools.HallOfFame(1)
-    pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 100,
+    pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 20,
                                    halloffame=hof, verbose=True)
 
     for i in pop:

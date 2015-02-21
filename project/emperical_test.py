@@ -53,13 +53,21 @@ def mul(x, y):
     return x * y
 
 
-def individual_func(tf, max_p_t_c, max_p_t_nc, avg_p_t_c, avg_p_t_nc):
-    # this is the 93% one.
+def individual_func(tf, max_p_t_c, max_p_t_nc, avg_p_t_c, avg_p_t_nc, first_occ_perc):
+    # this is the 93% one, from a micro run.
     # return protectedDiv(mul(tf, max_p_t_c),
     # sub(mul(sub(mul(mul(max_p_t_c, mul(tf, max_p_t_c)), max_p_t_c), avg_p_t_c), tf), avg_p_t_c))
-    return add(add(sub(max_p_t_c, max_p_t_nc), add(sub(max_p_t_c, max_p_t_nc), sub(
-        add(add(sub(max_p_t_c, avg_p_t_nc), add(sub(max_p_t_c, max_p_t_nc), sub(add(tf, tf), avg_p_t_nc))), tf),
-        avg_p_t_nc))), add(add(sub(max_p_t_nc, max_p_t_c), tf), add(sub(max_p_t_c, avg_p_t_nc), add(tf, tf))))
+
+    # as of 21/2 17:00 this is running on Hedwig
+    # return add(add(sub(max_p_t_c, max_p_t_nc), add(sub(max_p_t_c, max_p_t_nc), sub(
+    # add(add(sub(max_p_t_c, avg_p_t_nc), add(sub(max_p_t_c, max_p_t_nc), sub(add(tf, tf), avg_p_t_nc))), tf),
+    #     avg_p_t_nc))), add(add(sub(max_p_t_nc, max_p_t_c), tf), add(sub(max_p_t_c, avg_p_t_nc), add(tf, tf))))
+    #
+    # first one after adding word first occurrence.
+    return add(mul(protectedDiv(sub(avg_p_t_c, first_occ_perc), sub(max_p_t_nc, max_p_t_c)),
+                   protectedDiv(sub(tf, avg_p_t_c), add(tf, avg_p_t_c))),
+               add(add(cos(first_occ_perc), mul(first_occ_perc, max_p_t_nc)),
+                   sub(sub(tf, max_p_t_c), sub(first_occ_perc, first_occ_perc))))
 
 
 if __name__ == "__main__":
@@ -74,7 +82,7 @@ if __name__ == "__main__":
     cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply',
                                  'ship']  # top 8
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
-                                        reuters.fileids())
+                                        reuters.fileids(cats_limiter))
 
     training_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in training_fileids]
     training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
@@ -105,7 +113,7 @@ if __name__ == "__main__":
 
     # now we're done training
     test_fileids = fileids = filter(lambda fileid: "training" not in fileid and len(reuters.categories(fileid)) == 1,
-                                    reuters.fileids())
+                                    reuters.fileids(cats_limiter))
     test_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in test_fileids]
     test_docs_categories = [reuters.categories(fid)[0] for fid in test_fileids]
     test_documents = get_document_objects(test_documents, test_docs_categories)
