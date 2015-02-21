@@ -194,7 +194,6 @@ class TWSCalculator(object):
 
         return result
 
-
     def rf(self, term, category):
         if (term, category) not in self.rf_dict:
             self.rf_dict[term, category] = self._rf(term, category)

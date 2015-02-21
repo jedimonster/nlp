@@ -115,7 +115,7 @@ class TWSFitnessCalculator(object):
             predictions = self._classifier.predict(test_matrix)
 
             logger.debug("calculating metrics")
-            fmeasure = sklearn.metrics.precision_recall_fscore_support(test_categories, predictions, average='macro')[2]
+            fmeasure = sklearn.metrics.precision_recall_fscore_support(test_categories, predictions, average='micro')[2]
             # todo try micro or weighted average. macro is too penalizing..
             fmeasures.append(fmeasure)
             logger.debug("done k")

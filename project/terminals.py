@@ -1,5 +1,5 @@
 import collections
-from nltk.corpus import reuters
+from nltk.corpus import reuters, stopwords
 import numpy
 from parameters import ProjectParams
 from sklearn.feature_extraction.text import CountVectorizer
@@ -107,7 +107,7 @@ class Document(object):
             if word_term in self._freqs[word_term.TERM_ID]:
                 return self._freqs[word_term.TERM_ID][word_term]
             # else we've never seen this word
-            return 0 # todo default dict instead of all the branching?
+            return 0  # todo default dict instead of all the branching?
         else:
             raise IndexError("no frequencies for types of terms - " + str(word_term.TERM_ID))
 
@@ -127,12 +127,14 @@ class WordTermExtractor(object):
         # matrix = vectorizer.fit_transform(documents_str)
 
         self._total_freq = collections.defaultdict(int)
+        stop_words = set(stopwords.words('english'))
         for doc in self._documents:
             word_freq = collections.defaultdict(int)
             for word in doc.doc:
-                word = WordTerm(word)
-                word_freq[word] += 1
-                self._total_freq[word] += 1
+                if (word not in stop_words) and len(word) > 1:
+                    word = WordTerm(word)
+                    word_freq[word] += 1
+                    self._total_freq[word] += 1
 
             doc.set_freqs(WordTerm.TERM_ID, word_freq)
 

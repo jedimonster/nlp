@@ -41,12 +41,13 @@ def to_lower(str):
 
 if __name__ == '__main__':
     logger = ProjectParams.logger
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
     logger.info("Starting program")
 
     # cats_limiter = categories = ['gold', 'money-fx', 'trade']
-    cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply', 'ship'
-    ]  # top 9
+    # cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply', 'ship'
+    # ]  # top 9
+    cats_limiter = ['veg-oil', 'retail', 'bop', 'nat-gas', 'copper'] # bunch of small, evenly sized, categories.
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
                                         reuters.fileids(cats_limiter))
 
@@ -61,7 +62,7 @@ if __name__ == '__main__':
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might hurt generalization (but if it works we're OK..)
     # top_terms = word_term_extractor.top_common_words(500)
-    top_terms = word_term_extractor.top_max_ig(1000)
+    top_terms = word_term_extractor.top_max_ig(500)
 
     feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
 
@@ -113,7 +114,7 @@ if __name__ == '__main__':
 
     pop = toolbox.population(n=50)
     hof = tools.HallOfFame(1)
-    pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 50,
+    pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 100,
                                    halloffame=hof, verbose=True)
 
     for i in pop:

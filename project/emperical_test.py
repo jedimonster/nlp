@@ -53,11 +53,13 @@ def mul(x, y):
     return x * y
 
 
-def individual_func(tf, max_p_c_t, max_p_c_nt, a, b):
-    return sub(mul(protectedDiv(add(max_p_c_t, tf), cos(max_p_c_nt)),
-                   add(sub(max_p_c_t, max_p_c_t), protectedDiv(tf, max_p_c_t))), mul(
-        sub(add(protectedDiv(sub(mul(max_p_c_nt, max_p_c_nt), tf), cos(max_p_c_nt)), max_p_c_nt),
-            protectedDiv(mul(max_p_c_nt, max_p_c_nt), tf)), sub(mul(max_p_c_t, max_p_c_t), add(max_p_c_t, tf))))
+def individual_func(tf, max_p_t_c, max_p_t_nc, avg_p_t_c, avg_p_t_nc):
+    # this is the 93% one.
+    # return protectedDiv(mul(tf, max_p_t_c),
+    # sub(mul(sub(mul(mul(max_p_t_c, mul(tf, max_p_t_c)), max_p_t_c), avg_p_t_c), tf), avg_p_t_c))
+    return add(add(sub(max_p_t_c, max_p_t_nc), add(sub(max_p_t_c, max_p_t_nc), sub(
+        add(add(sub(max_p_t_c, avg_p_t_nc), add(sub(max_p_t_c, max_p_t_nc), sub(add(tf, tf), avg_p_t_nc))), tf),
+        avg_p_t_nc))), add(add(sub(max_p_t_nc, max_p_t_c), tf), add(sub(max_p_t_c, avg_p_t_nc), add(tf, tf))))
 
 
 if __name__ == "__main__":
@@ -72,7 +74,7 @@ if __name__ == "__main__":
     cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply',
                                  'ship']  # top 8
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
-                                        reuters.fileids(cats_limiter))
+                                        reuters.fileids())
 
     training_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in training_fileids]
     training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
@@ -86,7 +88,9 @@ if __name__ == "__main__":
     # doc = documents[0]
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might hurt generalization (but if it works we're OK..)
-    top_terms = word_term_extractor.top_common_words(2000)
+    top_terms = word_term_extractor.top_common_words(500)
+    print "using terms:"
+    print top_terms
     # top_terms = word_term_extractor.top_max_ig(500)
 
     feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
@@ -101,7 +105,7 @@ if __name__ == "__main__":
 
     # now we're done training
     test_fileids = fileids = filter(lambda fileid: "training" not in fileid and len(reuters.categories(fileid)) == 1,
-                                    reuters.fileids(cats_limiter))
+                                    reuters.fileids())
     test_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in test_fileids]
     test_docs_categories = [reuters.categories(fid)[0] for fid in test_fileids]
     test_documents = get_document_objects(test_documents, test_docs_categories)
@@ -131,7 +135,7 @@ if __name__ == "__main__":
     classifier.fit(train_matrix, training_docs_categories)
 
     predictions = classifier.predict(test_matrix)
-    metrics = sklearn.metrics.precision_recall_fscore_support(test_docs_categories, predictions, average='macro')
+    metrics = sklearn.metrics.precision_recall_fscore_support(test_docs_categories, predictions, average='weighted')
 
     print test_docs_categories
     print predictions
@@ -141,4 +145,3 @@ if __name__ == "__main__":
     accuracy = accuracy_score(test_docs_categories, predictions)
 
     print "Accuracy:", accuracy
-
