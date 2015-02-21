@@ -64,10 +64,16 @@ def individual_func(tf, max_p_t_c, max_p_t_nc, avg_p_t_c, avg_p_t_nc, first_occ_
     # avg_p_t_nc))), add(add(sub(max_p_t_nc, max_p_t_c), tf), add(sub(max_p_t_c, avg_p_t_nc), add(tf, tf))))
     #
     # first one after adding word first occurrence.
-    return add(mul(protectedDiv(sub(avg_p_t_c, first_occ_perc), sub(max_p_t_nc, max_p_t_c)),
-                   protectedDiv(sub(tf, avg_p_t_c), add(tf, avg_p_t_c))),
-               add(add(cos(first_occ_perc), mul(first_occ_perc, max_p_t_nc)),
-                   sub(sub(tf, max_p_t_c), sub(first_occ_perc, first_occ_perc))))
+    # return add(mul(protectedDiv(sub(avg_p_t_c, first_occ_perc), sub(max_p_t_nc, max_p_t_c)),
+    #                protectedDiv(sub(tf, avg_p_t_c), add(tf, avg_p_t_c))),
+    #            add(add(cos(first_occ_perc), mul(first_occ_perc, max_p_t_nc)),
+    #                sub(sub(tf, max_p_t_c), sub(first_occ_perc, first_occ_perc))))
+
+    # long GP with first occurrence:
+    return add(tf, mul(protectedDiv(cos(protectedDiv(max_p_t_c, tf)), tf), mul(
+        mul(cos(protectedDiv(max_p_t_c, add(protectedDiv(tf, tf), max_p_t_c))), sub(max_p_t_nc, max_p_t_c)),
+        protectedDiv(mul(mul(cos(protectedDiv(max_p_t_c, max_p_t_nc)), sub(max_p_t_nc, max_p_t_c)),
+                         protectedDiv(add(first_occ_perc, max_p_t_nc), add(tf, max_p_t_c))), add(tf, max_p_t_c)))))
 
 
 if __name__ == "__main__":
@@ -96,7 +102,7 @@ if __name__ == "__main__":
     # doc = documents[0]
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might hurt generalization (but if it works we're OK..)
-    top_terms = word_term_extractor.top_common_words(1000)
+    top_terms = word_term_extractor.top_common_words(500)
     print "using terms:"
     print top_terms
     # top_terms = word_term_extractor.top_max_ig(500)
