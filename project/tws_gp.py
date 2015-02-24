@@ -19,7 +19,8 @@ from sklearn.svm import SVC
 from features import TWSCalculator
 from fitness import TWSFitnessCalculator, FeatureExtractor
 from parameters import ProjectParams
-from terminals import WordTermExtractor, get_document_objects
+from terminals import WordTermExtractor, get_document_objects, WordTerm
+from terms_lists.r8_ig import r_eight_terms
 
 __author__ = 'itay'
 
@@ -46,7 +47,7 @@ if __name__ == '__main__':
 
     # cats_limiter = categories = ['gold', 'money-fx', 'trade']
     cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply', 'ship'
-    ]  # top 9
+    ]  # top 8
     # cats_limiter = ['veg-oil', 'retail', 'bop', 'nat-gas', 'copper'] # bunch of small, evenly sized, categories.
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
                                         reuters.fileids(cats_limiter))
@@ -61,31 +62,39 @@ if __name__ == '__main__':
     # doc = documents[0]
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might hurt generalization (but if it works we're OK..)
-    top_terms = word_term_extractor.top_common_words(500)
+    # top_terms = word_term_extractor.top_common_words(500)
     # top_terms = word_term_extractor.top_max_ig(500)
+    top_terms = map(lambda x: WordTerm(x), r_eight_terms)
 
     feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
 
-    fitness_calculator = TWSFitnessCalculator(MultinomialNB(), training_documents, feature_extractor)
+    fitness_calculator = TWSFitnessCalculator(OneVsRestClassifier(MultinomialNB()), training_documents,
+                                              feature_extractor)
 
     def if_then_else(input, output1, output2):
         return output1 if input else output2
 
+    def lte(n1, n2):
+        return n1 >= n2
+
     # pset = PrimitiveSetTyped("MAIN", [bool, float, float, float, float, float], float)
-    pset = PrimitiveSetTyped("MAIN", [float, float, float, float, float, float], float)
+    pset = PrimitiveSetTyped("MAIN", [bool, float, float, float, float, float, float], float)
     pset.addPrimitive(operator.add, [float, float], float)
     pset.addPrimitive(operator.sub, [float, float], float)
     pset.addPrimitive(operator.mul, [float, float], float)
     pset.addPrimitive(protectedDiv, [float, float], float)
     pset.addPrimitive(math.cos, [float], float)
-    # pset.addPrimitive(if_then_else, [bool, float, float], float)
+    pset.addPrimitive(if_then_else, [bool, float, float], float)
+    pset.addPrimitive(lte, [float, float], bool)
 
-    pset.renameArguments(ARG0='tf')
-    pset.renameArguments(ARG1='max_p_t_c')
-    pset.renameArguments(ARG2='max_p_t_nc')
-    pset.renameArguments(ARG3='avg_p_t_c')
-    pset.renameArguments(ARG4='avg_p_t_nc')
-    pset.renameArguments(ARG5='first_occ_perc')
+
+    pset.renameArguments(ARG0='bool')
+    pset.renameArguments(ARG1='tf')
+    pset.renameArguments(ARG2='max_p_t_c')
+    pset.renameArguments(ARG3='max_p_t_nc')
+    pset.renameArguments(ARG4='avg_p_t_c')
+    pset.renameArguments(ARG5='avg_p_t_nc')
+    pset.renameArguments(ARG6='first_occ_perc')
 
     creator.create("FitnessMax", base.Fitness, weights=(1.0,))
 
@@ -94,16 +103,16 @@ if __name__ == '__main__':
 
     toolbox = base.Toolbox()
     pool = multiprocessing.Pool()
-    toolbox.register("expr", genHalfAndHalf, pset=pset, min_=2, max_=4, type_=pset.ret)
+    toolbox.register("expr", genHalfAndHalf, pset=pset, min_=3, max_=7, type_=pset.ret)
     toolbox.register("individual", tools.initIterate, creator.Individual, toolbox.expr)
     toolbox.register("population", tools.initRepeat, list, toolbox.individual)
     toolbox.register("compile", compile, pset=pset)
 
     # toolbox.register("evaluate", evalOne, pset=pset)
     toolbox.register("evaluate", fitness_calculator.evaluate, pset=pset)
-    toolbox.register("select", tools.selTournament, tournsize=3)
+    toolbox.register("select", tools.selTournament, tournsize=5)
     toolbox.register("mate", cxOnePoint)
-    toolbox.register("expr_mut", genFull, min_=0, max_=2)
+    toolbox.register("expr_mut", genFull, min_=0, max_=6)
     toolbox.register("mutate", mutUniform, expr=toolbox.expr_mut, pset=pset)
 
     toolbox.decorate("mate", staticLimit(key=operator.attrgetter("height"), max_value=17))
@@ -112,9 +121,9 @@ if __name__ == '__main__':
     # toolbox.register("map", futures.map)
 
 
-    pop = toolbox.population(n=20)
-    hof = tools.HallOfFame(1)
-    pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 20,
+    pop = toolbox.population(n=30)
+    hof = tools.HallOfFame(5)
+    pop, log = algorithms.eaSimple(pop, toolbox, 0.5, 0.1, 40,
                                    halloffame=hof, verbose=True)
 
     for i in pop:
@@ -129,61 +138,62 @@ if __name__ == '__main__':
     test_documents = get_document_objects(test_documents, test_docs_categories)
     WordTermExtractor(test_documents, TWSCalculator(test_documents, test_docs_categories))  # just to get counts
 
-    best_individual = hof.items[0]
     print "---"
     print "testing with words ", top_terms
-    print "individual: ", str(best_individual)
-    print "test document 0 "
-    print test_documents[0].doc
-    print "train document 0"
-    print training_documents[0].doc
+    # print "test document 0 "
+    # print test_documents[0].doc
+    # print "train document 0"
+    # print training_documents[0].doc
+    # best_individual = hof.items[0]
+    for best_individual in hof.items:
+        print "individual: ", str(best_individual)
 
-    func = toolbox.compile(best_individual)
+        func = toolbox.compile(best_individual)
 
-    train_feature_vectors = [feature_extractor.get_weighted_features(func, doc) for doc in
-                             training_documents]
-    test_feature_vectors = [feature_extractor.get_weighted_features(func, doc) for doc in
-                            test_documents]
+        train_feature_vectors = [feature_extractor.get_weighted_features(func, doc) for doc in
+                                 training_documents]
+        test_feature_vectors = [feature_extractor.get_weighted_features(func, doc) for doc in
+                                test_documents]
 
-    train_matrix = vstack(train_feature_vectors)
-    test_matrix = vstack(test_feature_vectors)
+        train_matrix = vstack(train_feature_vectors)
+        test_matrix = vstack(test_feature_vectors)
 
-    # print train_matrix
-    # import pdb
-    # pdb.set_trace()
-    print "Testing with Naive Bayes"
+        # print train_matrix
+        # import pdb
+        # pdb.set_trace()
+        print "Testing with Naive Bayes"
 
-    classifier = MultinomialNB()
-    # print train_matrix
-    classifier.fit(train_matrix, training_docs_categories)
+        classifier = OneVsRestClassifier(MultinomialNB())
+        # print train_matrix
+        classifier.fit(train_matrix, training_docs_categories)
 
-    predictions = classifier.predict(test_matrix)
-    metrics = sklearn.metrics.precision_recall_fscore_support(test_docs_categories, predictions, average='macro')
+        predictions = classifier.predict(test_matrix)
+        metrics = sklearn.metrics.precision_recall_fscore_support(test_docs_categories, predictions, average='macro')
 
-    print test_docs_categories
-    print predictions
+        print test_docs_categories
+        print predictions
 
-    print "Metrics (percision, recall, fmeasure):", metrics
+        print "Metrics (percision, recall, fmeasure):", metrics
 
-    accuracy = accuracy_score(test_docs_categories, predictions)
+        accuracy = accuracy_score(test_docs_categories, predictions)
 
-    print "Accuracy:", accuracy
+        print "Accuracy:", accuracy
 
-    print "---"
-    print "Testing with SVC"
-    classifier = SVC()
-    # print train_matrix
-    classifier.fit(train_matrix, training_docs_categories)
-
-    predictions = classifier.predict(test_matrix)
-    metrics = sklearn.metrics.precision_recall_fscore_support(test_docs_categories, predictions, average='macro')
-
-    print test_docs_categories
-    print predictions
-
-    print "Metrics (percision, recall, fmeasure):", metrics
-
-    accuracy = accuracy_score(test_docs_categories, predictions)
-
-    print "Accuracy:", accuracy
+        print "---"
+        # print "Testing with SVC"
+        # classifier = SVC()
+        # # print train_matrix
+        # classifier.fit(train_matrix, training_docs_categories)
+        #
+        # predictions = classifier.predict(test_matrix)
+        # metrics = sklearn.metrics.precision_recall_fscore_support(test_docs_categories, predictions, average='macro')
+        #
+        # print test_docs_categories
+        # print predictions
+        #
+        # print "Metrics (percision, recall, fmeasure):", metrics
+        #
+        # accuracy = accuracy_score(test_docs_categories, predictions)
+        #
+        # print "Accuracy:", accuracy
 

@@ -172,6 +172,31 @@ class WordTermExtractor(object):
     def all_terms(self):
         return map(lambda w: WordTerm(w), ProjectParams.terms_matrix.words_mapping.keys())
 
+    def max_ig_per_category(self, k):
+        self.logger.info("calculating top %d of %d word terms according to IG per category", k, len(self._total_freq))
+        categories = self._tws_calculator.categories
+        terms = self._total_freq.keys()
+        igs = dict()
+
+        self.logger.debug("starting IG algebra")
+        for category in categories:
+            igs[category] = list()
+            for term in terms:
+                ig = self._tws_calculator.ig(term, category)
+                igs[category].append((term, ig))
+
+            igs[category] = sorted(igs[category], reverse=True, key=lambda tig: tig[1])
+        self.logger.debug("done algebra, picking top per category")
+
+        reuturned_terms = set()
+        while len(reuturned_terms) < k:
+            for category in categories:
+                # take the highest IG in the category and add it.
+                term = igs[category].pop(0)[0]
+                reuturned_terms.add(term)
+
+        return reuturned_terms
+
     def top_max_ig(self, k):
         self.logger.info("calculating top %d of %d word terms according to IG", k, len(self._total_freq))
         terms = self._total_freq.keys()

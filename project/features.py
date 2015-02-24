@@ -236,13 +236,13 @@ class TWSCalculator(object):
     def first_occurrence_perc(self, term, document):
         return term.first_occurrence(document) / len(document.doc)
 
-    def terminals(self, term, document):
-        return (
-            self.bool(term, document), self.tf(term, document), self.tf_idf(term, document), self.tf_ig(term, document),
-            self.tf_chi(term, document), self.tf_rf(term, document))
+    # def terminals(self, term, document):
+    #     return (
+    #         self.bool(term, document), self.tf(term, document), self.tf_idf(term, document), self.tf_ig(term, document),
+    #         self.tf_chi(term, document), self.tf_rf(term, document))
 
     def raw_terminals(self, term, document):
-        return (self.tf(term, document), self.max_prob_term_and_category(term, document),
+        return (self.bool(term, document), self.tf(term, document), self.max_prob_term_and_category(term, document),
                 self.max_prob_term_not_category(term, document), self.avg_prob_term_category(term, document),
                 self.avg_prob_term_not_category(term, document), self.first_occurrence_perc(term, document))
 

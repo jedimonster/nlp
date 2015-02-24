@@ -23,7 +23,8 @@ from sklearn.svm import SVC
 from features import TWSCalculator
 from fitness import TWSFitnessCalculator, FeatureExtractor
 from parameters import ProjectParams
-from terminals import WordTermExtractor, get_document_objects
+from terminals import WordTermExtractor, get_document_objects, WordTerm
+from terms_lists.r8_ig import r_eight_terms
 from tws_gp import to_lower
 
 
@@ -53,7 +54,7 @@ def mul(x, y):
     return x * y
 
 
-def individual_func(tf, max_p_t_c, max_p_t_nc, avg_p_t_c, avg_p_t_nc, first_occ_perc):
+def individual_func(bool, tf, max_p_t_c, max_p_t_nc, avg_p_t_c, avg_p_t_nc, first_occ_perc):
     # this is the 93% one, from a micro run.
     # return protectedDiv(mul(tf, max_p_t_c),
     # sub(mul(sub(mul(mul(max_p_t_c, mul(tf, max_p_t_c)), max_p_t_c), avg_p_t_c), tf), avg_p_t_c))
@@ -65,15 +66,20 @@ def individual_func(tf, max_p_t_c, max_p_t_nc, avg_p_t_c, avg_p_t_nc, first_occ_
     #
     # first one after adding word first occurrence.
     # return add(mul(protectedDiv(sub(avg_p_t_c, first_occ_perc), sub(max_p_t_nc, max_p_t_c)),
-    #                protectedDiv(sub(tf, avg_p_t_c), add(tf, avg_p_t_c))),
-    #            add(add(cos(first_occ_perc), mul(first_occ_perc, max_p_t_nc)),
-    #                sub(sub(tf, max_p_t_c), sub(first_occ_perc, first_occ_perc))))
-
+    # protectedDiv(sub(tf, avg_p_t_c), add(tf, avg_p_t_c))),
+    # add(add(cos(first_occ_perc), mul(first_occ_perc, max_p_t_nc)),
+    # sub(sub(tf, max_p_t_c), sub(first_occ_perc, first_occ_perc))))
     # long GP with first occurrence:
-    return add(tf, mul(protectedDiv(cos(protectedDiv(max_p_t_c, tf)), tf), mul(
-        mul(cos(protectedDiv(max_p_t_c, add(protectedDiv(tf, tf), max_p_t_c))), sub(max_p_t_nc, max_p_t_c)),
-        protectedDiv(mul(mul(cos(protectedDiv(max_p_t_c, max_p_t_nc)), sub(max_p_t_nc, max_p_t_c)),
-                         protectedDiv(add(first_occ_perc, max_p_t_nc), add(tf, max_p_t_c))), add(tf, max_p_t_c)))))
+    # return add(tf, mul(protectedDiv(cos(protectedDiv(max_p_t_c, tf)), tf), mul(
+    # mul(cos(protectedDiv(max_p_t_c, add(protectedDiv(tf, tf), max_p_t_c))), sub(max_p_t_nc, max_p_t_c)),
+    #     protectedDiv(mul(mul(cos(protectedDiv(max_p_t_c, max_p_t_nc)), sub(max_p_t_nc, max_p_t_c)),
+    #                      protectedDiv(add(first_occ_perc, max_p_t_nc), add(tf, max_p_t_c))), add(tf, max_p_t_c)))))
+
+    # second long GP run (Yuri):
+    # return protectedDiv(tf, cos(sub(sub(cos(max_p_t_c), max_p_t_nc), max_p_t_nc)))
+
+    # 3rd long GP:
+    return mul(add(first_occ_perc, tf), cos(cos(first_occ_perc)))
 
 
 if __name__ == "__main__":
@@ -87,6 +93,8 @@ if __name__ == "__main__":
     # cats_limiter = categories = ['gold', 'money-fx', 'trade']
     cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply',
                                  'ship']  # top 8
+    # R-10:
+    # cats_limiter = [u'earn', u'acq', u'crude', u'trade', u'money-fx', u'interest', u'money-supply', u'ship', u'sugar', u'coffee']
     training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
                                         reuters.fileids(cats_limiter))
 
@@ -95,16 +103,16 @@ if __name__ == "__main__":
     print len(set(training_docs_categories))
 
     training_documents = get_document_objects(training_documents, training_docs_categories)
-    # import pdb
-    # pdb.set_trace()
     tws_calculator = TWSCalculator(training_documents, training_docs_categories)
     word_term_extractor = WordTermExtractor(training_documents, tws_calculator)
     # doc = documents[0]
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might hurt generalization (but if it works we're OK..)
-    top_terms = word_term_extractor.top_common_words(500)
+    # top_terms = word_term_extractor.top_common_words(500)
+    top_terms = r_eight_terms
+    top_terms = map(lambda x: WordTerm(x), top_terms)
     print "using terms:"
-    print top_terms
+    print [str(w) for w in top_terms]
     # top_terms = word_term_extractor.top_max_ig(500)
 
     feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
