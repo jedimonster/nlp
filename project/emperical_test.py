@@ -23,6 +23,7 @@ from sklearn.svm import SVC
 from features import TWSCalculator
 from fitness import TWSFitnessCalculator, FeatureExtractor
 from parameters import ProjectParams
+from readers import NewsgroupsReader
 from terminals import WordTermExtractor, get_document_objects, WordTerm
 from terms_lists.r8_ig import r_eight_terms
 from tws_gp import to_lower
@@ -72,14 +73,17 @@ def individual_func(bool, tf, max_p_t_c, max_p_t_nc, avg_p_t_c, avg_p_t_nc, firs
     # long GP with first occurrence:
     # return add(tf, mul(protectedDiv(cos(protectedDiv(max_p_t_c, tf)), tf), mul(
     # mul(cos(protectedDiv(max_p_t_c, add(protectedDiv(tf, tf), max_p_t_c))), sub(max_p_t_nc, max_p_t_c)),
-    #     protectedDiv(mul(mul(cos(protectedDiv(max_p_t_c, max_p_t_nc)), sub(max_p_t_nc, max_p_t_c)),
+    # protectedDiv(mul(mul(cos(protectedDiv(max_p_t_c, max_p_t_nc)), sub(max_p_t_nc, max_p_t_c)),
     #                      protectedDiv(add(first_occ_perc, max_p_t_nc), add(tf, max_p_t_c))), add(tf, max_p_t_c)))))
-
+    #
     # second long GP run (Yuri):
     # return protectedDiv(tf, cos(sub(sub(cos(max_p_t_c), max_p_t_nc), max_p_t_nc)))
 
     # 3rd long GP:
-    return mul(add(first_occ_perc, tf), cos(cos(first_occ_perc)))
+    # return mul(add(first_occ_perc, tf), cos(cos(first_occ_perc)))
+
+    return if_then_else(bool, sub(add(tf, avg_p_t_nc), mul(add(tf, tf), add(first_occ_perc, max_p_t_nc))),
+                        sub(tf, mul(max_p_t_nc, tf)))
 
 
 if __name__ == "__main__":
@@ -91,26 +95,34 @@ if __name__ == "__main__":
     # pdb.set_trace()
 
     # cats_limiter = categories = ['gold', 'money-fx', 'trade']
-    cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply',
-                                 'ship']  # top 8
     # R-10:
-    # cats_limiter = [u'earn', u'acq', u'crude', u'trade', u'money-fx', u'interest', u'money-supply', u'ship', u'sugar', u'coffee']
-    training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
-                                        reuters.fileids(cats_limiter))
+    cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply',
+    'ship']
 
-    training_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in training_fileids]
-    training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
-    print len(set(training_docs_categories))
+    # R-10:
+    # cats_limiter = [u'earn', u'acq', u'crude', u'trade', u'money-fx', u'interest', u'money-supply', u'ship', u'sugar',
+    #                 u'coffee']
 
-    training_documents = get_document_objects(training_documents, training_docs_categories)
+    # training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
+    #                                     reuters.fileids(cats_limiter))
+    #
+    # training_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in training_fileids]
+    # training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
+    # print len(set(training_docs_categories))
+    # training_documents = get_document_objects(training_documents, training_docs_categories)
+    training_documents = NewsgroupsReader(True).get_training()
+    training_docs_categories = [d.category for d in training_documents]
+
     tws_calculator = TWSCalculator(training_documents, training_docs_categories)
     word_term_extractor = WordTermExtractor(training_documents, tws_calculator)
     # doc = documents[0]
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might hurt generalization (but if it works we're OK..)
-    # top_terms = word_term_extractor.top_common_words(500)
-    top_terms = r_eight_terms
-    top_terms = map(lambda x: WordTerm(x), top_terms)
+    top_terms = word_term_extractor.top_common_words(500)
+
+    # top_terms = r_eight_terms
+    # top_terms = map(lambda x: WordTerm(x), top_terms)
+
     print "using terms:"
     print [str(w) for w in top_terms]
     # top_terms = word_term_extractor.top_max_ig(500)
@@ -122,15 +134,17 @@ if __name__ == "__main__":
     def if_then_else(input, output1, output2):
         return output1 if input else output2
 
-    # import pdb
-    # pdb.set_trace()
-
     # now we're done training
-    test_fileids = fileids = filter(lambda fileid: "training" not in fileid and len(reuters.categories(fileid)) == 1,
-                                    reuters.fileids(cats_limiter))
-    test_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in test_fileids]
-    test_docs_categories = [reuters.categories(fid)[0] for fid in test_fileids]
-    test_documents = get_document_objects(test_documents, test_docs_categories)
+    # test_fileids = fileids = filter(lambda fileid: "training" not in fileid and len(reuters.categories(fileid)) == 1,
+    #                                 reuters.fileids(cats_limiter))
+    # test_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in test_fileids]
+    # test_docs_categories = [reuters.categories(fid)[0] for fid in test_fileids]
+    # test_documents = get_document_objects(test_documents, test_docs_categories)
+
+
+    test_documents = NewsgroupsReader(True).get_test()
+    test_docs_categories = [d.category for d in test_documents]
+
     WordTermExtractor(test_documents, TWSCalculator(test_documents, test_docs_categories))  # just to get counts
 
     print "test document 0 "
@@ -169,3 +183,5 @@ if __name__ == "__main__":
     accuracy = accuracy_score(test_docs_categories, predictions)
 
     print "Accuracy:", accuracy
+    print "usenet 20 with 500 by freq"
+    print "individual: long GP with first occurrence"

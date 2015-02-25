@@ -110,7 +110,10 @@ class TWSCalculator(object):
         # p_t_c may be 0:
         if p_t_c == 0:
             p_t_c = self._EPSILON
-        return p_t_c * math.log(p_t_c / (p_t * p_c), 2)
+        p_t_p_c = p_t * p_c
+        if p_t_p_c == 0: # they can't really be 0, but they can be so small their multiplication is..
+            return 0
+        return p_t_c * math.log(p_t_c / (p_t_p_c), 2)
 
 
     def _ig(self, term, category):
