@@ -101,6 +101,9 @@ class Document(object):
         self._freqs = {}
         self._first_occ = {}
 
+    def get_all_terms(self):
+        return self._freqs[WordTerm.TERM_ID].keys() # todo this doesn't support new term types.
+
     def set_freqs(self, term_id, freqs_dict):
         self._freqs[term_id] = freqs_dict
 
@@ -126,6 +129,9 @@ class Document(object):
             return 0  # todo default dict instead of all the branching?
         else:
             raise IndexError("no frequencies for types of terms - " + str(word_term.TERM_ID))
+
+    def __hash__(self):
+        return hash(self.doc)
 
 
 class WordTermExtractor(object):

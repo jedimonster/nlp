@@ -36,7 +36,7 @@ if __name__ == '__main__':
     # print training_documents[0]
     # print training_fileids
 
-    vectorizer = TfidfVectorizer(input='content', max_features=500, stop_words=None, vocabulary=ng_20_ig500)
+    vectorizer = TfidfVectorizer(input='content', max_features=500, stop_words=None, vocabulary=ng_20_ig500, lowercase=False)
     feature_matrix = vectorizer.fit_transform(training_documents)
 
     classifier = OneVsRestClassifier(MultinomialNB())
@@ -59,7 +59,7 @@ if __name__ == '__main__':
 
     predictions = classifier.predict(test_features)
 
-    metrics = sklearn.metrics.precision_recall_fscore_support(test_docs_categories, predictions, average='weighted')
+    metrics = sklearn.metrics.precision_recall_fscore_support(test_docs_categories, predictions, average='macro')
 
     print "Metrics (percision, recall, fmeasure):", metrics
 

@@ -1,4 +1,7 @@
+import codecs
 import logging
+import os
+import pickle
 import deap
 import math
 
@@ -23,26 +26,51 @@ class FeatureExtractor(object):
         self._train_documents = train_documents
         self._terminals = {}
         self.logger = ProjectParams.logger
+        self._VERSION = 1.0
 
         self.get_terminals()
+
+    def get_terminals_hash(self):
+        """
+
+        :return: hash unique to this class' version and the set of training documents.
+        """
+        return 31 * hash(self._VERSION) + hash(tuple(self._train_documents))
+
 
     def get_terminals(self):
         logger = self.logger
         logger.info("Prefetching terminals for trees")
         total_docs = len(self._train_documents)
 
-        for i, doc in enumerate(self._train_documents):
-            if i % 50 == 0:
-                logger.debug("document %d/%d", i, total_docs)
-            for term in self._terms:
-                self._terminals[doc, term] = self._tws_calculator.raw_terminals(term, doc)
+        cache_path = "./cache/" + str(self.get_terminals_hash())
+        if os.path.isfile(cache_path):
+            with codecs.open(cache_path, 'r') as cache_file:
+                self._terminals = pickle.load(file)
 
+            logger.info("done prefetching (loaded from disk)")
+
+        else:
+            open(cache_path, 'a').close()  # aka touch
+            cache_file = file(cache_path, 'w')
+            for i, doc in enumerate(self._train_documents):
+                if i % 50 == 0:
+                    logger.debug("document %d/%d", i, total_docs)
+
+                relevant_terms = set(self._terms).intersection(doc.get_all_terms())
+                for term in relevant_terms:
+                    self._terminals[doc, term] = self._tws_calculator.raw_terminals(term, doc)
+
+            pickle.dump(self._terminals, cache_file)
+            logger.info("done prefetching")
 
     def get_weighted_features(self, individual_func, document):
-        doc_features = {}
+        doc_features = dict((k, 0) for k in self._terms)
         vectorizer = DictVectorizer()
 
-        for term in self._terms:
+        relevant_terms = set(self._terms).intersection(document.get_all_terms())
+
+        for term in relevant_terms:
             # tws = self._tws_calculator.tws(individual, term, document)
             # tws = self._tws_calculator.terminals(term, document)
             tws = self.terminals(document, term)
@@ -55,6 +83,8 @@ class FeatureExtractor(object):
         return vector
 
     def terminals(self, document, term):
+        if term not in document.get_all_terms():
+            raise RuntimeError("requested term which doesn't appear in document, optimize it out!")
         if (document, term) in self._terminals:
             return self._terminals[document, term]
         return self._tws_calculator.raw_terminals(term, document)
@@ -77,20 +107,9 @@ class TWSFitnessCalculator(object):
         self._chunk_size = len(self._training_docs) / self.k_fold
         self.logger = ProjectParams.logger
 
-    def evaluate(self, individual, pset):
-        """
-
-        :param individual: lambda that takes term features and returns a TWS.
-        :return:
-        """
+    def evaluate_lambda(self, func, logger):
         logger = self.logger
-
-        self.logger.info("Calculating fitness")
-        self.logger.debug("for " + str(individual))
-        # func = toolbox.compile(expr=individual)
-        func = deap.gp.compile(individual, pset)
         fmeasures = []
-
         for k in range(self.k_fold):
             self.logger.debug("k= " + str(k))
 
@@ -120,10 +139,21 @@ class TWSFitnessCalculator(object):
             fmeasures.append(fmeasure)
             logger.debug("done k, f-measure = %f", fmeasure)
         # print fmeasures
-
         fitness = sum(fmeasures) / len(fmeasures)
         logger.info("fitness = %f", fitness)
         return [fitness]
+
+    def evaluate(self, individual, pset):
+        """
+
+        :param individual: lambda that takes term features and returns a TWS.
+        :return:
+        """
+        self.logger.info("Calculating fitness")
+        self.logger.debug("for " + str(individual))
+        # func = toolbox.compile(expr=individual)
+        func = deap.gp.compile(individual, pset)
+        return self.evaluate_lambda(func)
 
     def classify(self, documents):
         """

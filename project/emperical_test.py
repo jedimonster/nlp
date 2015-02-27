@@ -25,6 +25,7 @@ from fitness import TWSFitnessCalculator, FeatureExtractor
 from parameters import ProjectParams
 from readers import NewsgroupsReader
 from terminals import WordTermExtractor, get_document_objects, WordTerm
+from terms_lists.ng20_ig import ng_20_ig500
 from terms_lists.r8_ig import r_eight_terms
 from tws_gp import to_lower
 
@@ -55,6 +56,14 @@ def mul(x, y):
     return x * y
 
 
+def if_then_else(input, output1, output2):
+    return output1 if input else output2
+
+
+def lte(n1, n2):
+    return n1 >= n2
+
+
 def individual_func(bool, tf, max_p_t_c, max_p_t_nc, avg_p_t_c, avg_p_t_nc, first_occ_perc):
     # this is the 93% one, from a micro run.
     # return protectedDiv(mul(tf, max_p_t_c),
@@ -74,7 +83,7 @@ def individual_func(bool, tf, max_p_t_c, max_p_t_nc, avg_p_t_c, avg_p_t_nc, firs
     # return add(tf, mul(protectedDiv(cos(protectedDiv(max_p_t_c, tf)), tf), mul(
     # mul(cos(protectedDiv(max_p_t_c, add(protectedDiv(tf, tf), max_p_t_c))), sub(max_p_t_nc, max_p_t_c)),
     # protectedDiv(mul(mul(cos(protectedDiv(max_p_t_c, max_p_t_nc)), sub(max_p_t_nc, max_p_t_c)),
-    #                      protectedDiv(add(first_occ_perc, max_p_t_nc), add(tf, max_p_t_c))), add(tf, max_p_t_c)))))
+    # protectedDiv(add(first_occ_perc, max_p_t_nc), add(tf, max_p_t_c))), add(tf, max_p_t_c)))))
     #
     # second long GP run (Yuri):
     # return protectedDiv(tf, cos(sub(sub(cos(max_p_t_c), max_p_t_nc), max_p_t_nc)))
@@ -82,8 +91,27 @@ def individual_func(bool, tf, max_p_t_c, max_p_t_nc, avg_p_t_c, avg_p_t_nc, firs
     # 3rd long GP:
     # return mul(add(first_occ_perc, tf), cos(cos(first_occ_perc)))
 
-    return if_then_else(bool, sub(add(tf, avg_p_t_nc), mul(add(tf, tf), add(first_occ_perc, max_p_t_nc))),
-                        sub(tf, mul(max_p_t_nc, tf)))
+    # return if_then_else(bool, sub(add(tf, avg_p_t_nc), mul(add(tf, tf), add(first_occ_perc, max_p_t_nc))),
+    #                     sub(tf, mul(max_p_t_nc, tf)))
+
+    #ng 20:
+    return if_then_else(lte(protectedDiv(
+        if_then_else(lte(sub(first_occ_perc, avg_p_t_c), if_then_else(bool, tf, avg_p_t_c)), avg_p_t_c, first_occ_perc),
+        mul(if_then_else(
+            lte(add(mul(tf, avg_p_t_nc), mul(avg_p_t_c, avg_p_t_c)), add(cos(avg_p_t_nc), mul(max_p_t_nc, avg_p_t_c))),
+            mul(mul(cos(avg_p_t_c), if_then_else(bool, first_occ_perc, avg_p_t_nc)),
+                sub(protectedDiv(avg_p_t_nc, avg_p_t_c), add(max_p_t_c, avg_p_t_c))),
+            mul(mul(add(avg_p_t_c, tf), protectedDiv(max_p_t_c, max_p_t_nc)),
+                if_then_else(lte(max_p_t_c, max_p_t_nc), protectedDiv(avg_p_t_nc, avg_p_t_c),
+                             sub(first_occ_perc, max_p_t_c)))),
+            mul(mul(protectedDiv(cos(max_p_t_c), sub(avg_p_t_nc, avg_p_t_c)), cos(cos(max_p_t_nc))),
+                cos(sub(mul(max_p_t_nc, first_occ_perc), if_then_else(bool, avg_p_t_nc, avg_p_t_c)))))),
+                            sub(cos(avg_p_t_c), if_then_else(bool, avg_p_t_c, avg_p_t_nc))),
+                        mul(mul(add(first_occ_perc, avg_p_t_c), avg_p_t_c), cos(avg_p_t_c)),
+                        if_then_else(lte(first_occ_perc, if_then_else(bool, first_occ_perc, first_occ_perc)),
+                                     if_then_else(lte(tf, max_p_t_nc),
+                                                  cos(mul(max_p_t_c, if_then_else(bool, avg_p_t_c, tf))), max_p_t_nc),
+                                     mul(max_p_t_c, if_then_else(bool, avg_p_t_c, tf))))
 
 
 if __name__ == "__main__":
@@ -97,11 +125,11 @@ if __name__ == "__main__":
     # cats_limiter = categories = ['gold', 'money-fx', 'trade']
     # R-10:
     cats_limiter = categories = ['earn', 'acq', 'crude', 'trade', 'money-fx', 'interest', 'money-supply',
-    'ship']
+                                 'ship']
 
     # R-10:
     # cats_limiter = [u'earn', u'acq', u'crude', u'trade', u'money-fx', u'interest', u'money-supply', u'ship', u'sugar',
-    #                 u'coffee']
+    # u'coffee']
 
     # training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
     #                                     reuters.fileids(cats_limiter))
@@ -118,10 +146,10 @@ if __name__ == "__main__":
     # doc = documents[0]
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might hurt generalization (but if it works we're OK..)
-    top_terms = word_term_extractor.top_common_words(500)
+    # top_terms = word_term_extractor.top_common_words(500)
 
-    # top_terms = r_eight_terms
-    # top_terms = map(lambda x: WordTerm(x), top_terms)
+    top_terms = ng_20_ig500
+    top_terms = map(lambda x: WordTerm(x), top_terms)
 
     print "using terms:"
     print [str(w) for w in top_terms]
