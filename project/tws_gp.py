@@ -55,8 +55,8 @@ if __name__ == '__main__':
     #
     # training_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in training_fileids]
     # training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
-    #
     # training_documents = get_document_objects(training_documents, training_docs_categories)
+
     training_documents = NewsgroupsReader(True).get_training()
     training_docs_categories = [d.category for d in training_documents]
 
@@ -65,9 +65,9 @@ if __name__ == '__main__':
     # doc = documents[0]
     # train_docs = training_documents[:250]
     # todo we take terms from the dev set in the k-fold, which might hurt generalization (but if it works we're OK..)
-    top_terms = word_term_extractor.top_common_words(2000)
+    # top_terms = word_term_extractor.top_common_words(2000)
     # top_terms = word_term_extractor.top_max_ig(500)
-    # top_terms = map(lambda x: WordTerm(x), ng_20_ig500)
+    top_terms = map(lambda x: WordTerm(x), ng_20_ig500)
 
     feature_extractor = FeatureExtractor(training_documents, tws_calculator, top_terms)
 
@@ -87,12 +87,12 @@ if __name__ == '__main__':
     pset.addPrimitive(operator.mul, [float, float], float)
     pset.addPrimitive(protectedDiv, [float, float], float)
     # pset.addPrimitive(math.cos, [float], float)
-    pset.addPrimitive(if_then_else, [bool, float, float], float)
-    pset.addPrimitive(lte, [float, float], bool)
+    # pset.addPrimitive(if_then_else, [bool, float, float], float)
+    # pset.addPrimitive(lte, [float, float], bool)
     pset.addPrimitive(lambda x, y: min(x, y), [float, float], float, name="minOfTwo")
     pset.addPrimitive(lambda x, y: max(x, y), [float, float], float, name="maxOfTwo")
     pset.addEphemeralConstant("random1", lambda: random.random(), float)
-    pset.addEphemeralConstant("random2", lambda: random.random(), float)
+    # pset.addEphemeralConstant("random2", lambda: random.random(), float)
 
     pset.renameArguments(ARG0='bool')
     pset.renameArguments(ARG1='tf')
@@ -116,7 +116,7 @@ if __name__ == '__main__':
 
     # toolbox.register("evaluate", evalOne, pset=pset)
     toolbox.register("evaluate", fitness_calculator.evaluate, pset=pset)
-    toolbox.register("select", tools.selTournament, tournsize=4)
+    toolbox.register("select", tools.selTournament, tournsize=3)
     toolbox.register("mate", cxOnePoint)
     toolbox.register("expr_mut", genFull, min_=0, max_=6)
     toolbox.register("mutate", mutUniform, expr=toolbox.expr_mut, pset=pset)

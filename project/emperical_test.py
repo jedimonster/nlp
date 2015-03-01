@@ -131,15 +131,15 @@ if __name__ == "__main__":
     # cats_limiter = [u'earn', u'acq', u'crude', u'trade', u'money-fx', u'interest', u'money-supply', u'ship', u'sugar',
     # u'coffee']
 
-    training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
-                                        reuters.fileids(cats_limiter))
-
-    training_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in training_fileids]
-    training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
-    print len(set(training_docs_categories))
-    training_documents = get_document_objects(training_documents, training_docs_categories)
-    # training_documents = NewsgroupsReader(True).get_training()
-    # training_docs_categories = [d.category for d in training_documents]
+    # training_fileids = fileids = filter(lambda fileid: "training" in fileid and len(reuters.categories(fileid)) == 1,
+    #                                     reuters.fileids(cats_limiter))
+    #
+    # training_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in training_fileids]
+    # training_docs_categories = [reuters.categories(fid)[0] for fid in training_fileids]
+    # print len(set(training_docs_categories))
+    # training_documents = get_document_objects(training_documents, training_docs_categories)
+    training_documents = NewsgroupsReader(True).get_training()
+    training_docs_categories = [d.category for d in training_documents]
 
     tws_calculator = TWSCalculator(training_documents, training_docs_categories)
     word_term_extractor = WordTermExtractor(training_documents, tws_calculator)
@@ -163,15 +163,15 @@ if __name__ == "__main__":
         return output1 if input else output2
 
     # now we're done training
-    test_fileids = fileids = filter(lambda fileid: "training" not in fileid and len(reuters.categories(fileid)) == 1,
-                                    reuters.fileids(cats_limiter))
-    test_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in test_fileids]
-    test_docs_categories = [reuters.categories(fid)[0] for fid in test_fileids]
-    test_documents = get_document_objects(test_documents, test_docs_categories)
+    # test_fileids = fileids = filter(lambda fileid: "training" not in fileid and len(reuters.categories(fileid)) == 1,
+    #                                 reuters.fileids(cats_limiter))
+    # test_documents = [map(to_lower, sum(reuters.sents(fid), [])) for fid in test_fileids]
+    # test_docs_categories = [reuters.categories(fid)[0] for fid in test_fileids]
+    # test_documents = get_document_objects(test_documents, test_docs_categories)
 
 
-    # test_documents = NewsgroupsReader(True).get_test()
-    # test_docs_categories = [d.category for d in test_documents]
+    test_documents = NewsgroupsReader(True).get_test()
+    test_docs_categories = [d.category for d in test_documents]
 
     WordTermExtractor(test_documents, TWSCalculator(test_documents, test_docs_categories))  # just to get counts
 
