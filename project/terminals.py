@@ -131,7 +131,7 @@ class Document(object):
             raise IndexError("no frequencies for types of terms - " + str(word_term.TERM_ID))
 
     def __hash__(self):
-        return hash(self.doc)
+        return hash(self.index)
 
 
 class WordTermExtractor(object):

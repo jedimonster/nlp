@@ -2,6 +2,7 @@ import codecs
 import logging
 import os
 import pickle
+import shelve
 import deap
 import math
 
@@ -24,45 +25,51 @@ class FeatureExtractor(object):
         self._terms = terms
         self._tws_calculator = tws_calculator
         self._train_documents = train_documents
-        self._terminals = {}
+        self._terminals = shelve.open('./cache/ig', protocol=pickle.HIGHEST_PROTOCOL)
         self.logger = ProjectParams.logger
         self._VERSION = 1.0
 
         self.get_terminals()
-
-    def get_terminals_hash(self):
-        """
-
-        :return: hash unique to this class' version and the set of training documents.
-        """
-        return 31 * hash(self._VERSION) + hash(tuple(self._train_documents))
+        self.logger.info("syncing terminals to disk")
+        self._terminals.sync()
+        self.logger.info("done synching")
 
 
     def get_terminals(self):
         logger = self.logger
         logger.info("Prefetching terminals for trees")
         total_docs = len(self._train_documents)
+        for i, doc in enumerate(self._train_documents):
+            if i % 50 == 0:
+                logger.debug("document %d/%d", i, total_docs)
 
-        cache_path = "./cache/" + str(self.get_terminals_hash())
-        if os.path.isfile(cache_path):
-            with codecs.open(cache_path, 'r') as cache_file:
-                self._terminals = pickle.load(file)
+            relevant_terms = set(self._terms).intersection(doc.get_all_terms())
+            for term in relevant_terms:
+                if repr((doc.index, term)) not in self._terminals:
+                    self._terminals[repr((doc.index, term))] = self._tws_calculator.raw_terminals(term, doc)
+        pass
 
-            logger.info("done prefetching (loaded from disk)")
-
-        else:
-            open(cache_path, 'a').close()  # aka touch
-            cache_file = file(cache_path, 'w')
-            for i, doc in enumerate(self._train_documents):
-                if i % 50 == 0:
-                    logger.debug("document %d/%d", i, total_docs)
-
-                relevant_terms = set(self._terms).intersection(doc.get_all_terms())
-                for term in relevant_terms:
-                    self._terminals[doc, term] = self._tws_calculator.raw_terminals(term, doc)
-
-            pickle.dump(self._terminals, cache_file)
-            logger.info("done prefetching")
+        #
+        # cache_path = "./cache/ng"
+        # if os.path.isfile(cache_path):
+        # with codecs.open(cache_path, 'r') as cache_file:
+        # self._terminals = pickle.load(cache_file)
+        #
+        # logger.info("done prefetching (loaded from disk)")
+        #
+        # else:
+        # open(cache_path, 'a').close()  # aka touch
+        # cache_file = file(cache_path, 'w')
+        # for i, doc in enumerate(self._train_documents):
+        #         if i % 50 == 0:
+        #             logger.debug("document %d/%d", i, total_docs)
+        #
+        #         relevant_terms = set(self._terms).intersection(doc.get_all_terms())
+        #         for term in relevant_terms:
+        #             self._terminals[doc, term] = self._tws_calculator.raw_terminals(term, doc)
+        #
+        #     pickle.dump(self._terminals, cache_file)
+        #     logger.info("done prefetching")
 
     def get_weighted_features(self, individual_func, document):
         doc_features = dict((k, 0) for k in self._terms)
@@ -82,11 +89,13 @@ class FeatureExtractor(object):
         vector = vectorizer.fit_transform(doc_features)
         return vector
 
+
     def terminals(self, document, term):
         if term not in document.get_all_terms():
             raise RuntimeError("requested term which doesn't appear in document, optimize it out!")
-        if (document, term) in self._terminals:
-            return self._terminals[document, term]
+        if repr((document.index, term)) in self._terminals:
+            return self._terminals[repr((document.index, term))]
+
         return self._tws_calculator.raw_terminals(term, document)
 
 
@@ -107,23 +116,33 @@ class TWSFitnessCalculator(object):
         self._chunk_size = len(self._training_docs) / self.k_fold
         self.logger = ProjectParams.logger
 
-    def evaluate_lambda(self, func, logger):
+    def evaluate_lambda(self, func):
+        # calculate the vectors once, then build matrices to train/test k times
         logger = self.logger
         fmeasures = []
+        logger.debug("getting weighted feature vectors")
+        feature_vectors = [self._features_extractor.get_weighted_features(func, doc) for doc in self._training_docs]
+
         for k in range(self.k_fold):
             self.logger.debug("k= " + str(k))
+            test_feature_vectors, test_categories = zip(
+                *self._featureset_chunk(k, zip(feature_vectors, [d.category for d in self._training_docs])))
+            train_feature_vectors, train_categories = zip(*sum(
+                (self._featureset_chunk(i, zip(feature_vectors, [d.category for d in self._training_docs])) for i in
+                 range(self.k_fold) if i != k), []))
 
-            test = self._docs_chunk(k)
-            train = sum((self._docs_chunk(i) for i in range(self.k_fold) if i != k), [])
-            train_categories = [d.category for d in train]
-            test_categories = [d.category for d in test]
+            # test = self._docs_chunk(k)
+            # train = sum((self._docs_chunk(i) for i in range(self.k_fold) if i != k), [])
+            # train_categories = [d.category for d in
+            # train]  # todo since these are now vectors we need to get the documents for the categories.
+            # test_categories = [d.category for d in test]
 
-            logger.debug("getting train feature vectors")
-            train_feature_vectors = [self._features_extractor.get_weighted_features(func, doc) for doc in
-                                     train]
-            logger.debug("getting test feature vectors")
-            test_feature_vectors = [self._features_extractor.get_weighted_features(func, doc) for doc in
-                                    test]
+            # logger.debug("getting train feature vectors")
+            # train_feature_vectors = [self._features_extractor.get_weighted_features(func, doc) for doc in
+            # train]
+            # logger.debug("getting test feature vectors")
+            # test_feature_vectors = [self._features_extractor.get_weighted_features(func, doc) for doc in
+            #                         test]
 
             train_matrix = vstack(train_feature_vectors)
             test_matrix = vstack(test_feature_vectors)
@@ -162,6 +181,15 @@ class TWSFitnessCalculator(object):
         :return: list of tuples (real_category, predicted_category)
         """
         pass
+
+    def _featureset_chunk(self, i, featureset):
+        """
+        returns the i'th segment of the documents in the k-fold.
+        :param i: chunk to return.
+        :return: list of documents
+        """
+        return featureset[i * self._chunk_size: (i + 1) * self._chunk_size]
+
 
     def _docs_chunk(self, i):
         """
